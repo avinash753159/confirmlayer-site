@@ -7,555 +7,592 @@
 <meta name="description" content="A “Yes, I'm 21” button isn't age verification. ConfirmLayer checks a real ID and a live selfie at checkout, gives you pass or fail, and keeps a record of each check. Published pricing from $79/mo.">
 <meta property="og:title" content="ConfirmLayer — Real age verification for Shopify stores">
 <meta property="og:description" content="ID + live selfie at checkout. Pass or fail. A record of each check. Published pricing, founder-led setup.">
-<meta property="og:url" content="https://confirmlayer.com">
-<meta property="og:type" content="website">
-<meta name="theme-color" content="#0b1220">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f8cff'/%3E%3Cpath d='M9 16.5l4.5 4.5L23 11.5' fill='none' stroke='%230b1220' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta property="og:image" content="assets/owner-after.jpg">
+<meta name="theme-color" content="#fbfaf6">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' rx='3' fill='%23151515'/%3E%3Cpath fill='%23fbfaf6' d='M3 8h2v2H3zM5 10h2v2H5zM7 8h2v2H7zM9 6h2v2H9zM11 4h2v2h-2z'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112..125,600..900&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:      oklch(0.165 0.028 262);
-    --bg-2:    oklch(0.195 0.032 262);
-    --card:    oklch(0.225 0.036 262);
-    --line:    oklch(0.31 0.04 262);
-    --line-2:  oklch(0.38 0.045 262);
-    --text:    oklch(0.945 0.012 262);
-    --muted:   oklch(0.75 0.035 262);
-    --faint:   oklch(0.6 0.035 262);
-    --accent:  oklch(0.665 0.17 260);
-    --accent-hi: oklch(0.74 0.14 260);
-    --accent-ink: oklch(0.17 0.03 262);
-    --pass:    oklch(0.8 0.15 155);
-    --pass-bg: oklch(0.8 0.15 155 / 0.12);
-    --hot:     oklch(0.72 0.16 32);
-    --hot-bg:  oklch(0.72 0.16 32 / 0.12);
-    --paper:   oklch(0.955 0.014 85);
-    --paper-line: oklch(0.85 0.02 85);
-    --ink:     oklch(0.24 0.025 262);
-    --ink-2:   oklch(0.45 0.025 262);
+    --paper:   oklch(0.984 0.006 90);
+    --paper-2: oklch(0.962 0.008 90);
+    --paper-3: oklch(0.935 0.01 90);
+    --ink:     oklch(0.19 0.008 260);
+    --ink-2:   oklch(0.4 0.01 260);
+    --ink-3:   oklch(0.56 0.01 260);
+    --soft:    oklch(0.88 0.01 90);
+    --white:   oklch(0.995 0.003 90);
 
-    --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px;
-    --space-lg: 24px; --space-xl: 32px; --space-2xl: 48px; --space-3xl: 64px; --space-4xl: 96px;
-    --section: clamp(72px, 10vw, 136px);
+    --blue:    oklch(0.63 0.18 258);
+    --coral:   oklch(0.66 0.2 33);
+    --amber:   oklch(0.82 0.16 80);
+    --green:   oklch(0.58 0.15 152);
+    --red:     oklch(0.58 0.2 28);
 
-    --display: "Archivo", "Arial Narrow", sans-serif;
-    --body: "Hanken Grotesk", system-ui, sans-serif;
-    --mono: "JetBrains Mono", ui-monospace, monospace;
+    --serif: "Gloock", "Georgia", serif;
+    --sans:  "Geist", system-ui, sans-serif;
+    --mono:  "Geist Mono", ui-monospace, monospace;
 
-    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-    --radius: 14px;
+    --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px;
+    --space-xl: 32px; --space-2xl: 48px; --space-3xl: 64px; --space-4xl: 96px;
+    --section: clamp(96px, 13vw, 180px);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: clip; }
-  body {
-    font-family: var(--body); background: var(--bg); color: var(--text);
-    font-size: 17px; line-height: 1.7; overflow-x: clip;
-    -webkit-font-smoothing: antialiased;
-  }
+  html { scroll-behavior: smooth; overflow-x: clip; -webkit-text-size-adjust: 100%; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.6; overflow-x: clip; -webkit-font-smoothing: antialiased; }
+  img { display: block; max-width: 100%; }
   a { color: inherit; }
-  :focus-visible { outline: 2px solid var(--accent-hi); outline-offset: 3px; border-radius: 6px; }
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px); }
-  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px); }
 
   /* ---------- type ---------- */
-  .display, h1, h2 {
-    font-family: var(--display); font-stretch: 118%; font-weight: 800;
-    letter-spacing: -0.02em; line-height: 1.02; text-wrap: balance;
-  }
-  h1 { font-size: clamp(2.6rem, 6.4vw, 5.1rem); }
-  h2 { font-size: clamp(2rem, 4.4vw, 3.4rem); }
-  h3 { font-family: var(--display); font-stretch: 112%; font-weight: 700; font-size: 1.3rem; line-height: 1.2; letter-spacing: -0.01em; }
-  .kicker {
-    font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--accent-hi); display: inline-flex; align-items: center; gap: var(--space-xs);
-  }
-  .lede { font-size: clamp(1.08rem, 1.5vw, 1.25rem); color: var(--muted); max-width: 58ch; line-height: 1.65; }
-  .hot { color: var(--hot); }
-  .pass { color: var(--pass); }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.035em; line-height: 0.98; text-wrap: balance; }
+  h1 { font-size: clamp(3rem, 8.4vw, 7rem); }
+  h2 { font-size: clamp(2.4rem, 5.6vw, 4.6rem); }
+  h3 { font-size: clamp(1.5rem, 2.4vw, 2rem); letter-spacing: -0.025em; line-height: 1.05; }
+  .sub { font-size: clamp(1.1rem, 1.6vw, 1.3rem); color: var(--ink-2); max-width: 36ch; line-height: 1.5; }
+  .eyebrow { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); letter-spacing: 0.02em; display: block; margin-bottom: var(--space-md); }
 
   /* ---------- buttons ---------- */
-  .btn {
-    display: inline-flex; align-items: center; gap: 10px; justify-content: center;
-    font-family: var(--body); font-weight: 700; font-size: 1rem; text-decoration: none;
-    padding: 15px 26px; border-radius: 12px; border: 1px solid transparent; cursor: pointer;
-    transition: transform .25s var(--ease-out), background-color .25s, border-color .25s, color .25s;
-  }
-  .btn-primary { background: var(--accent); color: var(--accent-ink); }
-  .btn-primary:hover { background: var(--accent-hi); transform: translateY(-2px); }
-  .btn-ghost { border-color: var(--line-2); color: var(--text); background: transparent; }
-  .btn-ghost:hover { border-color: var(--muted); transform: translateY(-2px); }
-  .btn .arrow { transition: transform .25s var(--ease-out); }
-  .btn:hover .arrow { transform: translateX(4px); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; font: 600 1.05rem var(--sans); text-decoration: none; border-radius: 12px; padding: 16px 28px; border: 2px solid var(--ink); cursor: pointer; transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+  .btn-ink { background: var(--ink); color: var(--paper); }
+  .btn-ink:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--blue); }
+  .btn-line { background: var(--white); color: var(--ink); }
+  .btn-line:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ink); }
 
-  /* ---------- nav ---------- */
-  .nav {
-    position: sticky; top: 0; z-index: 40;
-    background: oklch(0.165 0.028 262 / 0.82); backdrop-filter: saturate(140%) blur(10px);
-    border-bottom: 1px solid transparent; transition: border-color .3s;
-  }
-  .nav.scrolled { border-bottom-color: var(--line); }
-  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: var(--space-lg); }
-  .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--display); font-stretch: 115%; font-weight: 800; font-size: 1.2rem; letter-spacing: -0.01em; }
-  .logo svg { flex: none; }
-  .nav-links { display: flex; gap: var(--space-xl); list-style: none; font-size: 0.95rem; color: var(--muted); }
-  .nav-links a { text-decoration: none; transition: color .2s; }
-  .nav-links a:hover { color: var(--text); }
-  .nav .btn { padding: 10px 18px; font-size: 0.92rem; white-space: nowrap; }
-  @media (max-width: 420px) { .nav .btn { padding: 9px 14px; font-size: 0.85rem; } .logo { font-size: 1.05rem; } }
+  /* ---------- floating nav ---------- */
+  .nav { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 50; display: flex; align-items: center; gap: 4px; background: oklch(0.984 0.006 90 / 0.86); backdrop-filter: blur(12px); border: 1px solid var(--soft); border-radius: 16px; padding: 6px 6px 6px 12px; box-shadow: 0 6px 24px -12px oklch(0.2 0.01 260 / 0.25); max-width: calc(100vw - 24px); }
+  .nav .mark { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 700; font-size: 0.98rem; padding-right: 10px; letter-spacing: -0.01em; white-space: nowrap; }
+  .nav a.link { text-decoration: none; font-size: 0.92rem; color: var(--ink-2); padding: 8px 12px; border-radius: 10px; transition: background-color .2s, color .2s; white-space: nowrap; }
+  .nav a.link:hover { background: var(--paper-3); color: var(--ink); }
+  .nav .cta { text-decoration: none; font: 600 0.9rem var(--sans); background: var(--ink); color: var(--paper); padding: 9px 14px; border-radius: 11px; margin-left: 4px; white-space: nowrap; }
 
   /* ---------- hero ---------- */
-  .hero { padding: clamp(40px, 7vw, 96px) 0 var(--section); position: relative; }
-  .hero::before {
-    content: ""; position: absolute; inset: -20% -10% auto auto; width: 70vw; height: 70vw; max-width: 900px; max-height: 900px;
-    background: radial-gradient(closest-side, oklch(0.665 0.17 260 / 0.16), transparent 70%);
-    pointer-events: none; z-index: -1;
-  }
-  .hero-grid { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
-  .badge {
-    display: inline-flex; align-items: center; gap: 10px; font-size: 0.88rem; color: var(--muted);
-    border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px 6px 10px; margin-bottom: var(--space-lg);
-    background: var(--bg-2);
-  }
-  .badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pass); box-shadow: 0 0 0 0 oklch(0.8 0.15 155 / .6); animation: pulse 2.4s infinite; }
-  @keyframes pulse { 0% { box-shadow: 0 0 0 0 oklch(0.8 0.15 155 / .55); } 70%,100% { box-shadow: 0 0 0 9px oklch(0.8 0.15 155 / 0); } }
-  .hero h1 .strike { position: relative; white-space: nowrap; color: var(--muted); }
-  .hero h1 .strike::after {
-    content: ""; position: absolute; left: -2%; right: -2%; top: 55%; height: 0.065em; background: var(--hot);
-    transform: scaleX(0); transform-origin: left; animation: strike .7s .9s var(--ease-out) forwards; border-radius: 2px;
-  }
-  @keyframes strike { to { transform: scaleX(1); } }
-  .hero .tagline { font-family: var(--display); font-stretch: 112%; font-weight: 700; font-size: clamp(1.2rem, 2vw, 1.5rem); margin: var(--space-lg) 0 var(--space-md); color: var(--text); letter-spacing: -0.01em; }
-  .hero .cta-row { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-xl); }
-  .hero-proof { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-lg); margin-top: var(--space-xl); font-size: 0.92rem; color: var(--muted); list-style: none; }
-  .hero-proof li { display: inline-flex; align-items: center; gap: 8px; }
-  .hero-proof svg { color: var(--pass); flex: none; }
+  .hero { position: relative; padding: clamp(130px, 17vw, 190px) 0 0; text-align: center; }
+  .hero h1 .no { position: relative; display: inline-block; }
+  .hero h1 .no::after { content: ""; position: absolute; left: -3%; right: -3%; top: 52%; height: 0.07em; background: var(--coral); transform: scaleX(0) rotate(-2deg); transform-origin: left; animation: strike .7s 1s var(--ease) forwards; }
+  @keyframes strike { to { transform: scaleX(1) rotate(-2deg); } }
+  .hero .sub { margin: var(--space-xl) auto 0; max-width: 42ch; }
+  .hero .actions { display: flex; justify-content: center; gap: var(--space-sm); flex-wrap: wrap; margin-top: var(--space-xl); }
+  .hero .note { margin-top: var(--space-md); font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); }
 
-  /* ---------- the popup test (hero demo) ---------- */
-  .demo { position: relative; }
-  .demo-frame {
-    position: relative; background: var(--bg-2); border: 1px solid var(--line); border-radius: 22px;
-    padding: 14px; box-shadow: 0 40px 80px -30px oklch(0.05 0.02 262 / 0.9);
-  }
-  .demo-bar { display: flex; align-items: center; gap: 8px; padding: 2px 6px 12px; }
-  .demo-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--line-2); }
-  .demo-url { margin-left: 8px; flex: 1; font-family: var(--mono); font-size: 0.74rem; color: var(--faint); background: var(--bg); border-radius: 8px; padding: 5px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .demo-stage { position: relative; height: 430px; border-radius: 14px; overflow: hidden; background: var(--card); }
-  .shop-bg { position: absolute; inset: 0; padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; opacity: .55; filter: blur(1.5px); }
-  .shop-bg div { background: var(--line); border-radius: 10px; }
-  .shop-bg div:nth-child(1) { grid-column: span 2; height: 38px; }
-  .scene { position: absolute; inset: 0; display: grid; place-items: center; padding: 22px; transition: opacity .5s var(--ease-out), transform .5s var(--ease-out); }
-  .scene[hidden] { display: grid; opacity: 0; transform: scale(.97); pointer-events: none; visibility: hidden; }
-  .scene-dim { background: oklch(0.12 0.02 262 / 0.62); }
+  .px { position: absolute; width: 64px; height: 64px; color: var(--ink); pointer-events: none; }
+  .px svg { width: 100%; height: 100%; shape-rendering: crispEdges; }
+  .px.float { animation: bob 6s ease-in-out infinite; }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-  .popup { background: var(--paper); color: var(--ink); border-radius: 16px; padding: 26px 24px 22px; width: min(320px, 100%); text-align: center; box-shadow: 0 24px 50px -20px oklch(0 0 0 / .6); position: relative; }
-  .popup h4 { font-family: var(--display); font-stretch: 112%; font-weight: 800; font-size: 1.35rem; line-height: 1.15; margin-bottom: 6px; }
-  .popup p { font-size: 0.9rem; color: var(--ink-2); margin-bottom: 18px; line-height: 1.45; }
+  /* ---------- demo stage ---------- */
+  .stage-wrap { margin-top: clamp(56px, 8vw, 96px); position: relative; }
+  .frame { border: 2px solid var(--ink); border-radius: 22px; padding: clamp(14px, 3vw, 44px); position: relative; overflow: hidden; }
+  .frame.coral { background: var(--coral); }
+  .frame.blue  { background: var(--blue); }
+  .browser { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 30px 60px -30px oklch(0.2 0.02 30 / 0.55); }
+  .bbar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; background: var(--paper-2); border-bottom: 1px solid var(--soft); }
+  .bbar i { width: 11px; height: 11px; border-radius: 50%; }
+  .bbar i:nth-child(1) { background: oklch(0.7 0.18 28); } .bbar i:nth-child(2) { background: oklch(0.83 0.15 85); } .bbar i:nth-child(3) { background: oklch(0.72 0.17 150); }
+  .bbar .url { margin-left: 10px; flex: 1; max-width: 420px; font: 400 0.78rem var(--mono); color: var(--ink-3); background: var(--white); border: 1px solid var(--soft); border-radius: 8px; padding: 4px 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; }
+
+  .demo { position: relative; height: clamp(460px, 48vw, 560px); }
+  .shop { position: absolute; inset: 0; display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(16px, 3vw, 40px); padding: clamp(18px, 3vw, 40px); align-items: center; text-align: left; }
+  .shop .pimg { border-radius: 10px; overflow: hidden; aspect-ratio: 4/3; background: var(--paper-2); }
+  .shop .pimg img { width: 100%; height: 100%; object-fit: cover; }
+  .shop .ptitle { font: 600 1.5rem var(--sans); letter-spacing: -0.02em; }
+  .shop .pprice { font: 500 1.1rem var(--sans); margin: 6px 0 16px; color: var(--ink-2); }
+  .shop .pbtn { display: block; width: 100%; background: var(--ink); color: var(--paper); border-radius: 10px; padding: 14px; text-align: center; font-weight: 600; }
+  .shop .pline { height: 10px; border-radius: 5px; background: var(--paper-3); margin-top: 12px; }
+  .scene { position: absolute; inset: 0; display: grid; place-items: center; padding: 20px; transition: opacity .45s var(--ease), transform .45s var(--ease); }
+  .scene[hidden] { display: grid; opacity: 0; visibility: hidden; transform: scale(.98); pointer-events: none; }
+  .scene.dim { background: oklch(0.2 0.01 260 / 0.55); backdrop-filter: blur(2px); }
+  .scene.light { background: var(--paper-2); }
+
+  .popup { background: var(--white); border-radius: 16px; padding: 30px 28px 24px; width: min(360px, 100%); text-align: center; position: relative; box-shadow: 0 30px 70px -20px oklch(0 0 0 / .5); }
+  .popup h4 { font: 400 2rem/1 var(--serif); letter-spacing: -0.03em; margin-bottom: 10px; }
+  .popup p { font-size: 0.92rem; color: var(--ink-2); margin-bottom: 20px; }
   .popup .yn { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .popup button { font: 700 1rem var(--body); border-radius: 10px; padding: 12px; cursor: pointer; border: 1.5px solid var(--ink); transition: transform .2s var(--ease-out); }
+  .popup button { font: 600 1rem var(--sans); border-radius: 10px; padding: 13px; cursor: pointer; border: 2px solid var(--ink); transition: transform .2s var(--ease); }
   .popup button:hover { transform: translateY(-2px); }
   .popup .yes { background: var(--ink); color: var(--paper); }
-  .popup .no { background: transparent; color: var(--ink); }
-  .try { position: absolute; right: -6px; top: -14px; font: 600 0.75rem var(--mono); background: var(--accent); color: var(--accent-ink); padding: 5px 10px; border-radius: 999px; transform: rotate(4deg); animation: nudge 2.2s var(--ease-out) infinite; }
-  @keyframes nudge { 0%,100% { transform: rotate(4deg) translateY(0); } 50% { transform: rotate(4deg) translateY(-4px); } }
+  .popup .noo { background: var(--white); color: var(--ink); }
+  .tag { position: absolute; top: -16px; right: -10px; font: 500 0.78rem var(--mono); background: var(--amber); color: var(--ink); border: 2px solid var(--ink); padding: 4px 10px; border-radius: 999px; transform: rotate(5deg); animation: nudge 2.4s var(--ease) infinite; }
+  @keyframes nudge { 0%,100% { transform: rotate(5deg) translateY(0); } 50% { transform: rotate(5deg) translateY(-5px); } }
 
-  .verdict { text-align: center; max-width: 330px; }
-  .stamp {
-    display: inline-block; font-family: var(--display); font-stretch: 125%; font-weight: 900; font-size: 2rem; letter-spacing: 0.04em;
-    border: 3px solid currentColor; border-radius: 10px; padding: 4px 16px; transform: rotate(-6deg);
-  }
-  .scene.on .stamp { animation: stampIn .5s var(--ease-out) both; }
-  @keyframes stampIn { from { opacity: 0; transform: rotate(-6deg) scale(1.8); } to { opacity: 1; transform: rotate(-6deg) scale(1); } }
-  .stamp.bad { color: var(--hot); }
-  .verdict .big { font-family: var(--display); font-stretch: 115%; font-weight: 800; font-size: 1.5rem; line-height: 1.15; margin: 22px 0 10px; }
-  .verdict ul { list-style: none; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; font: 600 0.8rem var(--mono); color: var(--hot); margin-bottom: 20px; }
-  .verdict ul li::before { content: "✕ "; }
-  .link-btn { font: 700 0.95rem var(--body); background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 10px; padding: 12px 18px; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; }
-  .link-btn:hover { background: var(--accent-hi); }
+  .verdict { text-align: center; color: var(--paper); max-width: 420px; }
+  .stamp { display: inline-block; font: 400 2.4rem/1 var(--serif); letter-spacing: 0.02em; border: 4px solid currentColor; border-radius: 12px; padding: 8px 20px 4px; transform: rotate(-6deg); }
+  .scene.on .stamp { animation: stampIn .5s var(--ease) both; }
+  @keyframes stampIn { from { opacity: 0; transform: rotate(-6deg) scale(1.9); } to { opacity: 1; transform: rotate(-6deg) scale(1); } }
+  .verdict .stamp { color: var(--coral); background: var(--white); }
+  .verdict .big { font: 400 clamp(1.8rem, 3vw, 2.4rem)/1.05 var(--serif); letter-spacing: -0.03em; margin: 26px 0 14px; }
+  .verdict .xs { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; font: 500 0.85rem var(--mono); margin-bottom: 22px; }
+  .verdict .xs span::before { content: "✕ "; color: var(--coral); }
+  .go { font: 600 1rem var(--sans); background: var(--amber); color: var(--ink); border: 2px solid var(--ink); border-radius: 11px; padding: 13px 20px; cursor: pointer; transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
+  .go:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--ink); }
 
-  /* real check scene */
-  .flow { width: 100%; max-width: 360px; display: grid; gap: 12px; }
-  .flow-step { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 14px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; opacity: .35; transition: opacity .4s, border-color .4s; }
-  .flow-step.active, .flow-step.done { opacity: 1; }
-  .flow-step.active { border-color: var(--accent); }
-  .flow-step .ic { width: 44px; height: 44px; border-radius: 10px; background: var(--card); display: grid; place-items: center; color: var(--accent-hi); position: relative; overflow: hidden; }
-  .flow-step.active .ic::after { content: ""; position: absolute; left: 0; right: 0; height: 2px; background: var(--accent-hi); top: 0; animation: scan 0.9s linear infinite; box-shadow: 0 0 10px var(--accent-hi); }
+  .flow { width: min(420px, 100%); display: grid; gap: 12px; }
+  .fstep { display: grid; grid-template-columns: 52px 1fr 28px; gap: 14px; align-items: center; background: var(--white); border: 2px solid var(--ink); border-radius: 14px; padding: 12px 14px; opacity: .45; transition: opacity .35s, transform .35s var(--ease), box-shadow .35s var(--ease); text-align: left; }
+  .fstep.active, .fstep.done { opacity: 1; }
+  .fstep.active { transform: translateX(6px); box-shadow: -6px 6px 0 var(--blue); }
+  .fstep .ic { width: 52px; height: 52px; border-radius: 10px; overflow: hidden; position: relative; background: var(--paper-2); }
+  .fstep .ic img { width: 100%; height: 100%; object-fit: cover; }
+  .fstep.active .ic::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--blue); animation: scan .9s linear infinite; box-shadow: 0 0 12px var(--blue); }
   @keyframes scan { to { top: 100%; } }
-  .flow-step b { display: block; font-size: 0.95rem; line-height: 1.3; }
-  .flow-step small { color: var(--muted); font-size: 0.8rem; }
-  .flow-step .tick { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--line-2); display: grid; place-items: center; color: transparent; transition: all .3s; }
-  .flow-step.done .tick { background: var(--pass); border-color: var(--pass); color: var(--accent-ink); }
+  .fstep b { display: block; font-weight: 600; }
+  .fstep small { color: var(--ink-3); font: 400 0.8rem var(--mono); }
+  .tick { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--soft); display: grid; place-items: center; color: transparent; transition: all .3s; }
+  .fstep.done .tick { background: var(--green); border-color: var(--green); color: var(--white); }
 
-  .receipt { width: 100%; max-width: 330px; background: var(--paper); color: var(--ink); border-radius: 6px 6px 0 0; padding: 18px 18px 14px; font: 400 0.76rem/1.6 var(--mono); position: relative; box-shadow: 0 24px 50px -20px oklch(0 0 0 / .6); }
-  .receipt::after { content: ""; position: absolute; left: 0; right: 0; bottom: -10px; height: 10px; background: linear-gradient(-45deg, transparent 6px, var(--paper) 0) 0 0 / 12px 10px, linear-gradient(45deg, transparent 6px, var(--paper) 0) 0 0 / 12px 10px; }
-  .receipt .r-head { display: flex; justify-content: space-between; font-weight: 600; border-bottom: 1px dashed var(--paper-line); padding-bottom: 8px; margin-bottom: 8px; letter-spacing: .04em; }
+  .receipt { width: min(340px, 100%); background: var(--white); border: 2px solid var(--ink); border-radius: 6px 6px 0 0; padding: 18px 20px 16px; font: 400 0.8rem/1.7 var(--mono); position: relative; text-align: left; }
+  .receipt .hd { display: flex; justify-content: space-between; font-weight: 500; border-bottom: 1px dashed var(--soft); padding-bottom: 8px; margin-bottom: 8px; }
   .receipt .row { display: flex; justify-content: space-between; gap: 10px; }
-  .receipt .row span:last-child { font-weight: 600; text-align: right; }
-  .receipt .row.total { border-top: 1px dashed var(--paper-line); margin-top: 8px; padding-top: 8px; font-size: 0.9rem; }
-  .receipt .ok { color: oklch(0.5 0.14 155); }
-  .receipt .rline { opacity: 0; transform: translateY(-4px); }
-  .scene.on .receipt .rline { animation: print .35s var(--ease-out) forwards; }
-  @keyframes print { to { opacity: 1; transform: none; } }
-  .receipt .stamp-wrap { text-align: center; padding-top: 14px; }
-  .receipt .stamp { color: oklch(0.55 0.15 155); font-size: 1.5rem; border-width: 2.5px; opacity: 0; }
-  .scene.on .receipt .stamp { animation: stampIn .45s 1.9s var(--ease-out) forwards; }
-  .replay { margin-top: 18px; background: transparent; border: 0; color: var(--muted); font: 600 0.85rem var(--body); cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
-  .replay:hover { color: var(--text); }
-  .demo-caption { display: flex; justify-content: space-between; gap: 12px; margin-top: 14px; font-size: 0.84rem; color: var(--faint); padding: 0 4px; }
-  .demo-caption strong { color: var(--muted); font-weight: 600; }
-  .demo-steps { display: flex; gap: 6px; }
-  .demo-steps i { width: 22px; height: 4px; border-radius: 2px; background: var(--line-2); transition: background .3s; }
-  .demo-steps i.on { background: var(--accent); }
+  .receipt .row span:last-child { font-weight: 500; }
+  .receipt .ok { color: var(--green); }
+  .receipt .tot { border-top: 1px dashed var(--soft); margin-top: 8px; padding-top: 8px; font-size: 0.95rem; }
+  .receipt .ln { opacity: 0; }
+  .scene.on .receipt .ln { animation: ln .35s var(--ease) forwards; }
+  @keyframes ln { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+  .receipt .sw { text-align: center; padding-top: 16px; }
+  .receipt .stamp { color: var(--green); font-size: 1.9rem; opacity: 0; }
+  .scene.on .receipt .stamp { animation: stampIn .45s 1.8s var(--ease) forwards; }
+  .again { margin-top: 20px; background: none; border: 0; font: 500 0.88rem var(--mono); color: var(--ink-2); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 
-  /* ---------- store strip ---------- */
-  .strip { border-block: 1px solid var(--line); padding: var(--space-lg) 0; background: var(--bg-2); }
-  .strip .wrap { display: flex; align-items: center; gap: var(--space-lg); flex-wrap: wrap; justify-content: space-between; }
-  .strip p { font-size: 0.95rem; color: var(--muted); }
-  .cats { display: flex; flex-wrap: wrap; gap: var(--space-xs); list-style: none; }
-  .cats li { font-family: var(--display); font-stretch: 112%; font-weight: 700; font-size: 0.95rem; border: 1px solid var(--line-2); border-radius: 999px; padding: 6px 14px; }
+  .stage-cap { display: flex; justify-content: space-between; align-items: center; gap: var(--space-md); margin-top: var(--space-md); padding: 0 4px; text-align: left; }
+  .stage-cap p { font: 400 0.9rem var(--mono); color: var(--ink-2); }
+  .stage-cap p b { color: var(--ink); font-weight: 500; }
+  .dots { display: flex; gap: 6px; flex: none; }
+  .dots i { width: 26px; height: 6px; border-radius: 3px; background: var(--soft); transition: background .3s; }
+  .dots i.on { background: var(--ink); }
+
+  /* ---------- category strip ---------- */
+  .cats { margin-top: var(--section); }
+  .cats .eyebrow { text-align: center; }
+  .cats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-sm); margin-top: var(--space-lg); }
+  .cat { border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; background: var(--white); }
+  .cat .ph { aspect-ratio: 4/3; overflow: hidden; }
+  .cat .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+  .cat:hover .ph img { transform: scale(1.05); }
+  .cat span { display: block; padding: 10px 12px; font: 500 0.88rem var(--mono); border-top: 2px solid var(--ink); }
+  .cat.solid { display: grid; place-items: center; text-align: center; padding: var(--space-md); background: var(--amber); }
+  .cat.solid b { font: 400 1.6rem/1 var(--serif); letter-spacing: -0.03em; font-weight: 400; }
 
   /* ---------- sections ---------- */
-  section.block { padding: var(--section) 0 0; }
-  .sec-head { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl) clamp(32px, 6vw, 96px); align-items: end; margin-bottom: clamp(40px, 6vw, 72px); }
-  .sec-head .kicker { margin-bottom: var(--space-md); }
-  .sec-head .lede { justify-self: start; }
+  section.block { padding-top: var(--section); }
+  .head { text-align: center; margin-bottom: clamp(48px, 6vw, 80px); }
+  .head .sub { margin: var(--space-lg) auto 0; max-width: 46ch; }
 
-  /* pain ledger */
-  .ledger { list-style: none; border-top: 1px solid var(--line); }
-  .ledger li { display: grid; grid-template-columns: 64px 1.15fr 1fr; gap: var(--space-lg) clamp(24px, 4vw, 56px); padding: clamp(28px, 4vw, 44px) 0; border-bottom: 1px solid var(--line); align-items: start; }
-  .ledger .n { font: 600 0.85rem var(--mono); color: var(--faint); padding-top: 10px; }
-  .pain h3 { font-size: clamp(1.45rem, 2.6vw, 2.1rem); font-stretch: 116%; font-weight: 800; line-height: 1.1; margin-bottom: var(--space-sm); }
-  .pain p { color: var(--muted); max-width: 52ch; }
-  .pain .src { display: block; margin-top: var(--space-sm); font: 400 0.78rem var(--mono); color: var(--faint); }
-  .fix { background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--space-lg); }
-  .fix .label { font: 600 0.74rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--pass); display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-  .fix p { font-size: 1rem; line-height: 1.6; }
+  /* reviews wall */
+  .wall { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 3vw, 36px); align-items: start; }
+  .rv { background: var(--white); border: 2px solid var(--ink); border-radius: 16px; overflow: hidden; }
+  .rv .rbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 2px solid var(--ink); background: var(--paper-2); font: 500 0.78rem var(--mono); color: var(--ink-2); }
+  .rv .rbar b { color: var(--red); font-weight: 500; letter-spacing: 2px; }
+  .rv img { width: 100%; height: auto; }
+  .rv .pain { padding: 14px 16px; border-top: 1px solid var(--soft); font: 400 1.35rem/1.15 var(--serif); letter-spacing: -0.02em; }
+  .rv .pain::before { content: "→ "; color: var(--coral); }
+  .tilt-l { rotate: -1.2deg; } .tilt-r { rotate: 1deg; margin-top: 40px; }
+  .rv { transition: rotate .35s var(--ease), scale .35s var(--ease); }
+  .rv:hover { rotate: 0deg; scale: 1.015; }
+  .note-s { text-align: center; margin-top: var(--space-2xl); font: 400 0.8rem var(--mono); color: var(--ink-3); }
 
-  /* cost calculator */
-  .calc { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(28px, 5vw, 64px); background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: clamp(24px, 4vw, 52px); }
-  .calc label { display: block; font-weight: 600; margin-bottom: var(--space-sm); }
-  .vol { font-family: var(--display); font-stretch: 120%; font-weight: 900; font-size: clamp(3rem, 7vw, 5rem); line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
-  .vol-unit { color: var(--muted); font-size: 1rem; margin-top: 6px; }
-  input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; border-radius: 4px; background: var(--line); margin: var(--space-xl) 0 var(--space-xs); cursor: pointer; }
-  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; border-radius: 50%; background: var(--accent-hi); border: 4px solid var(--bg); box-shadow: 0 0 0 1px var(--accent-hi); }
-  input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--accent-hi); border: 4px solid var(--bg); }
-  .ticks { display: flex; justify-content: space-between; font: 400 0.75rem var(--mono); color: var(--faint); }
-  .presets { display: flex; gap: var(--space-xs); flex-wrap: wrap; margin-top: var(--space-lg); }
-  .presets button { font: 600 0.82rem var(--body); color: var(--muted); background: transparent; border: 1px solid var(--line-2); border-radius: 999px; padding: 6px 12px; cursor: pointer; }
-  .presets button:hover, .presets button[aria-pressed=true] { color: var(--text); border-color: var(--accent); }
-  .bars { display: grid; gap: var(--space-lg); align-content: center; }
-  .bar-row .top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; }
-  .bar-row .name { font-weight: 700; }
-  .bar-row .name small { display: block; font-weight: 400; color: var(--faint); font-size: 0.8rem; }
-  .bar-row .amt { font-family: var(--display); font-stretch: 115%; font-weight: 800; font-size: 1.35rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .track { height: 14px; border-radius: 7px; background: var(--bg); overflow: hidden; }
-  .fill { height: 100%; border-radius: 7px; background: var(--line-2); width: 0; transition: width .6s var(--ease-out); }
-  .bar-row.us .fill { background: var(--accent); }
-  .bar-row.us .amt { color: var(--accent-hi); }
-  .fill.range { background: repeating-linear-gradient(-45deg, var(--line-2) 0 6px, var(--line) 6px 12px); }
-  .savings { border-top: 1px solid var(--line); padding-top: var(--space-lg); font-size: 1.05rem; color: var(--muted); }
-  .savings strong { color: var(--text); }
-  .calc-note { grid-column: 1 / -1; font-size: 0.82rem; color: var(--faint); border-top: 1px solid var(--line); padding-top: var(--space-md); }
-  .others { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-lg); margin-top: var(--space-lg); font-size: 0.9rem; color: var(--muted); }
-  .others span b { color: var(--text); font-weight: 600; }
+  /* before / after */
+  .ba { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2.5vw, 28px); }
+  .side { border: 2px solid var(--ink); border-radius: 20px; overflow: hidden; background: var(--white); display: flex; flex-direction: column; }
+  .side .ph { position: relative; aspect-ratio: 5/4; overflow: hidden; border-bottom: 2px solid var(--ink); }
+  .side .ph img { width: 100%; height: 100%; object-fit: cover; }
+  .side.before .ph img { filter: grayscale(0.85) contrast(1.05); }
+  .side .label { position: absolute; top: 16px; left: 16px; font: 500 0.82rem var(--mono); border: 2px solid var(--ink); border-radius: 999px; padding: 5px 12px; background: var(--white); }
+  .side.after .label { background: var(--amber); }
+  .chip { position: absolute; display: inline-flex; align-items: center; gap: 8px; background: var(--white); border: 2px solid var(--ink); border-radius: 12px; padding: 8px 12px; font: 500 0.88rem var(--sans); box-shadow: 4px 4px 0 var(--ink); white-space: nowrap; }
+  .chip.r { color: var(--red); } .chip.g { color: var(--green); }
+  .side h3 { padding: var(--space-lg) var(--space-lg) 0; }
+  .side ul { list-style: none; padding: var(--space-md) var(--space-lg) var(--space-lg); display: grid; gap: 10px; flex: 1; }
+  .side li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; }
+  .side li::before { font: 500 1rem var(--mono); }
+  .side.before li::before { content: "✕"; color: var(--red); }
+  .side.after li::before { content: "✓"; color: var(--green); }
 
-  /* how it works */
-  .steps { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; position: relative; counter-reset: s; }
-  .steps li { padding: var(--space-xl) clamp(20px, 3vw, 40px) var(--space-xl) 0; position: relative; }
-  .steps li + li { padding-left: clamp(20px, 3vw, 40px); border-left: 1px solid var(--line); }
-  .steps .num { font-family: var(--display); font-stretch: 125%; font-weight: 900; font-size: 4.5rem; line-height: 1; color: transparent; -webkit-text-stroke: 1.5px var(--line-2); margin-bottom: var(--space-lg); }
-  .steps h3 { margin-bottom: var(--space-sm); font-size: 1.5rem; }
-  .steps p { color: var(--muted); }
-  .included { margin-top: clamp(40px, 5vw, 64px); display: flex; flex-wrap: wrap; gap: var(--space-sm); list-style: none; }
-  .included li { display: inline-flex; align-items: center; gap: 10px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; font-weight: 600; font-size: 0.95rem; }
-  .included svg { color: var(--pass); }
+  /* how it works: Dia-style tab list */
+  .how { display: grid; grid-template-columns: 0.9fr 1.1fr; border: 2px solid var(--ink); border-radius: 20px; overflow: hidden; background: var(--white); }
+  .tabs { display: flex; flex-direction: column; border-right: 2px solid var(--ink); }
+  .tab { text-align: left; background: var(--paper-2); border: 0; border-bottom: 2px solid var(--ink); padding: clamp(18px, 2.4vw, 28px); cursor: pointer; font: inherit; color: var(--ink); display: grid; grid-template-columns: 44px 1fr; gap: 16px; align-items: start; transition: background-color .25s, color .25s; }
+  .tab:last-child { border-bottom: 0; }
+  .tab:hover { background: var(--paper-3); }
+  .tab .n { font: 400 2.2rem/1 var(--serif); }
+  .tab h3 { font-size: clamp(1.4rem, 2.2vw, 1.9rem); }
+  .tab .body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s var(--ease), margin .45s var(--ease); font: 400 0.95rem/1.65 var(--mono); }
+  .tab .body > span { overflow: hidden; min-height: 0; }
+  .tab[aria-selected=true] { background: var(--ink); color: var(--paper); flex: 1; }
+  .tab[aria-selected=true] .body { grid-template-rows: 1fr; margin-top: 12px; }
+  .tabimg { position: relative; min-height: 460px; background: var(--paper-2); }
+  .tabimg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .5s var(--ease); }
+  .tabimg img.on { opacity: 1; }
+  .tabimg .chip { z-index: 2; left: 20px; bottom: 20px; transition: opacity .4s; }
+  .tabimg .chip.off { opacity: 0; }
+
+  .diagram { margin-top: clamp(40px, 5vw, 64px); }
+  .diagram .frame { padding: clamp(10px, 2vw, 28px); }
+  .diagram iframe { width: 100%; height: clamp(480px, 50vw, 640px); border: 0; border-radius: 12px; background: var(--white); display: block; }
+  .diagram .cap { display: flex; justify-content: space-between; gap: var(--space-md); flex-wrap: wrap; margin-top: var(--space-md); font: 400 0.85rem var(--mono); color: var(--ink-2); }
+
+  /* marquee */
+  .marquee { margin-top: var(--section); border-block: 2px solid var(--ink); background: var(--amber); overflow: hidden; white-space: nowrap; }
+  .marquee .track { display: inline-flex; animation: marq 30s linear infinite; }
+  .marquee a { display: inline-flex; align-items: center; gap: 22px; padding: 18px 22px; font: 400 clamp(1.6rem, 3vw, 2.4rem)/1 var(--serif); letter-spacing: -0.03em; text-decoration: none; }
+  .marquee svg { width: 30px; height: 30px; shape-rendering: crispEdges; }
+  .marquee:hover .track { animation-play-state: paused; }
+  @keyframes marq { to { transform: translateX(-50%); } }
+
+  /* cost */
+  .calc { display: grid; grid-template-columns: 0.9fr 1.1fr; border: 2px solid var(--ink); border-radius: 20px; overflow: hidden; background: var(--white); }
+  .calc .l { padding: clamp(24px, 4vw, 48px); border-right: 2px solid var(--ink); background: var(--paper-2); }
+  .calc .r { padding: clamp(24px, 4vw, 48px); display: grid; gap: var(--space-lg); align-content: center; }
+  .calc label { font: 500 0.85rem var(--mono); color: var(--ink-2); }
+  .vol { font: 400 clamp(4rem, 9vw, 6.5rem)/1 var(--serif); letter-spacing: -0.04em; margin-top: 10px; font-variant-numeric: tabular-nums; }
+  .vol-u { font: 400 0.9rem var(--mono); color: var(--ink-3); }
+  input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 12px; background: var(--white); border: 2px solid var(--ink); border-radius: 6px; margin: var(--space-xl) 0 8px; cursor: pointer; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; border-radius: 8px; background: var(--amber); border: 2px solid var(--ink); }
+  input[type=range]::-moz-range-thumb { width: 24px; height: 24px; border-radius: 8px; background: var(--amber); border: 2px solid var(--ink); }
+  .ticks { display: flex; justify-content: space-between; font: 400 0.75rem var(--mono); color: var(--ink-3); }
+  .presets { display: flex; gap: 8px; margin-top: var(--space-lg); flex-wrap: wrap; }
+  .presets button { font: 500 0.85rem var(--mono); background: var(--white); border: 2px solid var(--ink); border-radius: 999px; padding: 6px 14px; cursor: pointer; color: var(--ink); }
+  .presets button[aria-pressed=true] { background: var(--ink); color: var(--paper); }
+  .bar .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+  .bar .nm { font-weight: 600; }
+  .bar .nm small { display: block; font: 400 0.78rem var(--mono); color: var(--ink-3); }
+  .bar .amt { font: 400 clamp(1.6rem, 2.6vw, 2.1rem)/1 var(--serif); letter-spacing: -0.03em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .trk { height: 20px; border: 2px solid var(--ink); border-radius: 8px; background: var(--paper-2); overflow: hidden; }
+  .fill { height: 100%; width: 0; transition: width .6s var(--ease); border-right: 2px solid var(--ink); }
+  .bar.us .fill { background: var(--blue); }
+  .fill.rng { background: repeating-linear-gradient(-45deg, var(--coral) 0 6px, oklch(0.85 0.08 33) 6px 12px); }
+  .fill.st { background: var(--coral); }
+  .save { font: 400 clamp(1.4rem, 2.2vw, 1.8rem)/1.25 var(--serif); letter-spacing: -0.02em; border-top: 2px solid var(--ink); padding-top: var(--space-lg); }
+  .save b { font-weight: 400; background: var(--amber); padding: 0 6px; border-radius: 4px; }
+  .fine { font: 400 0.78rem/1.6 var(--mono); color: var(--ink-3); margin-top: var(--space-md); max-width: 110ch; }
 
   /* pricing */
-  .plans { display: grid; grid-template-columns: 1fr 1.08fr 1fr; gap: var(--space-md); align-items: stretch; }
-  .plan { background: var(--bg-2); border: 1px solid var(--line); border-radius: 20px; padding: clamp(24px, 3vw, 36px); display: flex; flex-direction: column; }
-  .plan.featured { background: var(--card); border-color: var(--accent); position: relative; transform: translateY(-12px); box-shadow: 0 30px 60px -30px oklch(0.665 0.17 260 / 0.45); }
-  .plan .flag { position: absolute; top: -13px; left: 28px; font: 600 0.74rem var(--mono); letter-spacing: .06em; text-transform: uppercase; background: var(--accent); color: var(--accent-ink); padding: 5px 10px; border-radius: 999px; }
-  .plan .tier { font-family: var(--display); font-stretch: 115%; font-weight: 800; font-size: 1.25rem; }
-  .plan .for { color: var(--muted); font-size: 0.92rem; margin-top: 2px; }
-  .price { font-family: var(--display); font-stretch: 118%; font-weight: 900; font-size: clamp(2.8rem, 4.5vw, 3.6rem); line-height: 1; margin: var(--space-lg) 0 var(--space-2xs); letter-spacing: -0.03em; }
-  .price small { font-family: var(--body); font-size: 1rem; font-weight: 500; color: var(--muted); letter-spacing: 0; }
-  .per { font: 400 0.82rem var(--mono); color: var(--faint); }
-  .plan ul { list-style: none; margin: var(--space-lg) 0 var(--space-xl); display: grid; gap: 10px; flex: 1; }
-  .plan li { display: flex; gap: 10px; align-items: flex-start; font-size: 0.97rem; }
-  .plan li svg { flex: none; margin-top: 5px; color: var(--pass); }
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); align-items: stretch; }
+  .plan { background: var(--white); border: 2px solid var(--ink); border-radius: 20px; padding: clamp(24px, 3vw, 36px); display: flex; flex-direction: column; position: relative; }
+  .plan.pick { background: var(--ink); color: var(--paper); box-shadow: 8px 8px 0 var(--blue); }
+  .plan .flag { position: absolute; top: -15px; left: 24px; font: 500 0.78rem var(--mono); background: var(--amber); color: var(--ink); border: 2px solid var(--ink); border-radius: 999px; padding: 3px 12px; }
+  .plan .t { font: 400 2rem/1 var(--serif); letter-spacing: -0.03em; }
+  .plan .for { font: 400 0.85rem var(--mono); color: var(--ink-3); margin-top: 8px; }
+  .plan.pick .for { color: oklch(0.8 0.01 90); }
+  .price { font: 400 clamp(3.4rem, 5vw, 4.4rem)/1 var(--serif); letter-spacing: -0.04em; margin: var(--space-xl) 0 4px; }
+  .price small { font: 500 1rem var(--sans); letter-spacing: 0; }
+  .per { font: 400 0.85rem var(--mono); }
+  .plan ul { list-style: none; margin: var(--space-lg) 0 var(--space-xl); padding-top: var(--space-lg); border-top: 1px dashed var(--soft); display: grid; gap: 10px; flex: 1; }
+  .plan.pick ul { border-top-color: oklch(0.4 0.01 260); }
+  .plan li { display: grid; grid-template-columns: 20px 1fr; gap: 8px; }
+  .plan li::before { content: "✓"; font: 500 1rem var(--mono); color: var(--green); }
+  .plan.pick li::before { color: var(--amber); }
   .plan .btn { width: 100%; }
+  .plan.pick .btn { background: var(--amber); color: var(--ink); border-color: var(--amber); }
   .terms { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); margin-top: var(--space-2xl); }
-  .terms div { padding-top: var(--space-md); border-top: 1px solid var(--line); }
-  .terms b { display: block; font-family: var(--display); font-stretch: 112%; font-size: 1.1rem; margin-bottom: 4px; }
-  .terms p { color: var(--muted); font-size: 0.95rem; }
+  .terms div { border-top: 2px solid var(--ink); padding-top: var(--space-md); }
+  .terms b { font: 400 1.5rem/1.1 var(--serif); letter-spacing: -0.02em; display: block; margin-bottom: 6px; }
+  .terms p { font: 400 0.9rem var(--mono); color: var(--ink-2); }
 
   /* founders */
-  .founders { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(32px, 6vw, 96px); align-items: center; }
-  .note { background: var(--paper); color: var(--ink); border-radius: 6px; padding: clamp(28px, 4vw, 44px); transform: rotate(-1deg); box-shadow: 0 30px 60px -30px oklch(0 0 0 / .8); position: relative; }
-  .note p { font-size: 1.08rem; line-height: 1.65; margin-bottom: var(--space-md); }
-  .note .sig { font-family: var(--display); font-stretch: 112%; font-weight: 800; font-size: 1.1rem; margin-top: var(--space-lg); margin-bottom: 0; }
-  .note .sig span { display: block; font-family: var(--body); font-weight: 500; font-size: 0.9rem; color: var(--ink-2); }
-  .note::before { content: ""; position: absolute; top: -14px; left: 50%; width: 90px; height: 28px; background: oklch(0.9 0.05 90 / .7); transform: translateX(-50%) rotate(2deg); }
+  .founders { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 96px); align-items: center; }
+  .founders .sub { margin-top: var(--space-lg); max-width: 44ch; }
+  .letter { background: var(--white); border: 2px solid var(--ink); border-radius: 6px; padding: clamp(28px, 4vw, 48px); rotate: -1.5deg; box-shadow: 10px 10px 0 var(--coral); font: 400 1rem/1.75 var(--mono); }
+  .letter p + p { margin-top: var(--space-md); }
+  .letter .sig { margin-top: var(--space-xl); font: 400 1.8rem/1 var(--serif); letter-spacing: -0.03em; }
+  .letter .sig small { display: block; font: 400 0.8rem var(--mono); color: var(--ink-3); margin-top: 8px; letter-spacing: 0; }
 
   /* faq */
-  .faq { max-width: 860px; }
-  .faq details { border-bottom: 1px solid var(--line); }
-  .faq details:first-child { border-top: 1px solid var(--line); }
-  .faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: var(--space-lg); padding: var(--space-lg) 0; font-family: var(--display); font-stretch: 112%; font-weight: 700; font-size: clamp(1.1rem, 1.8vw, 1.3rem); }
+  .faq { max-width: 820px; margin: 0 auto; border-top: 2px solid var(--ink); }
+  .faq details { border-bottom: 2px solid var(--ink); }
+  .faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: var(--space-lg); padding: 26px 20px; font: 400 clamp(1.3rem, 2.2vw, 1.75rem)/1.15 var(--serif); letter-spacing: -0.025em; }
   .faq summary::-webkit-details-marker { display: none; }
-  .faq summary .pm { flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line-2); display: grid; place-items: center; transition: transform .3s var(--ease-out); }
-  .faq details[open] summary .pm { transform: rotate(45deg); }
-  .faq details p { color: var(--muted); padding-bottom: var(--space-lg); max-width: 68ch; }
+  .faq summary .pm { flex: none; font: 300 2rem/1 var(--sans); transition: transform .3s var(--ease); }
+  .faq details[open] .pm { transform: rotate(45deg); }
+  .faq details p { padding: 0 20px 26px; font: 400 0.98rem/1.7 var(--mono); color: var(--ink-2); max-width: 70ch; }
 
-  /* final cta */
-  .final { margin: var(--section) 0 var(--space-3xl); background: var(--accent); color: var(--accent-ink); border-radius: 28px; padding: clamp(40px, 7vw, 88px) clamp(24px, 6vw, 80px); display: grid; grid-template-columns: 1.3fr 0.7fr; gap: var(--space-xl); align-items: end; position: relative; overflow: hidden; }
-  .final h2 { font-size: clamp(2.2rem, 5vw, 4rem); }
-  .final p { font-size: 1.12rem; margin-top: var(--space-md); max-width: 46ch; color: oklch(0.25 0.06 262); }
-  .final .btn-dark { background: var(--accent-ink); color: var(--text); width: 100%; font-size: 1.05rem; padding: 18px 26px; }
-  .final .btn-dark:hover { transform: translateY(-2px); background: oklch(0.22 0.035 262); }
-  .final .mail { margin-top: var(--space-sm); font: 600 0.9rem var(--mono); text-align: center; display: block; text-decoration: none; color: oklch(0.25 0.06 262); }
-  .final .mail:hover { text-decoration: underline; }
-  .final::after { content: ""; position: absolute; right: -60px; top: -60px; width: 240px; height: 240px; border-radius: 50%; border: 36px solid oklch(0.74 0.14 260); opacity: .6; pointer-events: none; }
+  /* final */
+  .final { margin-top: var(--section); text-align: center; position: relative; padding: clamp(64px, 9vw, 120px) 0; }
+  .final .sub { margin: var(--space-lg) auto var(--space-xl); }
+  .final .mail { display: block; margin-top: var(--space-md); font: 400 0.9rem var(--mono); color: var(--ink-2); }
+  footer { border-top: 2px solid var(--ink); padding: var(--space-xl) 0 var(--space-2xl); font: 400 0.8rem/1.7 var(--mono); color: var(--ink-3); }
+  footer .wrap { display: flex; justify-content: space-between; gap: var(--space-lg); flex-wrap: wrap; }
+  footer p { max-width: 80ch; }
 
-  footer { border-top: 1px solid var(--line); padding: var(--space-xl) 0 var(--space-2xl); color: var(--faint); font-size: 0.9rem; }
-  footer .wrap { display: flex; justify-content: space-between; gap: var(--space-md); flex-wrap: wrap; }
-  footer a { color: var(--muted); }
-  footer p { max-width: 70ch; }
+  .reveal { opacity: 0; translate: 0 22px; transition: opacity .9s var(--ease), translate .9s var(--ease); }
+  .reveal.in { opacity: 1; translate: 0 0; }
 
-  /* reveal */
-  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); }
-  .reveal.in { opacity: 1; transform: none; }
-  .hero .reveal { transition-delay: calc(var(--i, 0) * 90ms); }
-
-  /* ---------- responsive ---------- */
-  @media (max-width: 1000px) {
-    .hero-grid { grid-template-columns: 1fr; }
-    .demo { max-width: 560px; }
-    .nav-links { display: none; }
+  /* responsive */
+  @media (max-width: 1080px) { .px { display: none; } .nav a.link { display: none; } }
+  @media (max-width: 900px) {
+    .wall, .ba, .founders { grid-template-columns: 1fr; }
+    .tilt-r { margin-top: 0; }
+    .how { grid-template-columns: 1fr; }
+    .tabs { border-right: 0; border-bottom: 2px solid var(--ink); }
+    .tabimg { min-height: 320px; }
+    .calc { grid-template-columns: 1fr; }
+    .calc .l { border-right: 0; border-bottom: 2px solid var(--ink); }
+    .plans, .terms { grid-template-columns: 1fr; }
+    .plan.pick { order: -1; }
+    .cats-row { grid-template-columns: repeat(2, 1fr); }
+    .cats-row .cat.solid { grid-column: span 2; }
   }
-  @media (max-width: 860px) {
-    .sec-head, .calc, .founders, .final { grid-template-columns: 1fr; }
-    .ledger li { grid-template-columns: 1fr; gap: var(--space-md); }
-    .ledger .n { padding-top: 0; }
-    .steps { grid-template-columns: 1fr; }
-    .steps li, .steps li + li { padding: var(--space-xl) 0; border-left: 0; border-top: 1px solid var(--line); }
-    .plans { grid-template-columns: 1fr; }
-    .plan.featured { transform: none; order: -1; }
-    .terms { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 760px) {
+  @media (max-width: 700px) {
     body { font-size: 16px; }
-    .demo-stage { height: 440px; }
-    .demo-caption { flex-direction: column; }
-    .hero h1 .strike { white-space: normal; }
+    .shop { grid-template-columns: 1fr; align-content: start; }
+    .shop .pimg { aspect-ratio: 16/9; }
+    .demo { height: 540px; }
+    .stage-cap { flex-direction: column; align-items: flex-start; }
+    .diagram iframe { height: 520px; }
+    .chip { font-size: 0.78rem; padding: 6px 10px; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-    .reveal { opacity: 1; transform: none; }
+    .reveal { opacity: 1; translate: 0 0; }
     html { scroll-behavior: auto; }
   }
 </style>
 </head>
 <body>
 
-<nav class="nav" id="nav" aria-label="Main">
-  <div class="wrap">
-    <a class="logo" href="#top" aria-label="ConfirmLayer home">
-      <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="oklch(0.665 0.17 260)"/><path d="M9 16.5l4.5 4.5L23 11.5" fill="none" stroke="oklch(0.17 0.03 262)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      ConfirmLayer
-    </a>
-    <ul class="nav-links">
-      <li><a href="#problem">The problem</a></li>
-      <li><a href="#cost">Cost</a></li>
-      <li><a href="#how">How it works</a></li>
-      <li><a href="#pricing">Pricing</a></li>
-      <li><a href="#faq">FAQ</a></li>
-    </ul>
-    <a class="btn btn-primary" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20early%20access">Get early access</a>
-  </div>
+<nav class="nav" aria-label="Main">
+  <a class="mark" href="#top" aria-label="ConfirmLayer home"><svg width="22" height="22" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect width="16" height="16" rx="3" fill="currentColor"/><path fill="oklch(0.984 0.006 90)" d="M3 8h2v2H3zM5 10h2v2H5zM7 8h2v2H7zM9 6h2v2H9zM11 4h2v2h-2z"/></svg>ConfirmLayer</a>
+  <a class="link" href="#reviews">The problem</a>
+  <a class="link" href="#how">How it works</a>
+  <a class="link" href="#cost">Cost</a>
+  <a class="link" href="#pricing">Pricing</a>
+  <a class="cta" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20early%20access">Get early access</a>
 </nav>
 
 <main id="top">
-
-  <!-- ============ HERO ============ -->
+  <!-- HERO -->
   <header class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <div class="badge reveal" style="--i:0"><span class="dot"></span>Now onboarding early-access stores</div>
-        <h1 class="reveal" style="--i:1">Your age check is a <span class="strike">“Yes”&nbsp;button.</span></h1>
-        <p class="tagline reveal" style="--i:2">Make it a real one. Age verification for your Shopify store, done for you.</p>
-        <p class="lede reveal" style="--i:3">Selling vape, CBD, kratom, or alcohol online comes with real rules, and a checkbox is not verification. We check every customer at checkout — ID document plus a live selfie — and hand you a simple <strong class="pass">pass</strong> or <strong class="hot">fail</strong>, with a record of each check.</p>
-        <div class="cta-row reveal" style="--i:4">
-          <a class="btn btn-primary" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20early%20access&amp;body=Store%20URL%3A%20%0AWhat%20we%20sell%3A%20%0AHow%20we%20check%20age%20today%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Get early access <span class="arrow">→</span></a>
-          <a class="btn btn-ghost" href="#cost">See what you'd pay</a>
-        </div>
-        <ul class="hero-proof reveal" style="--i:5">
-          <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Published pricing from $79/mo</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>No minimums, no quote calls</li>
-          <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Set up with a founder on a 15-min call</li>
-        </ul>
+    <div class="px float" data-px="id"     style="left:7%;top:150px"></div>
+    <div class="px float" data-px="shield" style="left:13%;top:330px;animation-delay:-2s"></div>
+    <div class="px float" data-px="face"   style="left:4%;top:470px;animation-delay:-4s"></div>
+    <div class="px float" data-px="warn"   style="right:8%;top:140px;animation-delay:-1s"></div>
+    <div class="px float" data-px="check"  style="right:4%;top:320px;animation-delay:-3s"></div>
+    <div class="px float" data-px="bag"    style="right:13%;top:470px;animation-delay:-5s"></div>
+
+    <div class="wrap">
+      <h1 class="reveal">Your age check<br>is a <span class="no">“Yes”</span> button.</h1>
+      <p class="sub reveal">Real age verification for your Shopify store, done for you. Every customer scans an ID and takes a live selfie at checkout. You get a pass or fail and a record of each check.</p>
+      <div class="actions reveal">
+        <a class="btn btn-ink" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20early%20access&amp;body=Store%20URL%3A%20%0AWhat%20we%20sell%3A%20%0AHow%20we%20check%20age%20today%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Get early access</a>
+        <a class="btn btn-line" href="#demo">Try the popup test ↓</a>
       </div>
+      <p class="note reveal">From $79/mo · published pricing · no minimums · set up with a founder</p>
 
-      <!-- The popup test -->
-      <div class="demo reveal" style="--i:3">
-        <div class="demo-frame">
-          <div class="demo-bar" aria-hidden="true"><i></i><i></i><i></i><span class="demo-url">yourstore.com/checkout</span></div>
-          <div class="demo-stage" aria-live="polite">
-            <div class="shop-bg" aria-hidden="true"><div></div><div style="height:150px"></div><div style="height:150px"></div><div style="height:60px"></div><div style="height:60px"></div></div>
-
-            <!-- Scene 1: the popup -->
-            <div class="scene scene-dim on" id="s1">
-              <div class="popup" aria-label="Typical age popup">
-                <span class="try">go on, try it</span>
-                <h4>Are you 21 or older?</h4>
-                <p>You must be of legal age to enter this site.</p>
-                <div class="yn">
-                  <button class="yes" type="button" data-go="2">Yes</button>
-                  <button class="no" type="button" data-go="2">No</button>
+      <div class="stage-wrap reveal" id="demo">
+        <div class="frame coral">
+          <div class="browser">
+            <div class="bbar" aria-hidden="true"><i></i><i></i><i></i><span class="url">yourstore.com/products/starter-kit</span></div>
+            <div class="demo" aria-live="polite">
+              <div class="shop" aria-hidden="true">
+                <div class="pimg"><img src="assets/vape-neon.jpg" alt=""></div>
+                <div>
+                  <div class="ptitle">Starter Kit — 30ml</div>
+                  <div class="pprice">$34.00</div>
+                  <span class="pbtn">Add to cart</span>
+                  <div class="pline"></div><div class="pline" style="width:70%"></div><div class="pline" style="width:84%"></div>
                 </div>
               </div>
-            </div>
 
-            <!-- Scene 2: the verdict -->
-            <div class="scene scene-dim" id="s2" hidden>
-              <div class="verdict">
-                <span class="stamp bad">LET IN</span>
-                <p class="big">Anyone can click “Yes.”<br>That was the whole check.</p>
-                <ul><li>No ID</li><li>No face</li><li>No record</li></ul>
-                <button class="link-btn" type="button" data-go="3">Now run a real check <span aria-hidden="true">→</span></button>
-              </div>
-            </div>
-
-            <!-- Scene 3: real check -->
-            <div class="scene" id="s3" hidden>
-              <div class="flow">
-                <div class="flow-step" data-step="0">
-                  <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><circle cx="8.5" cy="11" r="2.2"/><path d="M5.5 16c.6-1.6 1.7-2.3 3-2.3s2.4.7 3 2.3M14 10h4.5M14 13.5h3"/></svg></div>
-                  <div><b>Scan a photo ID</b><small>Document + authenticity check</small></div>
-                  <span class="tick"><svg width="12" height="12" viewBox="0 0 16 16"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                </div>
-                <div class="flow-step" data-step="1">
-                  <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="10" r="3.6"/><path d="M5.5 20c1.2-3.2 3.6-4.6 6.5-4.6s5.3 1.4 6.5 4.6"/><path d="M3 7V4.5A1.5 1.5 0 0 1 4.5 3H7M17 3h2.5A1.5 1.5 0 0 1 21 4.5V7"/></svg></div>
-                  <div><b>Take a live selfie</b><small>Liveness check — a real person, right now</small></div>
-                  <span class="tick"><svg width="12" height="12" viewBox="0 0 16 16"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div class="scene dim on" id="s1">
+                <div class="popup">
+                  <span class="tag">go on, click it</span>
+                  <h4>Are you 21 or older?</h4>
+                  <p>You must be of legal age to enter this site.</p>
+                  <div class="yn"><button class="yes" type="button" data-go="2">Yes</button><button class="noo" type="button" data-go="2">No</button></div>
                 </div>
               </div>
-            </div>
 
-            <!-- Scene 4: receipt -->
-            <div class="scene" id="s4" hidden>
-              <div style="width:100%;display:grid;justify-items:center">
-                <div class="receipt" aria-label="Sample verification record">
-                  <div class="r-head rline" style="animation-delay:.05s"><span>VERIFICATION RECORD</span><span>SAMPLE</span></div>
-                  <div class="row rline" style="animation-delay:.25s"><span>Order</span><span>#1042</span></div>
-                  <div class="row rline" style="animation-delay:.45s"><span>ID document</span><span class="ok">authentic</span></div>
-                  <div class="row rline" style="animation-delay:.65s"><span>Liveness</span><span class="ok">passed</span></div>
-                  <div class="row rline" style="animation-delay:.85s"><span>Age rule 21+</span><span class="ok">met</span></div>
-                  <div class="row rline" style="animation-delay:1.05s"><span>Timestamp</span><span id="ts">—</span></div>
-                  <div class="row rline" style="animation-delay:1.25s"><span>Ref</span><span id="ref">CL-0000</span></div>
-                  <div class="row total rline" style="animation-delay:1.5s"><span>Decision</span><span class="ok">PASS</span></div>
-                  <div class="stamp-wrap"><span class="stamp">PASS</span></div>
+              <div class="scene dim" id="s2" hidden>
+                <div class="verdict">
+                  <span class="stamp">LET IN</span>
+                  <p class="big">Anyone can click “Yes.”<br>That was the whole check.</p>
+                  <div class="xs"><span>No ID</span><span>No face</span><span>No record</span></div>
+                  <button class="go" type="button" data-go="3">Now run a real check →</button>
                 </div>
-                <button class="replay" type="button" data-go="1"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2.5 8a5.5 5.5 0 1 0 1.7-4M2.5 2.5v3h3"/></svg>Run it again</button>
+              </div>
+
+              <div class="scene light" id="s3" hidden>
+                <div class="flow">
+                  <div class="fstep"><div class="ic"><img src="assets/customer-checkout.jpg" alt=""></div><div><b>Scan a photo ID</b><small>document + authenticity</small></div><span class="tick">✓</span></div>
+                  <div class="fstep"><div class="ic"><img src="assets/customer-selfie.jpg" alt=""></div><div><b>Take a live selfie</b><small>liveness: a real person, right now</small></div><span class="tick">✓</span></div>
+                </div>
+              </div>
+
+              <div class="scene light" id="s4" hidden>
+                <div style="display:grid;justify-items:center;width:100%">
+                  <div class="receipt" aria-label="Sample verification record">
+                    <div class="hd ln" style="animation-delay:.05s"><span>VERIFICATION RECORD</span><span>SAMPLE</span></div>
+                    <div class="row ln" style="animation-delay:.25s"><span>Order</span><span>#1042</span></div>
+                    <div class="row ln" style="animation-delay:.45s"><span>ID document</span><span class="ok">authentic</span></div>
+                    <div class="row ln" style="animation-delay:.65s"><span>Liveness</span><span class="ok">passed</span></div>
+                    <div class="row ln" style="animation-delay:.85s"><span>Age rule 21+</span><span class="ok">met</span></div>
+                    <div class="row ln" style="animation-delay:1.05s"><span>Timestamp</span><span id="ts">—</span></div>
+                    <div class="row ln" style="animation-delay:1.25s"><span>Ref</span><span id="ref">CL-0000</span></div>
+                    <div class="row tot ln" style="animation-delay:1.5s"><span>Decision</span><span class="ok">PASS</span></div>
+                    <div class="sw"><span class="stamp">PASS</span></div>
+                  </div>
+                  <button class="again" type="button" data-go="1">↺ run it again</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="demo-caption">
-          <span id="cap"><strong>A typical age popup.</strong> Go ahead — click either button.</span>
-          <span class="demo-steps" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></span>
+        <div class="stage-cap">
+          <p id="cap"><b>A typical age popup.</b> Click either button.</p>
+          <span class="dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></span>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- ============ STRIP ============ -->
-  <div class="strip">
+  <!-- CATEGORIES -->
+  <section class="cats">
     <div class="wrap">
-      <p>Built for Shopify stores that sell</p>
-      <ul class="cats">
-        <li>Vape &amp; e-liquid</li><li>CBD &amp; delta-8</li><li>Kratom &amp; botanicals</li><li>Alcohol &amp; spirits</li><li>Tobacco accessories</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- ============ PROBLEM ============ -->
-  <section class="block" id="problem">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <span class="kicker reveal">The problem</span>
-          <h2 class="reveal">You've already been burned by an age-verification app.</h2>
-        </div>
-        <p class="lede reveal">If you run an age-restricted store, you've probably lived at least one of these. They're why we built ConfirmLayer.</p>
+      <span class="eyebrow">Built for Shopify stores that sell age-restricted products</span>
+      <div class="cats-row">
+        <div class="cat reveal"><div class="ph"><img src="assets/vape-neon.jpg" alt="Neon vape shop sign" loading="lazy"></div><span>Vape &amp; e-liquid</span></div>
+        <div class="cat reveal"><div class="ph"><img src="assets/cbd-boxes.jpg" alt="Boxes of CBD products" loading="lazy"></div><span>CBD &amp; delta-8</span></div>
+        <div class="cat reveal"><div class="ph"><img src="assets/shop-counter.jpg" alt="Shop owner serving a customer at a botanicals counter" loading="lazy"></div><span>Kratom &amp; botanicals</span></div>
+        <div class="cat reveal"><div class="ph"><img src="assets/liquor-owner.jpg" alt="Liquor store owner behind the counter" loading="lazy"></div><span>Alcohol &amp; spirits</span></div>
+        <div class="cat solid reveal"><b>Tobacco accessories, knives &amp; more</b></div>
       </div>
-
-      <ol class="ledger">
-        <li class="reveal">
-          <span class="n">01</span>
-          <div class="pain">
-            <h3>Your age gate is a popup with a Yes button.</h3>
-            <p>The PACT Act covers online vape sales, and state age-verification laws carry real penalties. A popup any 15-year-old can click through isn't verification — and it leaves you with nothing on file.</p>
-          </div>
-          <div class="fix"><span class="label">● Instead</span><p>A real ID document check plus a live selfie at checkout, and a timestamped record of each check you can pull anytime.</p></div>
-        </li>
-        <li class="reveal">
-          <span class="n">02</span>
-          <div class="pain">
-            <h3>“This app makes my website loading super slow.”</h3>
-            <p>A slow store loses buyers who were ready to pay.</p>
-            <span class="src">— a merchant's 1-star review of an age-verification app</span>
-          </div>
-          <div class="fix"><span class="label">● Instead</span><p>One verification step at checkout, built to be quick on any phone. Nothing bolted onto every page of your store.</p></div>
-        </li>
-        <li class="reveal">
-          <span class="n">03</span>
-          <div class="pain">
-            <h3>Charged for the same verification. Again. And again.</h3>
-            <p>Repeat charges, refunds that stopped, and a bill you couldn't predict.</p>
-            <span class="src">— paraphrased from a vape retailer's 1-star review of an age-verification app</span>
-          </div>
-          <div class="fix"><span class="label">● Instead</span><p>A flat monthly plan with checks included and one published overage rate. One integration, one bill, one dashboard.</p></div>
-        </li>
-        <li class="reveal">
-          <span class="n">04</span>
-          <div class="pain">
-            <h3>Then support stopped answering.</h3>
-            <p>The same review: emails ignored while the charges kept coming. The retailer switched apps.</p>
-            <span class="src">— same review, same app</span>
-          </div>
-          <div class="fix"><span class="label">● Instead</span><p>You're onboarded by a founder on a 15-minute call, and you email the people who built it.</p></div>
-        </li>
-        <li class="reveal">
-          <span class="n">05</span>
-          <div class="pain">
-            <h3>The real ID companies want a sales call, a minimum, and a year-long contract.</h3>
-            <p>Enterprise vendors price for banks: $149–$299/mo minimums, or $250/mo on a 12-month commitment — before your first check.</p>
-          </div>
-          <div class="fix"><span class="label">● Instead</span><p>Published prices, no minimums to start, no quote calls. Start with a 60-day paid pilot credited toward your annual plan.</p></div>
-        </li>
-      </ol>
     </div>
   </section>
 
-  <!-- ============ COST ============ -->
-  <section class="block" id="cost">
+  <!-- REAL REVIEWS -->
+  <section class="block" id="reviews">
     <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <span class="kicker reveal">Do the math</span>
-          <h2 class="reveal">What real verification costs you each month.</h2>
+      <div class="head">
+        <span class="eyebrow">Real 1-star reviews · Shopify App Store</span>
+        <h2 class="reveal">You've been burned<br>by an age app before.</h2>
+        <p class="sub reveal">These are real reviews store owners left on age-verification apps. Not written by us. Just screenshotted.</p>
+      </div>
+      <div class="wall">
+        <figure class="rv tilt-l reveal">
+          <div class="rbar"><span>apps.shopify.com · age-verification app</span><b>★☆☆☆☆</b></div>
+          <img src="assets/review-broke-checkout.png" alt="1-star review from Snus Source, April 3 2024: DO NOT INSTALL THIS GARBAGE. IT WILL BREAK YOUR STORE. This app adds code that will disable your checkout button, possibly costing you thousands in lost sales." loading="lazy">
+          <figcaption class="pain">It broke their checkout.</figcaption>
+        </figure>
+        <figure class="rv tilt-r reveal">
+          <div class="rbar"><span>apps.shopify.com · age-verification app</span><b>★☆☆☆☆</b></div>
+          <img src="assets/review-slow.png" alt="1-star review from Sauce, June 17 2026: This app makes my website loading super slow." loading="lazy">
+          <figcaption class="pain">It slowed their whole site down.</figcaption>
+        </figure>
+        <figure class="rv tilt-l reveal">
+          <div class="rbar"><span>apps.shopify.com · ID verification app</span><b>★☆☆☆☆</b></div>
+          <img src="assets/review-charged.png" alt="1-star review from DaRoAn, May 4 2023: They told me I would not be charged but got charged for an app that never worked 100%." loading="lazy">
+          <figcaption class="pain">It billed them for checks that didn't work.</figcaption>
+        </figure>
+        <figure class="rv tilt-r reveal">
+          <div class="rbar"><span>apps.shopify.com · age-verification app</span><b>★☆☆☆☆</b></div>
+          <img src="assets/review-no-support.png" alt="1-star review from LG Natural CBD, May 15 2024: Pop-up isn't working and no one is answering the support chat line." loading="lazy">
+          <figcaption class="pain">Nobody answered support.</figcaption>
+        </figure>
+      </div>
+      <p class="note-s">Screenshots of public reviews on apps.shopify.com, captured Sept 2026. App names omitted.</p>
+    </div>
+  </section>
+
+  <!-- BEFORE / AFTER -->
+  <section class="block">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow">Before / after</span>
+        <h2 class="reveal">From a popup that proves nothing<br>to a check you can pull up.</h2>
+      </div>
+      <div class="ba">
+        <div class="side before reveal">
+          <div class="ph">
+            <img src="assets/owner-before.jpg" alt="Store owner with her head in her hands at a laptop" loading="lazy">
+            <span class="label">Before</span>
+            <span class="chip r" style="right:16px;bottom:66px">✕ “Yes, I'm 21” clicked</span>
+            <span class="chip r" style="left:16px;bottom:16px">✕ Nothing on file</span>
+          </div>
+          <h3>A popup and a prayer.</h3>
+          <ul>
+            <li>Anyone can click “Yes.” No ID, no face.</li>
+            <li>Apps that slow the store or break checkout.</li>
+            <li>Per-check bills you can't predict.</li>
+            <li>Support tickets that go nowhere.</li>
+          </ul>
         </div>
-        <p class="lede reveal">Drag to your monthly order volume. We compare against published per-check prices from the big ID vendors — the ones that don't come with setup help.</p>
+        <div class="side after reveal">
+          <div class="ph">
+            <img src="assets/owner-after.jpg" alt="Smiling store owner leaning on a desk with shipping boxes behind her" loading="lazy">
+            <span class="label">After</span>
+            <span class="chip g" style="right:16px;bottom:66px">✓ ID + live selfie · PASS</span>
+            <span class="chip g" style="left:16px;bottom:16px">✓ Record #1042 saved</span>
+          </div>
+          <h3>A real check at checkout.</h3>
+          <ul>
+            <li>ID document + liveness on every age-restricted order.</li>
+            <li>A clear pass or fail. Fails go to a review queue.</li>
+            <li>A flat monthly plan with checks included.</li>
+            <li>Set up with a founder on a 15-minute call.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="note-s">Stock photos for illustration.</p>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="block" id="how">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow">How it works</span>
+        <h2 class="reveal">Three steps.<br>We do the plumbing.</h2>
+      </div>
+      <div class="how reveal">
+        <div class="tabs" role="tablist" aria-label="How it works">
+          <button class="tab" role="tab" aria-selected="true" data-tab="0"><span class="n">1</span><span><h3>We add it to your checkout</h3><span class="body"><span>We drop the verification step into your Shopify checkout and configure it with you on a 15-minute call. No developer needed.</span></span></span></button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="1"><span class="n">2</span><span><h3>Your customer verifies</h3><span class="body"><span>They scan a photo ID and take a quick selfie on their phone. Document, authenticity, and liveness checks run behind the scenes.</span></span></span></button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="2"><span class="n">3</span><span><h3>You get pass or fail</h3><span class="body"><span>A clear decision plus an audit record you can pull anytime. Failed checks land in a simple manual review queue.</span></span></span></button>
+        </div>
+        <div class="tabimg" aria-hidden="true">
+          <img class="on" src="assets/shop-counter.jpg" alt="" loading="lazy">
+          <img src="assets/customer-selfie.jpg" alt="" loading="lazy">
+          <img src="assets/liquor-owner.jpg" alt="" loading="lazy">
+          <span class="chip" data-c="0">⚙ Verification step: on</span>
+          <span class="chip g off" data-c="1">✓ ID scanned · ✓ Liveness</span>
+          <span class="chip g off" data-c="2">✓ PASS · record saved</span>
+        </div>
       </div>
 
+      <div class="diagram reveal">
+        <div class="frame blue">
+          <iframe src="assets/flow.html?theme=light&amp;present=1" title="Interactive diagram of a ConfirmLayer check" loading="lazy"></iframe>
+        </div>
+        <div class="cap"><span>The whole flow, interactive. Click a step, or hit PATH to trace it.</span><a href="assets/flow.html?theme=light" target="_blank" rel="noopener">Open full screen ↗</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="track" id="marq">
+      <a href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%2060-day%20pilot">Start your 60-day pilot <svg viewBox="0 0 8 8" aria-hidden="true"><path fill="currentColor" d="M0 3h5v2H0zM4 1h1v6H4zM5 2h1v4H5zM6 3h1v2H6z"/></svg></a>
+      <a href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%2060-day%20pilot">Credited toward your annual plan <svg viewBox="0 0 8 8" aria-hidden="true"><path fill="currentColor" d="M0 3h5v2H0zM4 1h1v6H4zM5 2h1v4H5zM6 3h1v2H6z"/></svg></a>
+      <a href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%2060-day%20pilot">No minimums, no quote calls <svg viewBox="0 0 8 8" aria-hidden="true"><path fill="currentColor" d="M0 3h5v2H0zM4 1h1v6H4zM5 2h1v4H5zM6 3h1v2H6z"/></svg></a>
+    </div>
+  </div>
+
+  <!-- COST -->
+  <section class="block" id="cost">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow">Do the math</span>
+        <h2 class="reveal">Real verification,<br>without the enterprise bill.</h2>
+        <p class="sub reveal">Drag to your monthly volume. We compare against published per-check prices from the big ID vendors.</p>
+      </div>
       <div class="calc reveal">
-        <div>
+        <div class="l">
           <label for="vol">Verifications per month</label>
           <div class="vol" id="volOut">1,000</div>
-          <div class="vol-unit">customer checks</div>
-          <input type="range" id="vol" min="100" max="10000" step="50" value="1000" aria-describedby="volOut">
+          <div class="vol-u">customer checks</div>
+          <input type="range" id="vol" min="100" max="10000" step="50" value="1000">
           <div class="ticks"><span>100</span><span>5,000</span><span>10,000</span></div>
           <div class="presets" role="group" aria-label="Quick picks">
             <button type="button" data-v="200">200</button>
@@ -563,185 +600,101 @@
             <button type="button" data-v="5000">5,000</button>
           </div>
         </div>
-        <div class="bars">
-          <div class="bar-row us">
-            <div class="top"><span class="name">ConfirmLayer<small id="planName">Growth plan</small></span><span class="amt" id="usAmt">$249</span></div>
-            <div class="track"><div class="fill" id="usFill"></div></div>
-          </div>
-          <div class="bar-row">
-            <div class="top"><span class="name">Veriff<small>$0.80–$1.89 per check, by plan</small></span><span class="amt" id="vfAmt">$800–1,890</span></div>
-            <div class="track"><div class="fill range" id="vfFill"></div></div>
-          </div>
-          <div class="bar-row">
-            <div class="top"><span class="name">Stripe Identity<small>$1.50 per check</small></span><span class="amt" id="stAmt">$1,500</span></div>
-            <div class="track"><div class="fill" id="stFill"></div></div>
-          </div>
-          <p class="savings" id="savings">That's <strong>$1,251 less</strong> per month than Stripe Identity.</p>
+        <div class="r">
+          <div class="bar us"><div class="top"><span class="nm">ConfirmLayer<small id="plan">Growth plan</small></span><span class="amt" id="usAmt">$249</span></div><div class="trk"><div class="fill" id="usFill"></div></div></div>
+          <div class="bar"><div class="top"><span class="nm">Veriff<small>$0.80–$1.89 per check, by plan</small></span><span class="amt" id="vfAmt">$800–1,890</span></div><div class="trk"><div class="fill rng" id="vfFill"></div></div></div>
+          <div class="bar"><div class="top"><span class="nm">Stripe Identity<small>$1.50 per check</small></span><span class="amt" id="stAmt">$1,500</span></div><div class="trk"><div class="fill st" id="stFill"></div></div></div>
+          <p class="save" id="save">That's <b>$1,251 less</b> a month than Stripe Identity.</p>
         </div>
-        <p class="calc-note">Competitor figures are per-verification prices from each vendor's public pricing page and exclude any platform fees or minimums. Also on the market: Sumsub at $1.35–$1.89 per check with $149–$299/mo minimums, and Persona from $250/mo with a 12-month minimum. ConfirmLayer figure uses the lowest-cost plan for your volume, including overage.</p>
       </div>
+      <p class="fine">Competitor figures are per-verification prices from each vendor's public pricing page, excluding platform fees or minimums. Also on the market: Sumsub at $1.35–$1.89 per check with $149–$299/mo minimums, and Persona from $250/mo with a 12-month minimum. ConfirmLayer figure uses the lowest-cost plan for your volume, including overage.</p>
     </div>
   </section>
 
-  <!-- ============ HOW ============ -->
-  <section class="block" id="how">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <span class="kicker reveal">How it works</span>
-          <h2 class="reveal">Three steps. We do the plumbing.</h2>
-        </div>
-        <p class="lede reveal">Founder-led onboarding, no sales maze. You don't need a developer.</p>
-      </div>
-      <ol class="steps">
-        <li class="reveal"><div class="num" aria-hidden="true">01</div><h3>Add us at checkout</h3><p>We drop our verification step into your Shopify checkout and configure it with you on a 15-minute call.</p></li>
-        <li class="reveal"><div class="num" aria-hidden="true">02</div><h3>Your customer verifies</h3><p>They scan an ID and take a quick selfie. Document, authenticity, and liveness checks run behind the scenes.</p></li>
-        <li class="reveal"><div class="num" aria-hidden="true">03</div><h3>You get pass or fail</h3><p>A clear decision plus an audit record you can pull anytime. Failed checks go to a simple manual review queue.</p></li>
-      </ol>
-      <ul class="included reveal" aria-label="Included in every plan">
-        <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>ID document check</li>
-        <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Liveness check</li>
-        <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Pass / fail decision</li>
-        <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Timestamped record of each check</li>
-        <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Manual review queue for fails</li>
-        <li><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>One bill, one dashboard</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ============ PRICING ============ -->
+  <!-- PRICING -->
   <section class="block" id="pricing">
     <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <span class="kicker reveal">Pricing</span>
-          <h2 class="reveal">Published. Flat. No surprises.</h2>
-        </div>
-        <p class="lede reveal">Every plan includes document check, liveness, and a record of each check. Early-access pricing is locked for 12 months.</p>
+      <div class="head">
+        <span class="eyebrow">Pricing</span>
+        <h2 class="reveal">Published. Flat.<br>No surprises.</h2>
+        <p class="sub reveal">Every plan includes document check, liveness, and a record of each check. Early-access pricing is locked for 12 months.</p>
       </div>
       <div class="plans">
         <div class="plan reveal">
-          <div class="tier">Starter</div>
-          <div class="for">For smaller shops getting off the popup</div>
-          <div class="price">$79<small>/mo</small></div>
-          <div class="per">200 checks included</div>
-          <ul>
-            <li><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>$0.45 per extra check</li>
-            <li><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Document + liveness + record</li>
-            <li><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Email support</li>
-          </ul>
-          <a class="btn btn-ghost" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20Starter%20plan&amp;body=Store%20URL%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Choose Starter</a>
+          <div class="t">Starter</div><div class="for">smaller shops getting off the popup</div>
+          <div class="price">$79<small>/mo</small></div><div class="per">200 checks included</div>
+          <ul><li>$0.45 per extra check</li><li>Document + liveness + record</li><li>Email support</li></ul>
+          <a class="btn btn-line" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20Starter%20plan&amp;body=Store%20URL%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Choose Starter</a>
         </div>
-        <div class="plan featured reveal">
-          <span class="flag">Recommended</span>
-          <div class="tier">Growth</div>
-          <div class="for">For established stores with steady volume</div>
-          <div class="price">$249<small>/mo</small></div>
-          <div class="per">1,000 checks included</div>
-          <ul>
-            <li><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>$0.35 per extra check</li>
-            <li><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Document + liveness + record</li>
-            <li><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority support + onboarding call</li>
-          </ul>
-          <a class="btn btn-primary" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20Growth%20plan&amp;body=Store%20URL%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Choose Growth <span class="arrow">→</span></a>
+        <div class="plan pick reveal">
+          <span class="flag">recommended</span>
+          <div class="t">Growth</div><div class="for">established stores with steady volume</div>
+          <div class="price">$249<small>/mo</small></div><div class="per">1,000 checks included</div>
+          <ul><li>$0.35 per extra check</li><li>Document + liveness + record</li><li>Priority support + onboarding call</li></ul>
+          <a class="btn" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20Growth%20plan&amp;body=Store%20URL%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Choose Growth</a>
         </div>
         <div class="plan reveal">
-          <div class="tier">Scale</div>
-          <div class="for">For high-volume and multi-store sellers</div>
-          <div class="price">$749<small>/mo</small></div>
-          <div class="per">5,000 checks included</div>
-          <ul>
-            <li><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>$0.25 per extra check</li>
-            <li><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Document + liveness + record</li>
-            <li><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3L13 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Dedicated support line</li>
-          </ul>
-          <a class="btn btn-ghost" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20Scale%20plan&amp;body=Store%20URL%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Choose Scale</a>
+          <div class="t">Scale</div><div class="for">high-volume and multi-store sellers</div>
+          <div class="price">$749<small>/mo</small></div><div class="per">5,000 checks included</div>
+          <ul><li>$0.25 per extra check</li><li>Document + liveness + record</li><li>Dedicated support line</li></ul>
+          <a class="btn btn-line" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20Scale%20plan&amp;body=Store%20URL%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Choose Scale</a>
         </div>
       </div>
-      <div class="terms reveal">
-        <div><b>No minimums to start</b><p>No quote calls, no sales maze. The price you see is the price.</p></div>
-        <div><b>60-day paid pilot</b><p>Run it on your real store. What you pay is credited toward your annual plan.</p></div>
-        <div><b>Locked for 12 months</b><p>Early-access pricing stays put for your first year.</p></div>
+      <div class="terms">
+        <div class="reveal"><b>No minimums to start</b><p>No quote calls. The price you see is the price.</p></div>
+        <div class="reveal"><b>60-day paid pilot</b><p>Run it on your real store. It's credited toward your annual plan.</p></div>
+        <div class="reveal"><b>Locked for 12 months</b><p>Early-access pricing stays put for your first year.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- ============ FOUNDERS ============ -->
-  <section class="block" id="founders">
+  <!-- FOUNDERS -->
+  <section class="block">
     <div class="wrap founders">
       <div>
-        <span class="kicker reveal">Who you're dealing with</span>
-        <h2 class="reveal">Two founders. Not a support ticket queue.</h2>
-        <p class="lede reveal" style="margin-top:var(--space-lg)">ConfirmLayer is the packaging, setup, support, and billing on top of certified verification infrastructure. That means we spend our time on the part you actually care about: getting it working in your store and answering when you write.</p>
+        <span class="eyebrow">Who you're dealing with</span>
+        <h2 class="reveal">Two founders.<br>Not a ticket queue.</h2>
+        <p class="sub reveal">ConfirmLayer is the setup, support, and billing on top of certified verification infrastructure. We spend our time getting it working in your store and answering when you write.</p>
       </div>
-      <div class="note reveal">
+      <div class="letter reveal">
         <p>Read the 1-star reviews on any age-verification app and you'll see the same story: a popup that proves nothing, a slow site, a surprise bill, and nobody answering email.</p>
         <p>So we're doing it the other way. Published prices. Real checks. And when you email hello@confirmlayer.com, one of us answers.</p>
-        <p class="sig">Avinash Nayak &amp; Prabhat Garg<span>Founders, ConfirmLayer</span></p>
+        <div class="sig">Avinash &amp; Prabhat<small>Avinash Nayak &amp; Prabhat Garg · founders</small></div>
       </div>
     </div>
   </section>
 
-  <!-- ============ FAQ ============ -->
+  <!-- FAQ -->
   <section class="block" id="faq">
     <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <span class="kicker reveal">Questions</span>
-          <h2 class="reveal">The things store owners ask first.</h2>
-        </div>
-      </div>
+      <div class="head"><h2 class="reveal">Questions.</h2></div>
       <div class="faq reveal">
-        <details>
-          <summary>Do I need a developer to set this up?<span class="pm" aria-hidden="true">+</span></summary>
-          <p>No. We add the verification step to your Shopify checkout and configure it with you on a 15-minute call.</p>
-        </details>
-        <details>
-          <summary>What does my customer actually do?<span class="pm" aria-hidden="true">+</span></summary>
-          <p>At checkout they scan a government ID and take a quick selfie. Document, authenticity, and liveness checks run behind the scenes, and you get a pass or fail.</p>
-        </details>
-        <details>
-          <summary>What happens when a check fails?<span class="pm" aria-hidden="true">+</span></summary>
-          <p>Failed checks go to a simple manual review queue, so you can decide what to do with the order.</p>
-        </details>
-        <details>
-          <summary>What do I get to keep on file?<span class="pm" aria-hidden="true">+</span></summary>
-          <p>A timestamped audit record for every verification — a record of each check — that you can pull anytime.</p>
-        </details>
-        <details>
-          <summary>Who handles my customers' ID data?<span class="pm" aria-hidden="true">+</span></summary>
-          <p>Verification runs on certified third-party infrastructure, and customer data is collected with the customer's explicit consent.</p>
-        </details>
-        <details>
-          <summary>Is there a long contract?<span class="pm" aria-hidden="true">+</span></summary>
-          <p>You start with a 60-day paid pilot, and what you pay is credited toward your annual plan. No minimums to start, and early-access pricing is locked for 12 months.</p>
-        </details>
-        <details>
-          <summary>How do I get started?<span class="pm" aria-hidden="true">+</span></summary>
-          <p>Email <a href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20early%20access">hello@confirmlayer.com</a> with your store URL. We'll reply to set up your 15-minute onboarding call.</p>
-        </details>
+        <details><summary>Do I need a developer?<span class="pm" aria-hidden="true">+</span></summary><p>No. We add the verification step to your Shopify checkout and configure it with you on a 15-minute call.</p></details>
+        <details><summary>What does my customer actually do?<span class="pm" aria-hidden="true">+</span></summary><p>At checkout they scan a government ID and take a quick selfie. Document, authenticity, and liveness checks run behind the scenes, and you get a pass or fail.</p></details>
+        <details><summary>What happens when a check fails?<span class="pm" aria-hidden="true">+</span></summary><p>Failed checks go to a simple manual review queue, so you decide what to do with the order.</p></details>
+        <details><summary>What do I keep on file?<span class="pm" aria-hidden="true">+</span></summary><p>A timestamped audit record for every verification — a record of each check — that you can pull anytime.</p></details>
+        <details><summary>Who handles my customers' ID data?<span class="pm" aria-hidden="true">+</span></summary><p>Verification runs on certified third-party infrastructure, and customer data is collected with the customer's explicit consent.</p></details>
+        <details><summary>Is there a long contract?<span class="pm" aria-hidden="true">+</span></summary><p>You start with a 60-day paid pilot, credited toward your annual plan. No minimums to start, and early-access pricing is locked for 12 months.</p></details>
       </div>
     </div>
   </section>
 
-  <!-- ============ FINAL CTA ============ -->
-  <div class="wrap">
-    <section class="final reveal" aria-labelledby="final-h">
-      <div>
-        <h2 id="final-h">Swap the “Yes” button for a real check.</h2>
-        <p>Email us and we'll get you set up. 60-day paid pilot, credited toward your annual plan.</p>
-      </div>
-      <div>
-        <a class="btn btn-dark" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%2060-day%20pilot&amp;body=Store%20URL%3A%20%0AWhat%20we%20sell%3A%20%0AHow%20we%20check%20age%20today%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Start my 60-day pilot <span class="arrow">→</span></a>
-        <a class="mail" href="mailto:hello@confirmlayer.com">hello@confirmlayer.com</a>
-      </div>
-    </section>
-  </div>
+  <!-- FINAL -->
+  <section class="final">
+    <div class="px float" data-px="check" style="left:12%;top:30%"></div>
+    <div class="px float" data-px="id" style="right:12%;top:40%;animation-delay:-3s"></div>
+    <div class="wrap">
+      <h2 class="reveal">Swap the “Yes” button<br>for a real check.</h2>
+      <p class="sub reveal">Email us and we'll get you set up. 60-day paid pilot, credited toward your annual plan.</p>
+      <a class="btn btn-ink reveal" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%2060-day%20pilot&amp;body=Store%20URL%3A%20%0AWhat%20we%20sell%3A%20%0AHow%20we%20check%20age%20today%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Start my 60-day pilot</a>
+      <a class="mail" href="mailto:hello@confirmlayer.com">hello@confirmlayer.com</a>
+    </div>
+  </section>
 </main>
 
 <footer>
   <div class="wrap">
-    <p>© 2026 ConfirmLayer. Verification runs on certified third-party infrastructure; customer data is collected with explicit consent. Demo and record shown on this page are illustrations.</p>
+    <p>© 2026 ConfirmLayer. Verification runs on certified third-party infrastructure; customer data is collected with explicit consent. Demo, record, and people photos are illustrations. Photos: Pexels.</p>
     <a href="mailto:hello@confirmlayer.com">hello@confirmlayer.com</a>
   </div>
 </footer>
@@ -749,98 +702,99 @@
 <script>
 (function () {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = id => document.getElementById(id);
 
-  /* nav border on scroll */
-  const nav = document.getElementById('nav');
-  const onScroll = () => nav.classList.toggle('scrolled', scrollY > 8);
-  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  /* pixel icons */
+  const PX = {
+    id:    ["111111111111","100000000001","101110111101","101110000001","101110111001","100000000001","101111111101","100000000001","111111111111"],
+    shield:["001111111100","011000000110","110000000011","110000001011","110000010011","110100100011","110011000011","011000000110","001100001100","000111111000"],
+    face:  ["001111111100","010000000010","100000000001","100110011001","100000000001","100000000001","101000000101","100111111001","010000000010","001111111100"],
+    warn:  ["000001100000","000011110000","000110011000","000110011000","001100001100","001101101100","011001100110","011000000110","110001100011","111111111111"],
+    check: ["000000000011","000000000111","000000001110","100000011100","110000111000","111001110000","011111100000","001111000000","000110000000"],
+    bag:   ["000111111000","001100001100","001000000100","111111111111","100000000001","100110011001","100000000001","100000000001","100000000001","111111111111"]
+  };
+  function pxSvg(rows) {
+    let d = '';
+    rows.forEach((r, y) => [...r].forEach((c, x) => { if (c === '1') d += `M${x} ${y}h1v1h-1z`; }));
+    return `<svg viewBox="-1 -1 ${rows[0].length + 2} ${rows.length + 2}" aria-hidden="true"><path fill="currentColor" d="${d}"/></svg>`;
+  }
+  document.querySelectorAll('[data-px]').forEach(el => el.innerHTML = pxSvg(PX[el.dataset.px]));
 
   /* reveal on scroll */
   const els = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && !reduce) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { rootMargin: '0px 0px -8% 0px' });
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
     els.forEach(el => io.observe(el));
   } else els.forEach(el => el.classList.add('in'));
 
-  /* ---------- popup test demo ---------- */
-  const scenes = [null, 's1', 's2', 's3', 's4'].map(id => id && document.getElementById(id));
-  const dots = document.querySelectorAll('.demo-steps i');
-  const cap = document.getElementById('cap');
+  /* popup test */
+  const scenes = [null, $('s1'), $('s2'), $('s3'), $('s4')];
+  const dots = document.querySelectorAll('.dots i');
   const caps = [null,
-    '<strong>A typical age popup.</strong> Go ahead — click either button.',
-    '<strong>No ID, no face, no record.</strong> Nothing to show if anyone asks.',
-    '<strong>ConfirmLayer at checkout:</strong> ID document + live selfie.',
-    '<strong>You get pass or fail</strong> — and a record of each check.'
-  ];
+    '<b>A typical age popup.</b> Click either button.',
+    '<b>No ID, no face, no record.</b> Nothing to show if anyone asks.',
+    '<b>ConfirmLayer at checkout:</b> photo ID + live selfie.',
+    '<b>You get pass or fail</b> — and a record of each check.'];
   let timers = [];
-  const clear = () => { timers.forEach(clearTimeout); timers = []; };
   const later = (fn, ms) => timers.push(setTimeout(fn, reduce ? 0 : ms));
-
   function show(n) {
-    clear();
-    scenes.forEach((s, i) => {
-      if (!s) return;
-      const on = i === n;
-      s.hidden = !on;
-      s.classList.remove('on');
-      if (on) { void s.offsetWidth; s.classList.add('on'); }
-    });
+    timers.forEach(clearTimeout); timers = [];
+    scenes.forEach((s, i) => { if (!s) return; s.hidden = i !== n; s.classList.remove('on'); if (i === n) { void s.offsetWidth; s.classList.add('on'); } });
     dots.forEach((d, i) => d.classList.toggle('on', i < n));
-    cap.innerHTML = caps[n];
-    if (n === 3) runFlow();
-    if (n === 4) stampRecord();
-  }
-  function runFlow() {
-    const steps = document.querySelectorAll('#s3 .flow-step');
-    steps.forEach(s => s.classList.remove('active', 'done'));
-    later(() => steps[0].classList.add('active'), 200);
-    later(() => { steps[0].classList.replace('active', 'done'); steps[1].classList.add('active'); }, 1700);
-    later(() => { steps[1].classList.replace('active', 'done'); }, 3200);
-    later(() => show(4), 3900);
-  }
-  function stampRecord() {
-    const d = new Date();
-    const p = n => String(n).padStart(2, '0');
-    document.getElementById('ts').textContent =
-      `${d.getUTCFullYear()}-${p(d.getUTCMonth() + 1)}-${p(d.getUTCDate())} ${p(d.getUTCHours())}:${p(d.getUTCMinutes())} UTC`;
-    document.getElementById('ref').textContent =
-      'CL-' + Math.random().toString(16).slice(2, 6).toUpperCase() + '-' + Math.floor(Math.random() * 90 + 10);
+    $('cap').innerHTML = caps[n];
+    if (n === 3) {
+      const st = document.querySelectorAll('#s3 .fstep');
+      st.forEach(s => s.classList.remove('active', 'done'));
+      later(() => st[0].classList.add('active'), 200);
+      later(() => { st[0].classList.replace('active', 'done'); st[1].classList.add('active'); }, 1700);
+      later(() => st[1].classList.replace('active', 'done'), 3200);
+      later(() => show(4), 3900);
+    }
+    if (n === 4) {
+      const d = new Date(), p = v => String(v).padStart(2, '0');
+      $('ts').textContent = `${d.getUTCFullYear()}-${p(d.getUTCMonth() + 1)}-${p(d.getUTCDate())} ${p(d.getUTCHours())}:${p(d.getUTCMinutes())} UTC`;
+      $('ref').textContent = 'CL-' + Math.random().toString(16).slice(2, 6).toUpperCase();
+    }
   }
   document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => show(+b.dataset.go)));
 
-  /* ---------- cost calculator ---------- */
-  const plans = [
-    { name: 'Starter', base: 79, inc: 200, over: 0.45 },
-    { name: 'Growth', base: 249, inc: 1000, over: 0.35 },
-    { name: 'Scale', base: 749, inc: 5000, over: 0.25 }
-  ];
-  const $ = id => document.getElementById(id);
-  const money = v => '$' + Math.round(v).toLocaleString('en-US');
-  const range = $('vol');
-  const presets = document.querySelectorAll('.presets button');
+  /* how-it-works tabs, auto-advance until the visitor clicks */
+  const tabs = document.querySelectorAll('.tab');
+  const imgs = document.querySelectorAll('.tabimg img');
+  const chips = document.querySelectorAll('.tabimg .chip');
+  let tabTimer, cur = 0;
+  function setTab(i) {
+    cur = i;
+    tabs.forEach((t, j) => t.setAttribute('aria-selected', String(i === j)));
+    imgs.forEach((im, j) => im.classList.toggle('on', i === j));
+    chips.forEach(c => c.classList.toggle('off', +c.dataset.c !== i));
+  }
+  tabs.forEach(t => t.addEventListener('click', () => { clearInterval(tabTimer); setTab(+t.dataset.tab); }));
+  if (!reduce) tabTimer = setInterval(() => setTab((cur + 1) % 3), 5000);
 
+  /* marquee: duplicate for a seamless loop */
+  const mq = $('marq'); mq.innerHTML += mq.innerHTML;
+
+  /* cost calculator */
+  const plans = [{ n: 'Starter', b: 79, inc: 200, o: .45 }, { n: 'Growth', b: 249, inc: 1000, o: .35 }, { n: 'Scale', b: 749, inc: 5000, o: .25 }];
+  const money = v => '$' + Math.round(v).toLocaleString('en-US');
+  const range = $('vol'), presets = document.querySelectorAll('.presets button');
   function calc() {
     const n = +range.value;
-    const best = plans
-      .map(p => ({ ...p, cost: p.base + Math.max(0, n - p.inc) * p.over }))
-      .sort((a, b) => a.cost - b.cost)[0];
-    const stripe = n * 1.5, vLo = n * 0.8, vHi = n * 1.89;
-    const max = Math.max(stripe, vHi, best.cost);
-
+    const best = plans.map(p => ({ ...p, c: p.b + Math.max(0, n - p.inc) * p.o })).sort((a, b) => a.c - b.c)[0];
+    const st = n * 1.5, vLo = n * .8, vHi = n * 1.89, max = Math.max(st, vHi, best.c);
     $('volOut').textContent = n.toLocaleString('en-US');
-    $('usAmt').textContent = money(best.cost);
-    $('planName').textContent = best.name + ' plan' + (n > best.inc ? ` + ${(n - best.inc).toLocaleString('en-US')} extra checks` : '');
-    $('stAmt').textContent = money(stripe);
+    $('usAmt').textContent = money(best.c);
+    $('plan').textContent = best.n + ' plan' + (n > best.inc ? ` + ${(n - best.inc).toLocaleString('en-US')} extra checks` : '');
+    $('stAmt').textContent = money(st);
     $('vfAmt').textContent = money(vLo) + '–' + Math.round(vHi).toLocaleString('en-US');
-    $('usFill').style.width = (best.cost / max * 100) + '%';
-    $('stFill').style.width = (stripe / max * 100) + '%';
+    $('usFill').style.width = (best.c / max * 100) + '%';
+    $('stFill').style.width = (st / max * 100) + '%';
     $('vfFill').style.width = (vHi / max * 100) + '%';
-    const diff = stripe - best.cost;
-    $('savings').innerHTML = diff > 0
-      ? `That's <strong>${money(diff)} less</strong> per month than Stripe Identity — about <strong>$${(best.cost / n).toFixed(2)}</strong> per check, all-in.`
-      : `About <strong>$${(best.cost / n).toFixed(2)}</strong> per check, all-in.`;
+    const diff = st - best.c;
+    $('save').innerHTML = diff > 0
+      ? `That's <b>${money(diff)} less</b> a month than Stripe Identity — about $${(best.c / n).toFixed(2)} per check, all-in.`
+      : `About <b>$${(best.c / n).toFixed(2)}</b> per check, all-in.`;
     presets.forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.v === n)));
   }
   range.addEventListener('input', calc);
