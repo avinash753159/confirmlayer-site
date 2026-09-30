@@ -1,13 +1,14 @@
-Photos from Pexels (Pexels License)
-vape-portrait.jpg  Pexels #13749583 by Nur Andi Ravsanjani Gusma
-botanicals-owner.jpg  Pexels #34674788 by Demetra Ioannidou
-wine-owner.jpg  Pexels #6127615 by cottonbro studio
-tobacco-owner.jpg  Pexels #14933973 by Zain Ali
-owner-before.jpg  Pexels #4458415 by Yan Krukau
-owner-after.jpg  Pexels #7289737 by Kampus Production
-shopkeeper-smile.jpg  Pexels #30020992 by Muhammad-Taha Ibrahim
-customer-selfie.jpg  Pexels #3228768 by fauxels
+Photos from Pexels (Pexels License) - https://www.pexels.com/photo/<id>/
+hero.jpg  Pexels #6181061
+customer-selfie.jpg  Pexels #6593768
+vape-portrait.jpg  Pexels #30789974
+botanicals-owner.jpg  Pexels #5414011
+wine-owner.jpg  Pexels #4099409
+tobacco-owner.jpg  Pexels #9123272
+owner-before.jpg  Pexels #4226218
+owner-after.jpg  Pexels #12437056
+shopkeeper-smile.jpg  Pexels #789822
+owner-counter.jpg  Pexels #864994
 scan-document.jpg  Pexels #6863088 by cottonbro studio
-owner-counter.jpg  Pexels #35317011 by Mahmut Yılmaz
 cbd-boxes.jpg  Pexels #17605585
 Review screenshots: public 1-star reviews on apps.shopify.com, captured 2026-09-29

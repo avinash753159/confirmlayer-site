@@ -73,18 +73,17 @@
   .nav .cta { text-decoration: none; font: 600 0.9rem var(--sans); background: var(--ink); color: var(--paper); padding: 9px 14px; border-radius: 11px; margin-left: 4px; white-space: nowrap; }
 
   /* ---------- hero ---------- */
-  .hero { position: relative; padding: clamp(130px, 17vw, 190px) 0 0; text-align: center; }
-  .hero h1 .no { position: relative; display: inline-block; }
-  .hero h1 .no::after { content: ""; position: absolute; left: -3%; right: -3%; top: 52%; height: 0.07em; background: var(--coral); transform: scaleX(0) rotate(-2deg); transform-origin: left; animation: strike .7s 1s var(--ease) forwards; }
-  @keyframes strike { to { transform: scaleX(1) rotate(-2deg); } }
-  .hero .sub { margin: var(--space-xl) auto 0; max-width: 42ch; }
-  .shopify-pill { display: inline-flex; align-items: center; gap: 10px; background: var(--shop-bg); color: var(--shop); border: 2px solid var(--shop); border-radius: 999px; padding: 7px 16px 7px 10px; font: 600 0.95rem var(--sans); margin-bottom: var(--space-xl); }
-  .shopify-pill .px-i { display: inline-flex; width: 22px; height: 22px; }
-  .shopify-pill svg { width: 100%; height: 100%; shape-rendering: crispEdges; }
+  .hero { padding: clamp(120px, 14vw, 160px) 0 0; }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center; }
+  .hero h1 { font-size: clamp(2.8rem, 6vw, 5.4rem); }
   .hero h1 .shop-word { color: var(--shop); }
+  .hero .sub { margin-top: var(--space-lg); }
+  .hero-photo { border: 2px solid var(--ink); border-radius: 22px; overflow: hidden; aspect-ratio: 1/1; box-shadow: 10px 10px 0 var(--coral); }
+  .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 30% center; }
+  .demo-sec .stage-wrap { margin-top: 0; }
   .crumbs { position: absolute; top: 18px; left: 0; right: 0; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; font: 500 0.82rem var(--sans); color: var(--ink-3); padding: 0 16px; }
   .crumbs b { color: var(--shop); font-weight: 600; }
-  .hero .actions { display: flex; justify-content: center; gap: var(--space-sm); flex-wrap: wrap; margin-top: var(--space-xl); }
+  .hero .actions { display: flex; gap: var(--space-sm); flex-wrap: wrap; margin-top: var(--space-xl); }
   .hero .note { margin-top: var(--space-md); font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); }
 
   .px { position: absolute; width: 64px; height: 64px; color: var(--ink); pointer-events: none; }
@@ -339,7 +338,8 @@
   /* responsive */
   @media (max-width: 1080px) { .px { display: none; } .nav a.link { display: none; } }
   @media (max-width: 900px) {
-    .wall, .ba, .founders { grid-template-columns: 1fr; }
+    .wall, .ba, .founders, .hero-grid { grid-template-columns: 1fr; }
+    .hero-photo { aspect-ratio: 4/3; }
     .tilt-r { margin-top: 0; }
     .how { grid-template-columns: 1fr; }
     .tabs { border-right: 0; border-bottom: 2px solid var(--ink); }
@@ -384,24 +384,29 @@
 <main id="top">
   <!-- HERO -->
   <header class="hero">
-    <div class="px float" data-px="id"     style="left:7%;top:150px"></div>
-    <div class="px float" data-px="shield" style="left:13%;top:330px;animation-delay:-2s"></div>
-    <div class="px float" data-px="face"   style="left:4%;top:470px;animation-delay:-4s"></div>
-    <div class="px float" data-px="warn"   style="right:8%;top:140px;animation-delay:-1s"></div>
-    <div class="px float" data-px="check"  style="right:4%;top:320px;animation-delay:-3s"></div>
-    <div class="px float" data-px="bag"    style="right:13%;top:470px;animation-delay:-5s"></div>
-
-    <div class="wrap">
-      <span class="shopify-pill reveal"><span class="px-i" data-px="bag"></span>Built for Shopify stores</span>
-      <h1 class="reveal">Your <span class="shop-word">Shopify</span> store's age check<br>is a <span class="no">“Yes”</span> button.</h1>
-      <p class="sub reveal">Add real ID + selfie verification to your Shopify checkout. We set it up with you. Every age-restricted order gets a pass or fail, and you get a record of each check.</p>
-      <div class="actions reveal">
-        <a class="btn btn-ink" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20early%20access&amp;body=Store%20URL%3A%20%0AWhat%20we%20sell%3A%20%0AHow%20we%20check%20age%20today%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Get early access</a>
-        <a class="btn btn-line" href="#demo">Try the popup test ↓</a>
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Built for Shopify stores</span>
+        <h1 class="reveal">Real age checks for <span class="shop-word">Shopify</span>.</h1>
+        <p class="sub reveal">ID + selfie at checkout. Pass or fail, with a record of every check.</p>
+        <div class="actions reveal">
+          <a class="btn btn-ink" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20early%20access&amp;body=Store%20URL%3A%20%0AWhat%20we%20sell%3A%20%0AHow%20we%20check%20age%20today%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Get early access</a>
+        </div>
+        <p class="note reveal">From $79/mo · no minimums</p>
       </div>
-      <p class="note reveal">From $79/mo · published pricing · no minimums · set up with a founder</p>
+      <div class="hero-photo reveal"><img src="assets/hero.jpg" alt="Smiling young woman taking a selfie on her phone outdoors"></div>
+    </div>
+  </header>
 
-      <div class="stage-wrap reveal" id="demo">
+  <!-- POPUP DEMO -->
+  <section class="block demo-sec" id="demo">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow">Try it</span>
+        <h2 class="reveal">Most age checks<br>are a “Yes” button.</h2>
+      </div>
+
+      <div class="stage-wrap reveal">
         <div class="frame coral">
           <div class="browser">
             <div class="bbar" aria-hidden="true"><i></i><i></i><i></i><span class="url">your-store.myshopify.com/products/starter-kit</span></div>
@@ -468,18 +473,18 @@
         </div>
       </div>
     </div>
-  </header>
+  </section>
 
   <!-- CATEGORIES -->
   <section class="cats">
     <div class="wrap">
       <span class="eyebrow">Built for Shopify stores that sell age-restricted products</span>
       <div class="cats-row">
-        <div class="cat reveal"><div class="ph"><img src="assets/vape-portrait.jpg" alt="Man exhaling vape cloud under colored light" loading="lazy"></div><span>Vape &amp; e-liquid</span></div>
+        <div class="cat reveal"><div class="ph"><img src="assets/vape-portrait.jpg" alt="Stylish woman exhaling a vape cloud" loading="lazy"></div><span>Vape &amp; e-liquid</span></div>
         <div class="cat reveal"><div class="ph"><img src="assets/cbd-boxes.jpg" alt="Boxes of CBD products" loading="lazy"></div><span>CBD &amp; delta-8</span></div>
-        <div class="cat reveal"><div class="ph"><img src="assets/botanicals-owner.jpg" alt="Smiling shopkeeper beside shelves of jars and botanicals" loading="lazy"></div><span>Kratom &amp; botanicals</span></div>
-        <div class="cat reveal"><div class="ph"><img src="assets/wine-owner.jpg" alt="Wine shop owner smiling across the counter at a customer" loading="lazy"></div><span>Alcohol &amp; spirits</span></div>
-        <div class="cat reveal"><div class="ph"><img src="assets/tobacco-owner.jpg" alt="Smiling kiosk owner behind shelves of tobacco and snacks" loading="lazy"></div><span>Tobacco &amp; smoke shops</span></div>
+        <div class="cat reveal"><div class="ph"><img src="assets/botanicals-owner.jpg" alt="Smiling shop owner among plants and flowers" loading="lazy"></div><span>Kratom &amp; botanicals</span></div>
+        <div class="cat reveal"><div class="ph"><img src="assets/wine-owner.jpg" alt="Smiling woman with a glass of wine at her laptop" loading="lazy"></div><span>Alcohol &amp; spirits</span></div>
+        <div class="cat reveal"><div class="ph"><img src="assets/tobacco-owner.jpg" alt="Bearded man exhaling smoke" loading="lazy"></div><span>Tobacco &amp; smoke shops</span></div>
       </div>
     </div>
   </section>
@@ -528,7 +533,7 @@
       <div class="ba">
         <div class="side before reveal">
           <div class="ph">
-            <img src="assets/owner-before.jpg" alt="Store owner with her hands on her head, frustrated at a laptop" loading="lazy">
+            <img src="assets/owner-before.jpg" alt="Store owner with her hand on her head, stressed at a laptop" loading="lazy">
             <span class="label">Before</span>
             <span class="chip r" style="right:16px;bottom:66px">✕ “Yes, I'm 21” clicked</span>
             <span class="chip r" style="left:16px;bottom:16px">✕ Nothing on file</span>
@@ -543,7 +548,7 @@
         </div>
         <div class="side after reveal">
           <div class="ph">
-            <img src="assets/owner-after.jpg" alt="Smiling online seller holding a shipping box in his workshop" loading="lazy">
+            <img src="assets/owner-after.jpg" alt="Smiling store owner at his desk" loading="lazy">
             <span class="label">After</span>
             <span class="chip g" style="right:16px;bottom:66px">✓ ID + live selfie · PASS</span>
             <span class="chip g" style="left:16px;bottom:16px">✓ Record #1042 saved</span>
