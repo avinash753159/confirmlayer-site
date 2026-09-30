@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ConfirmLayer - Age and Identity Verification for Shopify Stores</title>
+<meta name="description" content="ConfirmLayer verifies your customers' age and identity at checkout. Document check, liveness, and a clean audit trail. One integration, one bill.">
+<style>
+  :root { --bg:#0b1220; --card:#131c31; --accent:#4f8cff; --text:#e8edf7; --muted:#9aa7c2; --line:#223052; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+  .wrap { max-width:1020px; margin:0 auto; padding:0 24px; }
+  header { display:flex; justify-content:space-between; align-items:center; padding:22px 0; }
+  .logo { font-weight:800; font-size:20px; letter-spacing:.5px; }
+  .logo span { color:var(--accent); }
+  .nav-cta { background:var(--accent); color:#fff; text-decoration:none; padding:10px 20px; border-radius:8px; font-weight:600; font-size:14px; }
+  .hero { text-align:center; padding:72px 0 56px; }
+  .hero h1 { font-size:44px; line-height:1.2; margin-bottom:18px; }
+  .hero p { color:var(--muted); font-size:18px; max-width:640px; margin:0 auto 30px; }
+  .cta-row { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .btn { background:var(--accent); color:#fff; text-decoration:none; padding:14px 30px; border-radius:10px; font-weight:700; font-size:16px; }
+  .btn.ghost { background:transparent; border:1px solid var(--line); color:var(--text); }
+  .badge { display:inline-block; border:1px solid var(--line); color:var(--muted); font-size:13px; padding:6px 14px; border-radius:999px; margin-bottom:22px; }
+  .section { padding:56px 0; }
+  .section h2 { font-size:30px; margin-bottom:12px; text-align:center; }
+  .section .sub { color:var(--muted); text-align:center; max-width:620px; margin:0 auto 36px; }
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:26px; }
+  .card h3 { font-size:18px; margin-bottom:10px; }
+  .card p { color:var(--muted); font-size:15px; }
+  .steps { counter-reset:step; display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  .step { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:26px; }
+  .step::before { counter-increment:step; content:counter(step); display:inline-block; width:34px; height:34px; line-height:34px; text-align:center; border-radius:50%; background:var(--accent); color:#fff; font-weight:700; margin-bottom:14px; }
+  .step h3 { font-size:17px; margin-bottom:8px; }
+  .step p { color:var(--muted); font-size:15px; }
+  .pricing { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  .price-card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:30px 26px; text-align:center; }
+  .price-card.featured { border-color:var(--accent); }
+  .price-card .tier { font-weight:700; font-size:16px; margin-bottom:6px; }
+  .price-card .amount { font-size:38px; font-weight:800; margin:8px 0; }
+  .price-card .amount small { font-size:15px; color:var(--muted); font-weight:400; }
+  .price-card ul { list-style:none; color:var(--muted); font-size:14px; margin:18px 0 24px; }
+  .price-card li { padding:6px 0; border-top:1px solid var(--line); }
+  .fine { color:var(--muted); font-size:13px; text-align:center; margin-top:20px; }
+  .final-cta { text-align:center; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:56px 32px; margin:24px 0 64px; }
+  .final-cta h2 { margin-bottom:12px; }
+  .final-cta p { color:var(--muted); margin-bottom:28px; }
+  footer { border-top:1px solid var(--line); padding:28px 0 40px; color:var(--muted); font-size:14px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  footer a { color:var(--muted); }
+  @media (max-width:760px){ .grid3,.steps,.pricing{ grid-template-columns:1fr; } .hero h1{ font-size:32px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">Confirm<span>Layer</span></div>
+    <a class="nav-cta" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20early%20access">Get early access</a>
+  </header>
+
+  <section class="hero">
+    <div class="badge">Now onboarding early-access stores</div>
+    <h1>Age verification for your Shopify store, done for you.</h1>
+    <p>Sell age-restricted products online without the legal headache. We verify every customer at checkout: document check, liveness, and a clean audit trail. You get a simple pass or fail.</p>
+    <div class="cta-row">
+      <a class="btn" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20early%20access">Get early access</a>
+      <a class="btn ghost" href="#how">How it works</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Why stores switch to ConfirmLayer</h2>
+    <p class="sub">Selling vape, CBD, kratom, or alcohol online comes with real rules. A checkbox is not verification.</p>
+    <div class="grid3">
+      <div class="card">
+        <h3>Stay on the right side of the law</h3>
+        <p>The PACT Act and state age-verification laws carry real penalties. We keep a timestamped audit record for every verification, so you have a record of each check.</p>
+      </div>
+      <div class="card">
+        <h3>Stop losing good customers</h3>
+        <p>Clunky verification flows kill conversion. Our checkout check is built to be quick on any phone, so fewer good customers drop off.</p>
+      </div>
+      <div class="card">
+        <h3>One integration, one bill</h3>
+        <p>No juggling vendors for documents, liveness, and screening. One API, one dashboard, one invoice. We handle the plumbing.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how">
+    <h2>How it works</h2>
+    <p class="sub">Founder-led onboarding, no sales maze.</p>
+    <div class="steps">
+      <div class="step">
+        <h3>Add us at checkout</h3>
+        <p>Drop our verification step into your Shopify checkout. We configure it with you on a 15-minute call.</p>
+      </div>
+      <div class="step">
+        <h3>Customer verifies at checkout</h3>
+        <p>They scan an ID and take a quick selfie. We run document, authenticity, and liveness checks behind the scenes.</p>
+      </div>
+      <div class="step">
+        <h3>You get a pass or a fail</h3>
+        <p>A clear decision plus an audit record you can pull anytime. Failed checks go to a simple manual review queue.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pricing">
+    <h2>Simple, published pricing</h2>
+    <p class="sub">No quote calls, no minimums to start. Every plan includes document check, liveness, and audit trail.</p>
+    <div class="pricing">
+      <div class="price-card">
+        <div class="tier">Starter</div>
+        <div class="amount">$79<small>/mo</small></div>
+        <ul>
+          <li>200 verifications included</li>
+          <li>$0.45 per extra check</li>
+          <li>Email support</li>
+        </ul>
+        <a class="btn ghost" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20Starter%20plan">Choose Starter</a>
+      </div>
+      <div class="price-card featured">
+        <div class="tier">Growth</div>
+        <div class="amount">$249<small>/mo</small></div>
+        <ul>
+          <li>1,000 verifications included</li>
+          <li>$0.35 per extra check</li>
+          <li>Priority support + onboarding call</li>
+        </ul>
+        <a class="btn" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20Growth%20plan">Choose Growth</a>
+      </div>
+      <div class="price-card">
+        <div class="tier">Scale</div>
+        <div class="amount">$749<small>/mo</small></div>
+        <ul>
+          <li>5,000 verifications included</li>
+          <li>$0.25 per extra check</li>
+          <li>Dedicated support line</li>
+        </ul>
+        <a class="btn ghost" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%20Scale%20plan">Choose Scale</a>
+      </div>
+    </div>
+    <p class="fine">Early-access pricing, locked for 12 months. Verification runs on certified third-party infrastructure; customer data is collected with explicit consent.</p>
+  </section>
+
+  <section class="final-cta">
+    <h2>Start verifying customers this week.</h2>
+    <p>Email us and we will get you set up. 60-day paid pilot, credited toward your annual plan.</p>
+    <a class="btn" href="mailto:hello@confirmlayer.com?subject=ConfirmLayer%2060-day%20pilot">Start my 60-day pilot</a>
+  </section>
+
+  <footer>
+    <div>&copy; 2026 ConfirmLayer. All rights reserved.</div>
+    <div><a href="mailto:hello@confirmlayer.com">hello@confirmlayer.com</a></div>
+  </footer>
+</div>
+</body>
+</html>
