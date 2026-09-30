@@ -129,14 +129,16 @@
   .go { font: 600 1rem var(--sans); background: var(--amber); color: var(--ink); border: 2px solid var(--ink); border-radius: 11px; padding: 13px 20px; cursor: pointer; transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
   .go:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--ink); }
 
-  .flow { width: min(420px, 100%); display: grid; gap: 12px; }
-  .fstep { display: grid; grid-template-columns: 52px 1fr 28px; gap: 14px; align-items: center; background: var(--white); border: 2px solid var(--ink); border-radius: 14px; padding: 12px 14px; opacity: .45; transition: opacity .35s, transform .35s var(--ease), box-shadow .35s var(--ease); text-align: left; }
+  .flow { width: min(640px, 100%); display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .fstep { display: grid; grid-template-columns: 1fr 28px; grid-template-areas: "ic ic" "tx tk"; gap: 12px 10px; align-items: center; background: var(--white); border: 2px solid var(--ink); border-radius: 16px; padding: 12px 12px 16px; opacity: .45; transition: opacity .35s, transform .35s var(--ease), box-shadow .35s var(--ease); text-align: left; }
   .fstep.active, .fstep.done { opacity: 1; }
-  .fstep.active { transform: translateX(6px); box-shadow: -6px 6px 0 var(--blue); }
-  .fstep .ic { width: 52px; height: 52px; border-radius: 10px; overflow: hidden; position: relative; background: var(--paper-2); }
-  .fstep .ic img { width: 100%; height: 100%; object-fit: cover; }
-  .fstep.active .ic::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--blue); animation: scan .9s linear infinite; box-shadow: 0 0 12px var(--blue); }
+  .fstep.active { transform: translateY(-6px); box-shadow: 6px 6px 0 var(--blue); }
+  .fstep .ic { grid-area: ic; aspect-ratio: 4/5; border-radius: 10px; overflow: hidden; position: relative; background: var(--paper-2); }
+  .fstep .ic img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+  .fstep.active .ic::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--blue); animation: scan 1.2s linear infinite; box-shadow: 0 0 18px var(--blue); }
   @keyframes scan { to { top: 100%; } }
+  .fstep > div:nth-child(2) { grid-area: tx; }
+  .fstep .tick { grid-area: tk; }
   .fstep b { display: block; font-weight: 600; }
   .fstep small { color: var(--ink-3); font: 400 0.8rem var(--mono); }
   .tick { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--soft); display: grid; place-items: center; color: transparent; transition: all .3s; }
@@ -169,7 +171,7 @@
   .cats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-sm); margin-top: var(--space-lg); }
   .cat { border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; background: var(--white); }
   .cat .ph { aspect-ratio: 4/3; overflow: hidden; }
-  .cat .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+  .cat .ph img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; transition: transform .6s var(--ease); }
   .cat:hover .ph img { transform: scale(1.05); }
   .cat span { display: block; padding: 10px 12px; font: 500 0.88rem var(--mono); border-top: 2px solid var(--ink); }
   .cat.solid { display: grid; place-items: center; text-align: center; padding: var(--space-md); background: var(--amber); }
@@ -197,7 +199,7 @@
   .ba { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2.5vw, 28px); }
   .side { border: 2px solid var(--ink); border-radius: 20px; overflow: hidden; background: var(--white); display: flex; flex-direction: column; }
   .side .ph { position: relative; aspect-ratio: 5/4; overflow: hidden; border-bottom: 2px solid var(--ink); }
-  .side .ph img { width: 100%; height: 100%; object-fit: cover; }
+  .side .ph img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
   .side.before .ph img { filter: grayscale(0.85) contrast(1.05); }
   .side .label { position: absolute; top: 16px; left: 16px; font: 500 0.82rem var(--mono); border: 2px solid var(--ink); border-radius: 999px; padding: 5px 12px; background: var(--white); }
   .side.after .label { background: var(--amber); }
@@ -223,7 +225,7 @@
   .tab[aria-selected=true] { background: var(--ink); color: var(--paper); flex: 1; }
   .tab[aria-selected=true] .body { grid-template-rows: 1fr; margin-top: 12px; }
   .tabimg { position: relative; min-height: 460px; background: var(--paper-2); }
-  .tabimg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .5s var(--ease); }
+  .tabimg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; opacity: 0; transition: opacity .5s var(--ease); }
   .tabimg img.on { opacity: 1; }
   .tabimg .chip { z-index: 2; left: 20px; bottom: 20px; transition: opacity .4s; }
   .tabimg .chip.off { opacity: 0; }
@@ -338,7 +340,10 @@
     body { font-size: 16px; }
     .shop { grid-template-columns: 1fr; align-content: start; }
     .shop .pimg { aspect-ratio: 16/9; }
-    .demo { height: 540px; }
+    .demo { height: 560px; }
+    .flow { gap: 10px; }
+    .fstep .ic { aspect-ratio: 1; }
+    .fstep small { display: none; }
     .stage-cap { flex-direction: column; align-items: flex-start; }
     .diagram iframe { height: 520px; }
     .chip { font-size: 0.78rem; padding: 6px 10px; }
@@ -386,7 +391,7 @@
             <div class="bbar" aria-hidden="true"><i></i><i></i><i></i><span class="url">yourstore.com/products/starter-kit</span></div>
             <div class="demo" aria-live="polite">
               <div class="shop" aria-hidden="true">
-                <div class="pimg"><img src="assets/vape-neon.jpg" alt=""></div>
+                <div class="pimg"><img src="assets/vape-portrait.jpg" alt=""></div>
                 <div>
                   <div class="ptitle">Starter Kit — 30ml</div>
                   <div class="pprice">$34.00</div>
@@ -415,7 +420,7 @@
 
               <div class="scene light" id="s3" hidden>
                 <div class="flow">
-                  <div class="fstep"><div class="ic"><img src="assets/customer-checkout.jpg" alt=""></div><div><b>Scan a photo ID</b><small>document + authenticity</small></div><span class="tick">✓</span></div>
+                  <div class="fstep"><div class="ic"><img src="assets/scan-document.jpg" alt=""></div><div><b>Scan a photo ID</b><small>document + authenticity</small></div><span class="tick">✓</span></div>
                   <div class="fstep"><div class="ic"><img src="assets/customer-selfie.jpg" alt=""></div><div><b>Take a live selfie</b><small>liveness: a real person, right now</small></div><span class="tick">✓</span></div>
                 </div>
               </div>
@@ -452,11 +457,11 @@
     <div class="wrap">
       <span class="eyebrow">Built for Shopify stores that sell age-restricted products</span>
       <div class="cats-row">
-        <div class="cat reveal"><div class="ph"><img src="assets/vape-neon.jpg" alt="Neon vape shop sign" loading="lazy"></div><span>Vape &amp; e-liquid</span></div>
+        <div class="cat reveal"><div class="ph"><img src="assets/vape-portrait.jpg" alt="Man exhaling vape cloud under colored light" loading="lazy"></div><span>Vape &amp; e-liquid</span></div>
         <div class="cat reveal"><div class="ph"><img src="assets/cbd-boxes.jpg" alt="Boxes of CBD products" loading="lazy"></div><span>CBD &amp; delta-8</span></div>
-        <div class="cat reveal"><div class="ph"><img src="assets/shop-counter.jpg" alt="Shop owner serving a customer at a botanicals counter" loading="lazy"></div><span>Kratom &amp; botanicals</span></div>
-        <div class="cat reveal"><div class="ph"><img src="assets/liquor-owner.jpg" alt="Liquor store owner behind the counter" loading="lazy"></div><span>Alcohol &amp; spirits</span></div>
-        <div class="cat solid reveal"><b>Tobacco accessories, knives &amp; more</b></div>
+        <div class="cat reveal"><div class="ph"><img src="assets/botanicals-owner.jpg" alt="Smiling shopkeeper beside shelves of jars and botanicals" loading="lazy"></div><span>Kratom &amp; botanicals</span></div>
+        <div class="cat reveal"><div class="ph"><img src="assets/wine-owner.jpg" alt="Wine shop owner smiling across the counter at a customer" loading="lazy"></div><span>Alcohol &amp; spirits</span></div>
+        <div class="cat reveal"><div class="ph"><img src="assets/tobacco-owner.jpg" alt="Smiling kiosk owner behind shelves of tobacco and snacks" loading="lazy"></div><span>Tobacco &amp; smoke shops</span></div>
       </div>
     </div>
   </section>
@@ -505,7 +510,7 @@
       <div class="ba">
         <div class="side before reveal">
           <div class="ph">
-            <img src="assets/owner-before.jpg" alt="Store owner with her head in her hands at a laptop" loading="lazy">
+            <img src="assets/owner-before.jpg" alt="Store owner with her hands on her head, frustrated at a laptop" loading="lazy">
             <span class="label">Before</span>
             <span class="chip r" style="right:16px;bottom:66px">✕ “Yes, I'm 21” clicked</span>
             <span class="chip r" style="left:16px;bottom:16px">✕ Nothing on file</span>
@@ -520,7 +525,7 @@
         </div>
         <div class="side after reveal">
           <div class="ph">
-            <img src="assets/owner-after.jpg" alt="Smiling store owner leaning on a desk with shipping boxes behind her" loading="lazy">
+            <img src="assets/owner-after.jpg" alt="Smiling shopkeeper standing in his store" loading="lazy">
             <span class="label">After</span>
             <span class="chip g" style="right:16px;bottom:66px">✓ ID + live selfie · PASS</span>
             <span class="chip g" style="left:16px;bottom:16px">✓ Record #1042 saved</span>
@@ -552,9 +557,9 @@
           <button class="tab" role="tab" aria-selected="false" data-tab="2"><span class="n">3</span><span><h3>You get pass or fail</h3><span class="body"><span>A clear decision plus an audit record you can pull anytime. Failed checks land in a simple manual review queue.</span></span></span></button>
         </div>
         <div class="tabimg" aria-hidden="true">
-          <img class="on" src="assets/shop-counter.jpg" alt="" loading="lazy">
+          <img class="on" src="assets/shopkeeper-smile.jpg" alt="" loading="lazy">
           <img src="assets/customer-selfie.jpg" alt="" loading="lazy">
-          <img src="assets/liquor-owner.jpg" alt="" loading="lazy">
+          <img src="assets/owner-counter.jpg" alt="" loading="lazy">
           <span class="chip" data-c="0">⚙ Verification step: on</span>
           <span class="chip g off" data-c="1">✓ ID scanned · ✓ Liveness</span>
           <span class="chip g off" data-c="2">✓ PASS · record saved</span>
