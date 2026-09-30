@@ -3,15 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ConfirmLayer — Check ID before you ship age-restricted orders</title>
-<meta name="description" content="ConfirmLayer adds a real ID check to your Shopify checkout. Customers scan their driver's license and take a selfie. Under 21? The order is stopped before it ships. From $79/mo.">
-<meta property="og:title" content="ConfirmLayer — Check ID before you ship age-restricted orders">
-<meta property="og:description" content="Customers scan their driver's license and take a selfie at checkout. Under 21? The order is stopped before it ships.">
+<title>ConfirmLayer: Under 21? The order never ships.</title>
+<meta name="description" content="ConfirmLayer holds age-restricted Shopify orders until the customer verifies with a real ID and a live selfie. Under 21? The order never ships. From $79/mo.">
+<meta property="og:title" content="ConfirmLayer: Under 21? The order never ships.">
+<meta property="og:description" content="We hold age-restricted orders until the customer proves it with a real ID and a live selfie. Pass or fail, plus a record of each check.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://confirmlayer.com/">
+<meta property="og:image" content="https://confirmlayer.com/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#fbfaf6">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' rx='3' fill='%23151515'/%3E%3Cpath fill='%23fbfaf6' d='M3 8h2v2H3zM5 10h2v2H5zM7 8h2v2H7zM9 6h2v2H9zM11 4h2v2h-2z'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@500;600;700;800&family=Funnel+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@700;800&family=Funnel+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --paper:   oklch(0.984 0.006 90);
@@ -19,7 +25,7 @@
     --paper-3: oklch(0.935 0.01 90);
     --ink:     oklch(0.19 0.008 260);
     --ink-2:   oklch(0.4 0.01 260);
-    --ink-3:   oklch(0.56 0.01 260);
+    --ink-3:   oklch(0.5 0.01 260);
     --soft:    oklch(0.88 0.01 90);
     --white:   oklch(0.995 0.003 90);
 
@@ -32,7 +38,7 @@
     --shop:    oklch(0.5 0.11 163);
 
     --serif: "Funnel Display", system-ui, sans-serif;
-    --sans:  "Funnel Sans", system-ui, sans-serif;
+    --sans: "Funnel Sans", system-ui, sans-serif;
     --mono:  "Geist Mono", ui-monospace, monospace;
 
     --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px;
@@ -55,6 +61,7 @@
   h3 { font-size: clamp(1.35rem, 2vw, 1.6rem); font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; }
   .sub { font-size: clamp(1.1rem, 1.5vw, 1.25rem); color: var(--ink-2); max-width: 44ch; line-height: 1.55; }
   .eyebrow { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); letter-spacing: 0.02em; display: block; margin-bottom: var(--space-md); }
+  .early-badge { display: inline-block; font: 500 0.78rem var(--mono); background: var(--green-bg); color: oklch(0.4 0.12 152); border: 2px solid var(--green); border-radius: 999px; padding: 4px 14px; margin-bottom: var(--space-md); }
 
   /* ---------- buttons ---------- */
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; font: 600 1.05rem var(--sans); text-decoration: none; border-radius: 12px; padding: 16px 28px; border: 2px solid var(--ink); cursor: pointer; transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
@@ -62,6 +69,11 @@
   .btn-ink:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--blue); }
   .btn-line { background: var(--white); color: var(--ink); }
   .btn-line:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--ink); }
+
+  /* copy-email row */
+  .copymail { display: inline-flex; align-items: center; gap: 10px; margin-top: var(--space-md); font: 400 0.9rem var(--mono); color: var(--ink-2); }
+  .copymail button { font: 500 0.8rem var(--mono); background: var(--white); border: 2px solid var(--ink); border-radius: 8px; padding: 5px 12px; cursor: pointer; transition: transform .2s var(--ease); }
+  .copymail button:hover { transform: translateY(-2px); }
 
   /* ---------- nav ---------- */
   .nav { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 50; display: flex; align-items: center; gap: 4px; background: oklch(0.984 0.006 90 / 0.86); backdrop-filter: blur(12px); border: 1px solid var(--soft); border-radius: 16px; padding: 6px 6px 6px 12px; box-shadow: 0 6px 24px -12px oklch(0.2 0.01 260 / 0.25); max-width: calc(100vw - 24px); }
@@ -84,6 +96,8 @@
   .selfie img { width: 100%; height: 100%; object-fit: cover; }
   .okbar { display: flex; align-items: center; gap: 8px; background: var(--green-bg); color: oklch(0.4 0.12 152); border: 1.5px solid var(--green); border-radius: 10px; padding: 8px 10px; font: 600 0.82rem var(--sans); }
   .okbar::before { content: "✓"; display: grid; place-items: center; width: 20px; height: 20px; flex: none; border-radius: 50%; background: var(--green); color: var(--white); font-size: 0.75rem; }
+  .holdbar { display: flex; align-items: center; gap: 8px; background: oklch(0.95 0.05 80); color: oklch(0.45 0.1 80); border: 1.5px solid var(--amber); border-radius: 10px; padding: 8px 10px; font: 600 0.82rem var(--sans); }
+  .holdbar::before { content: "❚❚"; display: grid; place-items: center; width: 20px; height: 20px; flex: none; border-radius: 50%; background: var(--amber); color: var(--ink); font-size: 0.6rem; }
 
   /* ---------- hero ---------- */
   .hero { padding: clamp(120px, 13vw, 160px) 0 0; }
@@ -101,8 +115,6 @@
   .screen { background: var(--white); border-radius: 29px; overflow: hidden; display: flex; flex-direction: column; gap: 14px; padding: 18px 18px 20px; min-height: 520px; }
   .screen .top { display: flex; justify-content: space-between; align-items: center; font: 600 0.85rem var(--sans); }
   .screen .top small { font: 400 0.68rem var(--mono); color: var(--ink-3); }
-  .screen .crumb { font: 400 0.66rem var(--mono); color: var(--ink-3); }
-  .screen .crumb b { color: var(--shop); font-weight: 500; }
   .screen h4 { font: 700 1.35rem/1.1 var(--serif); letter-spacing: -0.02em; }
   .screen p { font-size: 0.8rem; color: var(--ink-2); line-height: 1.45; }
   .screen .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: center; }
@@ -118,7 +130,6 @@
   section.block { padding-top: var(--section); }
   .head { text-align: center; margin-bottom: clamp(40px, 5vw, 64px); }
   .head .sub { margin: var(--space-lg) auto 0; max-width: 52ch; }
-
   /* ---------- demo stage ---------- */
   .frame { border: 2px solid var(--ink); border-radius: 22px; padding: clamp(14px, 3vw, 44px); background: var(--coral); overflow: hidden; }
   .browser { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 30px 60px -30px oklch(0.2 0.02 30 / 0.55); }
@@ -162,9 +173,12 @@
   .go { font: 600 1rem var(--sans); background: var(--amber); color: var(--ink); border: 2px solid var(--ink); border-radius: 11px; padding: 13px 20px; cursor: pointer; transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
   .go:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--ink); }
 
-  .crumbs { position: absolute; top: 18px; left: 0; right: 0; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; font: 500 0.82rem var(--sans); color: var(--ink-3); padding: 0 16px; }
-  .crumbs b { color: var(--shop); font-weight: 600; }
-  .flow { width: min(600px, 100%); display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .thanks { width: min(560px, 100%); background: var(--white); border: 2px solid var(--ink); border-radius: 16px; padding: clamp(20px, 3vw, 36px); }
+  .thanks .crumbline { font: 500 0.78rem var(--mono); color: var(--ink-3); margin-bottom: 12px; }
+  .thanks .crumbline b { color: var(--shop); font-weight: 600; }
+  .thanks h4 { font: 700 clamp(1.4rem, 2.4vw, 1.9rem)/1.1 var(--serif); letter-spacing: -0.025em; margin-bottom: 8px; }
+  .thanks p { font-size: 0.95rem; color: var(--ink-2); margin-bottom: 18px; }
+  .flow { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .fstep { display: grid; grid-template-columns: 1fr 28px; grid-template-areas: "ic ic" "tx tk"; gap: 12px 10px; align-items: center; background: var(--white); border: 2px solid var(--ink); border-radius: 16px; padding: 12px 12px 16px; opacity: .45; transition: opacity .35s, transform .35s var(--ease), box-shadow .35s var(--ease); }
   .fstep.active, .fstep.done { opacity: 1; }
   .fstep.active { transform: translateY(-6px); box-shadow: 6px 6px 0 var(--blue); }
@@ -203,7 +217,7 @@
   .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
   .step { background: var(--white); border: 2px solid var(--ink); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; }
   .step .vis { background: var(--paper-2); border-bottom: 2px solid var(--ink); aspect-ratio: 4/3; display: grid; place-items: center; padding: 24px; gap: 10px; align-content: center; }
-  .step .vis .okbar { width: 100%; max-width: 240px; }
+  .step .vis .okbar, .step .vis .holdbar { width: 100%; max-width: 240px; }
   .step .vis .rec { width: 100%; max-width: 240px; background: var(--white); border: 1.5px solid var(--soft); border-radius: 8px; padding: 8px 10px; font: 400 0.72rem/1.7 var(--mono); }
   .step .vis .rec div { display: flex; justify-content: space-between; }
   .step .vis .rec .ok { color: var(--green); font-weight: 500; }
@@ -223,6 +237,15 @@
   .older .pt b em { font-style: normal; color: var(--amber); }
   .older .pt p { color: oklch(0.8 0.01 90); font-size: 0.98rem; }
 
+  /* ---------- why switch ---------- */
+  .switch { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
+  .swcard { background: var(--white); border: 2px solid var(--ink); border-radius: 20px; padding: clamp(24px, 3vw, 36px); }
+  .swcard .k { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; border: 2px solid var(--ink); font: 700 1.2rem var(--serif); margin-bottom: var(--space-md); }
+  .swcard:nth-child(1) .k { background: var(--amber); }
+  .swcard:nth-child(2) .k { background: var(--blue); color: var(--white); }
+  .swcard:nth-child(3) .k { background: var(--green-bg); }
+  .swcard p { margin-top: 10px; color: var(--ink-2); font-size: 1rem; }
+
   /* ---------- pricing ---------- */
   .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); align-items: stretch; }
   .plan { background: var(--white); border: 2px solid var(--ink); border-radius: 20px; padding: clamp(24px, 3vw, 36px); display: flex; flex-direction: column; position: relative; }
@@ -241,10 +264,13 @@
   .plan.pick li::before { color: var(--amber); }
   .plan .btn { width: 100%; }
   .plan.pick .btn { background: var(--amber); color: var(--ink); border-color: var(--amber); }
+  .compare { margin-top: var(--space-xl); text-align: center; font: 400 0.95rem var(--mono); color: var(--ink-2); }
+  .compare b { color: var(--ink); font-weight: 500; }
   .terms { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); margin-top: var(--space-2xl); }
   .terms div { border-top: 2px solid var(--ink); padding-top: var(--space-md); }
   .terms b { font: 700 1.4rem/1.1 var(--serif); letter-spacing: -0.02em; display: block; margin-bottom: 6px; }
   .terms p { font: 400 0.95rem var(--sans); color: var(--ink-2); }
+
 
   /* ---------- faq ---------- */
   .faq { max-width: 820px; margin: 0 auto; border-top: 2px solid var(--ink); }
@@ -258,10 +284,16 @@
   /* ---------- final ---------- */
   .final { margin-top: var(--section); text-align: center; padding: clamp(64px, 9vw, 120px) 0; border-top: 2px solid var(--ink); background: var(--amber); }
   .final .sub { margin: var(--space-lg) auto var(--space-xl); color: var(--ink); }
-  .final .mail { display: block; margin-top: var(--space-md); font: 400 0.9rem var(--mono); }
+  .final .actions { display: flex; gap: var(--space-sm); justify-content: center; flex-wrap: wrap; }
+  .final .copymail { color: var(--ink); }
+  .review-offer { max-width: 640px; margin: var(--space-2xl) auto 0; background: var(--white); border: 2px solid var(--ink); border-radius: 20px; padding: clamp(24px, 3vw, 36px); box-shadow: 8px 8px 0 var(--ink); }
+  .review-offer p { color: var(--ink-2); margin: 10px 0 var(--space-lg); }
   footer { border-top: 2px solid var(--ink); padding: var(--space-xl) 0 var(--space-2xl); font: 400 0.8rem/1.7 var(--mono); color: var(--ink-3); }
   footer .wrap { display: flex; justify-content: space-between; gap: var(--space-lg); flex-wrap: wrap; }
   footer p { max-width: 80ch; }
+  footer nav { display: flex; gap: 20px; }
+  footer nav a { text-decoration: none; }
+  footer nav a:hover { text-decoration: underline; }
 
   .reveal { opacity: 0; translate: 0 22px; transition: opacity .9s var(--ease), translate .9s var(--ease); }
   .reveal.in { opacity: 1; translate: 0 0; }
@@ -270,19 +302,20 @@
   @media (max-width: 1000px) { .nav a.link { display: none; } }
   @media (max-width: 900px) {
     .hero-grid, .older { grid-template-columns: 1fr; }
-    .steps, .plans, .terms { grid-template-columns: 1fr; }
+    .steps, .plans, .terms, .switch { grid-template-columns: 1fr; }
     .plan.pick { order: -1; }
   }
   @media (max-width: 700px) {
     body { font-size: 16px; }
     .shop { grid-template-columns: 1fr; align-content: start; }
     .shop .pimg { aspect-ratio: 16/9; }
-    .demo { height: 560px; }
+    .demo { height: 600px; }
     .flow { gap: 10px; }
     .fstep small { display: none; }
     .fstep .idc { grid-template-columns: 1fr; }
     .fstep .idc-tx i { display: none; }
     .stage-cap { flex-direction: column; align-items: flex-start; }
+    .thanks { padding: 20px; }
   }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -312,33 +345,34 @@
     <div class="wrap">
       <div class="hero-grid">
         <div>
+          <span class="early-badge">Now onboarding early-access stores</span>
           <span class="eyebrow">For Shopify stores that sell age-restricted products</span>
-          <h1 class="reveal">Check ID before you ship vapes, CBD, or alcohol.</h1>
-          <p class="sub reveal">Customers scan their driver's license and take a selfie at checkout. Under 21? The order is stopped before it ships.</p>
+          <h1 class="reveal">Under 21? The order never ships.</h1>
+          <p class="sub reveal">ConfirmLayer holds age-restricted orders until the customer proves it: a real ID plus a live selfie. You get pass or fail, and a record of each check.</p>
           <div class="actions reveal">
             <a class="btn btn-ink" href="mailto:prab@confirmlayer.com?subject=ConfirmLayer%20early%20access&amp;body=Store%20URL%3A%20%0AWhat%20we%20sell%3A%20%0AHow%20we%20check%20age%20today%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Get early access</a>
             <a class="btn btn-line" href="#how">See how it works ↓</a>
           </div>
-          <p class="note reveal">From $79/mo · no minimums · we set it up for you</p>
+          <div class="reveal"><span class="copymail"><span>prab@confirmlayer.com</span><button type="button" data-copy="prab@confirmlayer.com">Copy</button></span></div>
+          <p class="note reveal">From $79/mo · no minimums · we set it up with you on a 15-minute call</p>
         </div>
 
         <div class="phone-wrap reveal">
-          <div class="phone" role="img" aria-label="Illustration of the age check step inside a Shopify checkout: the customer's driver's license and selfie are verified as 21 or older.">
+          <div class="phone" role="img" aria-label="Illustration of the age verification step on a store's thank-you page: the customer's driver's license and selfie are checked before the held order is released.">
             <div class="screen">
-              <div class="top"><span>your-store</span><small>🔒 Checkout</small></div>
-              <div class="crumb">Cart › Info › <b>Age check</b> › Shipping › Payment</div>
-              <h4>Verify your age to finish this order</h4>
-              <p>Your cart has age-restricted items. Scan your ID and take a quick selfie.</p>
+              <div class="top"><span>your-store</span><small>✓ Order confirmed</small></div>
+              <h4>Verify your age to release your order</h4>
+              <p>Order #1042 has age-restricted items. It's held until you verify.</p>
               <div class="pair">
-                <div class="idc"><div class="idc-ph"><img src="assets/id-photo.jpg" alt=""></div><div class="idc-tx"><b>DRIVER LICENSE</b><i></i><span>DOB 1998</span></div></div>
-                <div class="selfie"><div><img src="assets/selfie.jpg" alt=""></div></div>
+                <div class="idc"><div class="idc-ph"><picture><source srcset="assets/id-photo.webp" type="image/webp"><img src="assets/id-photo.jpg" alt=""></picture></div><div class="idc-tx"><b>DRIVER LICENSE</b><i></i><span>DOB 1998</span></div></div>
+                <div class="selfie"><div><picture><source srcset="assets/selfie.webp" type="image/webp"><img src="assets/selfie.jpg" alt=""></picture></div></div>
               </div>
               <div class="lbls"><span>ID scanned</span><span>Selfie matches</span></div>
               <div class="okbar">Age verified: 21+</div>
-              <div class="pay">Continue to shipping</div>
+              <div class="pay">Release my order</div>
             </div>
           </div>
-          <span class="illus">Illustration of the checkout step</span>
+          <span class="illus">Illustration of the verification step</span>
         </div>
       </div>
 
@@ -364,16 +398,16 @@
             <div class="bbar" aria-hidden="true"><i></i><i></i><i></i><span class="url">your-store.myshopify.com/products/starter-kit</span></div>
             <div class="demo" aria-live="polite">
               <div class="shop" aria-hidden="true">
-                <div class="pimg"><svg viewBox="0 0 24 48" fill="currentColor"><rect x="7" y="0" width="10" height="6" rx="2"/><rect x="4" y="6" width="16" height="42" rx="5"/></svg></div>
+                <div class="pimg"><svg viewBox="0 0 20 100" fill="currentColor" style="width:auto;height:84%" aria-hidden="true"><path d="M6.5 0h7a1.5 1.5 0 0 1 1.5 1.4L16 14H4l1-12.6A1.5 1.5 0 0 1 6.5 0z"/><rect x="3" y="14" width="14" height="4" rx="1" opacity=".7"/><rect x="2" y="18" width="16" height="82" rx="5"/><rect x="6" y="25" width="8" height="24" rx="3" fill="#fff" opacity=".28"/><rect x="7.5" y="36" width="5" height="11" rx="2" fill="#fff" opacity=".35"/><circle cx="10" cy="88" r="1.8" fill="oklch(0.82 0.16 80)"/></svg></div>
                 <div>
-                  <div class="ptitle">Starter Kit — 30ml</div>
+                  <div class="ptitle">Starter Kit - 30ml</div>
                   <div class="pprice">$34.00</div>
                   <span class="pbtn">Add to cart</span>
                   <div class="pline"></div><div class="pline" style="width:70%"></div><div class="pline" style="width:84%"></div>
                 </div>
               </div>
 
-              <div class="scene dim on" id="s1">
+              <div class="scene dim on" id="s1" tabindex="-1">
                 <div class="popup">
                   <span class="tag">go on, click it</span>
                   <h4>Are you 21 or older?</h4>
@@ -382,7 +416,7 @@
                 </div>
               </div>
 
-              <div class="scene dim" id="s2" hidden>
+              <div class="scene dim" id="s2" tabindex="-1" hidden>
                 <div class="verdict">
                   <span class="stamp">LET IN</span>
                   <p class="big">Anyone can click “Yes.”<br>That was the whole check.</p>
@@ -391,16 +425,19 @@
                 </div>
               </div>
 
-              <div class="scene light" id="s3" hidden>
-                <div class="crumbs">Cart › Information › <b>Age check</b> › Shipping › Payment</div>
-                <div class="flow">
-                  <div class="fstep"><div class="ic"><div class="idc"><div class="idc-ph"><img src="assets/id-photo.jpg" alt=""></div><div class="idc-tx"><b>DRIVER LICENSE</b><i></i><i style="width:70%"></i><span>DOB 04/12/1998</span></div></div></div><div><b>Scan a photo ID</b><small>reads the date of birth</small></div><span class="tick">✓</span></div>
-                  <div class="fstep"><div class="ic"><div class="selfie"><div><img src="assets/selfie.jpg" alt=""></div></div></div><div><b>Take a live selfie</b><small>matches the face on the ID</small></div><span class="tick">✓</span></div>
+              <div class="scene light" id="s3" tabindex="-1" hidden>
+                <div class="thanks">
+                  <div class="crumbline">Order confirmed › <b>Age check</b> › Released to ship</div>
+                  <h4>Verify your age to release your order</h4>
+                  <p>Your order is held until you verify. It takes a minute on your phone.</p>
+                  <div class="flow">
+                    <div class="fstep"><div class="ic"><div class="idc"><div class="idc-ph"><picture><source srcset="assets/id-photo.webp" type="image/webp"><img src="assets/id-photo.jpg" alt=""></picture></div><div class="idc-tx"><b>DRIVER LICENSE</b><i></i><i style="width:70%"></i><span>DOB 04/12/1998</span></div></div></div><div><b>Scan a photo ID</b><small>reads the date of birth</small></div><span class="tick">✓</span></div>
+                    <div class="fstep"><div class="ic"><div class="selfie"><div><picture><source srcset="assets/selfie.webp" type="image/webp"><img src="assets/selfie.jpg" alt=""></picture></div></div></div><div><b>Take a live selfie</b><small>matches the face on the ID</small></div><span class="tick">✓</span></div>
+                  </div>
                 </div>
               </div>
 
-              <div class="scene light" id="s4" hidden>
-                <div class="crumbs">Cart › Information › <b>Age check ✓</b> › Shipping › Payment</div>
+              <div class="scene light" id="s4" tabindex="-1" hidden>
                 <div style="display:grid;justify-items:center;width:100%">
                   <div class="receipt" aria-label="Sample verification record">
                     <div class="hd ln" style="animation-delay:.05s"><span>VERIFICATION RECORD</span><span>SAMPLE</span></div>
@@ -408,7 +445,7 @@
                     <div class="row ln" style="animation-delay:.45s"><span>ID document</span><span class="ok">real</span></div>
                     <div class="row ln" style="animation-delay:.65s"><span>Selfie</span><span class="ok">live, matches ID</span></div>
                     <div class="row ln" style="animation-delay:.85s"><span>Age 21+</span><span class="ok">yes</span></div>
-                    <div class="row ln" style="animation-delay:1.05s"><span>Timestamp</span><span id="ts">—</span></div>
+                    <div class="row ln" style="animation-delay:1.05s"><span>Timestamp</span><span id="ts">--</span></div>
                     <div class="row ln" style="animation-delay:1.25s"><span>Ref</span><span id="ref">CL-0000</span></div>
                     <div class="row tot ln" style="animation-delay:1.5s"><span>Decision</span><span class="ok">PASS</span></div>
                     <div class="sw"><span class="stamp">PASS</span></div>
@@ -432,24 +469,24 @@
     <div class="wrap">
       <div class="head">
         <span class="eyebrow">How it works</span>
-        <h2 class="reveal">What your customer does<br>at checkout.</h2>
-        <p class="sub reveal">When someone orders an age-restricted product, one extra step appears in your Shopify checkout.</p>
+        <h2 class="reveal">Checkout stays the same.<br>The order waits for proof.</h2>
+        <p class="sub reveal">Your customers check out like normal. If the order has age-restricted items, we hold it from fulfillment until the customer verifies, using the age rule you set (18+ or 21+).</p>
       </div>
       <div class="steps">
         <div class="step reveal">
-          <div class="vis" aria-hidden="true"><div class="idc"><div class="idc-ph"><img src="assets/id-photo.jpg" alt=""></div><div class="idc-tx"><b>DRIVER LICENSE</b><i></i><i style="width:70%"></i><span>DOB 04/12/1998</span></div></div></div>
-          <div class="txt"><span class="n">Step 1</span><h3>They scan their ID</h3><p>Your customer takes a photo of their driver's license or other government photo ID. We read the date of birth and check that the ID is real.</p></div>
+          <div class="vis" aria-hidden="true"><div class="holdbar">Order #1042 · held</div><div class="rec"><div><span>Items</span><span>2 × age-restricted</span></div><div><span>Fulfillment</span><span>paused</span></div><div><span>Verify link</span><span class="ok">sent</span></div></div></div>
+          <div class="txt"><span class="n">Step 1</span><h3>The order is held</h3><p>Your customer pays as usual. An order with age-restricted items is automatically held from fulfillment, and the customer gets a verification link on the thank-you page and by email.</p></div>
         </div>
         <div class="step reveal">
-          <div class="vis" aria-hidden="true"><div class="selfie"><div><img src="assets/selfie.jpg" alt=""></div></div></div>
-          <div class="txt"><span class="n">Step 2</span><h3>They take a selfie</h3><p>A quick live selfie confirms the person ordering is the person on the ID, not someone using an older sibling's license.</p></div>
+          <div class="vis" aria-hidden="true"><div class="idc"><div class="idc-ph"><picture><source srcset="assets/id-photo.webp" type="image/webp"><img src="assets/id-photo.jpg" alt=""></picture></div><div class="idc-tx"><b>DRIVER LICENSE</b><i></i><i style="width:70%"></i><span>DOB 04/12/1998</span></div></div><div class="selfie"><div><picture><source srcset="assets/selfie.webp" type="image/webp"><img src="assets/selfie.jpg" alt=""></picture></div></div></div>
+          <div class="txt"><span class="n">Step 2</span><h3>They verify on their phone</h3><p>The customer scans a government photo ID and takes a live selfie. The ID proves the age; the selfie proves the ID belongs to them.</p></div>
         </div>
         <div class="step reveal">
-          <div class="vis" aria-hidden="true"><div class="okbar">Pass · order #1042</div><div class="rec"><div><span>ID</span><span class="ok">real</span></div><div><span>Selfie</span><span class="ok">matches</span></div><div><span>Age 21+</span><span class="ok">yes</span></div></div></div>
-          <div class="txt"><span class="n">Step 3</span><h3>You get pass or fail</h3><p>21+ and a match: the order goes through. Anything else is held for you to review. Every check is saved with a timestamp.</p></div>
+          <div class="vis" aria-hidden="true"><div class="okbar">Pass · order #1042</div><div class="rec"><div><span>ID</span><span class="ok">real</span></div><div><span>Selfie</span><span class="ok">matches</span></div><div><span>Age rule</span><span class="ok">met</span></div></div></div>
+          <div class="txt"><span class="n">Step 3</span><h3>You get pass or fail</h3><p>Pass, and the order is released to ship. Anything else lands in a simple review queue for you to decide. Every check is saved with a timestamp.</p></div>
         </div>
       </div>
-      <p class="setup reveal"><b>Setup:</b> we add it to your checkout with you on a 15-minute call. No developer needed.</p>
+      <p class="setup reveal"><b>Setup:</b> we connect it to your store with you on a 15-minute call. No developer needed.</p>
     </div>
   </section>
 
@@ -470,6 +507,21 @@
     </div>
   </section>
 
+  <!-- WHY SWITCH -->
+  <section class="block" id="why">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow">Why stores switch</span>
+        <h2 class="reveal">Built for owners who've been<br>burned before.</h2>
+      </div>
+      <div class="switch">
+        <div class="swcard reveal"><span class="k">$</span><h3>Flat monthly pricing</h3><p>Checks are included in your plan. No surprise per-check bills at the end of the month.</p></div>
+        <div class="swcard reveal"><span class="k">◐</span><h3>A human sets it up with you</h3><p>A 15-minute call with a founder. No developer needed, no integration maze.</p></div>
+        <div class="swcard reveal"><span class="k">✉</span><h3>Support that answers</h3><p>Real help by email on every plan, priority support on Growth and up.</p></div>
+      </div>
+    </div>
+  </section>
+
   <!-- PRICING -->
   <section class="block" id="pricing">
     <div class="wrap">
@@ -486,7 +538,7 @@
           <a class="btn btn-line" href="mailto:prab@confirmlayer.com?subject=ConfirmLayer%20Starter%20plan&amp;body=Store%20URL%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Choose Starter</a>
         </div>
         <div class="plan pick reveal">
-          <span class="flag">most stores</span>
+          <span class="flag">recommended</span>
           <div class="t">Growth</div><div class="for">stores with steady volume</div>
           <div class="price">$249<small>/mo</small></div><div class="per">1,000 checks included</div>
           <ul><li>$0.35 per extra check</li><li>ID check + selfie + record</li><li>Priority support + onboarding call</li></ul>
@@ -499,23 +551,28 @@
           <a class="btn btn-line" href="mailto:prab@confirmlayer.com?subject=ConfirmLayer%20Scale%20plan&amp;body=Store%20URL%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Choose Scale</a>
         </div>
       </div>
+      <p class="compare reveal">For comparison, Stripe Identity lists <b>$1.50 per check</b>. ConfirmLayer's included checks work out to <b>$0.15–$0.40 each</b>, depending on plan.</p>
       <div class="terms">
         <div class="reveal"><b>No minimums to start</b><p>No quote calls. The price you see is the price.</p></div>
-        <div class="reveal"><b>60-day paid pilot</b><p>Run it on your real store. It's credited toward your annual plan.</p></div>
+        <div class="reveal"><b>60-day paid pilot</b><p>The pilot runs 60 days at your plan's monthly rate, and it's credited toward your annual plan.</p></div>
         <div class="reveal"><b>Locked for 12 months</b><p>Early-access pricing stays put for your first year.</p></div>
       </div>
     </div>
   </section>
+
 
   <!-- FAQ -->
   <section class="block" id="faq">
     <div class="wrap">
       <div class="head"><h2 class="reveal">Questions.</h2></div>
       <div class="faq reveal">
+        <details><summary>Will this hurt my sales?<span class="pm" aria-hidden="true">+</span></summary><p>The check only triggers on orders with age-restricted items, so the rest of your store is untouched. It's built for phones, where most of your customers already are. And a failed check goes to your review queue, not to an automatic cancellation.</p></details>
+        <details><summary>Do repeat customers verify every time?<span class="pm" aria-hidden="true">+</span></summary><p>That's up to you. We'll configure how often verification triggers on the setup call, based on what you sell and your risk tolerance.</p></details>
+        <details><summary>Which IDs do you accept?<span class="pm" aria-hidden="true">+</span></summary><p>US driver's licenses and other government-issued photo IDs, plus passports. The ID has to be real and unexpired, and the selfie has to match the photo on it.</p></details>
+        <details><summary>What does the 60-day pilot cost?<span class="pm" aria-hidden="true">+</span></summary><p>The same as the monthly plan you pick: $79/mo on Starter, $249/mo on Growth, $749/mo on Scale. Run it on your real store for 60 days. If you stay, it's credited toward your annual plan.</p></details>
+        <details><summary>What happens when a check fails?<span class="pm" aria-hidden="true">+</span></summary><p>The order stays held in a simple review queue, so you decide what to do with it, including whether to refund.</p></details>
+        <details><summary>Do I need a developer?<span class="pm" aria-hidden="true">+</span></summary><p>No. We connect it to your store and set it up with you on a 15-minute call.</p></details>
         <details><summary>What if my customer looks older or younger than they are?<span class="pm" aria-hidden="true">+</span></summary><p>It doesn't matter. We never estimate age from a face. The age comes from the date of birth on their ID. The selfie is only used to confirm the ID belongs to the person ordering.</p></details>
-        <details><summary>Does every customer have to do this?<span class="pm" aria-hidden="true">+</span></summary><p>Only customers buying age-restricted products. We set up which orders need a check with you.</p></details>
-        <details><summary>Do I need a developer?<span class="pm" aria-hidden="true">+</span></summary><p>No. We add the verification step to your Shopify checkout and set it up with you on a 15-minute call.</p></details>
-        <details><summary>What happens when a check fails?<span class="pm" aria-hidden="true">+</span></summary><p>The order is held in a simple review queue, so you decide what to do with it.</p></details>
         <details><summary>What do I keep on file?<span class="pm" aria-hidden="true">+</span></summary><p>A timestamped record of every check that you can pull anytime.</p></details>
         <details><summary>Who handles my customers' ID data?<span class="pm" aria-hidden="true">+</span></summary><p>Verification runs on certified third-party infrastructure, and customer data is collected with the customer's explicit consent.</p></details>
         <details><summary>Is there a long contract?<span class="pm" aria-hidden="true">+</span></summary><p>You start with a 60-day paid pilot, credited toward your annual plan. No minimums to start, and early-access pricing is locked for 12 months.</p></details>
@@ -527,17 +584,26 @@
   <section class="final">
     <div class="wrap">
       <h2 class="reveal">Replace your “Are you 21?” popup<br>with a real ID check.</h2>
-      <p class="sub reveal">Email us and we'll set it up with you. 60-day paid pilot, credited toward your annual plan.</p>
-      <a class="btn btn-ink reveal" href="mailto:prab@confirmlayer.com?subject=ConfirmLayer%2060-day%20pilot&amp;body=Store%20URL%3A%20%0AWhat%20we%20sell%3A%20%0AHow%20we%20check%20age%20today%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Start my 60-day pilot</a>
-      <a class="mail" href="mailto:prab@confirmlayer.com">prab@confirmlayer.com</a>
+      <p class="sub reveal">Email us and we'll set it up with you on a 15-minute call. 60-day pilot at your plan's rate, credited toward your annual plan.</p>
+      <div class="actions reveal">
+        <a class="btn btn-ink" href="mailto:prab@confirmlayer.com?subject=ConfirmLayer%20early%20access&amp;body=Store%20URL%3A%20%0AWhat%20we%20sell%3A%20%0AHow%20we%20check%20age%20today%3A%20%0AOrders%20per%20month%20(rough)%3A%20">Get early access</a>
+        <!-- TODO: replace with real booking link (Cal.com/Calendly) when founders add one -->
+        <a class="btn btn-line" href="mailto:prab@confirmlayer.com?subject=Book%20my%2015-minute%20ConfirmLayer%20setup%20call">Book a 15-minute call</a>
+      </div>
+      <div class="reveal"><span class="copymail"><span>prab@confirmlayer.com</span><button type="button" data-copy="prab@confirmlayer.com">Copy</button></span></div>
+      <div class="review-offer reveal">
+        <h3>Is your age check real?</h3>
+        <p>Send us your store URL and we'll reply with what your current age gate actually verifies. Free, no pitch attached.</p>
+        <a class="btn btn-line" href="mailto:prab@confirmlayer.com?subject=Free%20age-check%20review&amp;body=Store%20URL%3A%20%0A">Get my free review</a>
+      </div>
     </div>
   </section>
 </main>
 
 <footer>
   <div class="wrap">
-    <p>© 2026 ConfirmLayer. Verification runs on certified third-party infrastructure; customer data is collected with explicit consent. Checkout screens and records shown are illustrations; person shown is a model (Pexels).</p>
-    <a href="mailto:prab@confirmlayer.com">prab@confirmlayer.com</a>
+    <p>© 2026 ConfirmLayer. Verification runs on certified third-party infrastructure; customer data is collected with explicit consent. Screens and records shown are illustrations; person shown is a model (Pexels).</p>
+    <nav aria-label="Footer"><a href="mailto:prab@confirmlayer.com">prab@confirmlayer.com</a></nav>
   </div>
 </footer>
 
@@ -553,13 +619,31 @@
     els.forEach(el => io.observe(el));
   } else els.forEach(el => el.classList.add('in'));
 
+  /* copy email buttons */
+  document.querySelectorAll('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.getAttribute('data-copy');
+      const done = () => { btn.textContent = 'Copied ✓'; setTimeout(() => btn.textContent = 'Copy', 2000); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(() => fallback());
+      } else fallback();
+      function fallback() {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) { /* noop */ }
+        document.body.removeChild(ta);
+      }
+    });
+  });
+
   /* popup test */
   const scenes = [null, $('s1'), $('s2'), $('s3'), $('s4')];
   const dots = document.querySelectorAll('.dots i');
   const caps = [null,
     '<b>A typical age popup.</b> Click either button.',
     '<b>No ID, no face, no record.</b> A 15-year-old gets the same result.',
-    '<b>With ConfirmLayer, inside your checkout:</b> photo ID + live selfie.',
+    '<b>With ConfirmLayer, after checkout:</b> the order is held until the customer verifies.',
     '<b>You get pass or fail</b>, and a record of each check.'];
   let timers = [];
   const later = (fn, ms) => timers.push(setTimeout(fn, reduce ? 0 : ms));
@@ -568,6 +652,8 @@
     scenes.forEach((s, i) => { if (!s) return; s.hidden = i !== n; s.classList.remove('on'); if (i === n) { void s.offsetWidth; s.classList.add('on'); } });
     dots.forEach((d, i) => d.classList.toggle('on', i < n));
     $('cap').innerHTML = caps[n];
+    const active = scenes[n];
+    if (active && document.activeElement && document.activeElement.hasAttribute('data-go')) { active.focus({ preventScroll: true }); }
     if (n === 3) {
       const st = document.querySelectorAll('#s3 .fstep');
       st.forEach(s => s.classList.remove('active', 'done'));
