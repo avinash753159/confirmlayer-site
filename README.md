@@ -1,5 +1,7 @@
 # ConfirmLayer site
 
+Positioning: identity verification for government subcontractors. No pricing on the site, contact by email only.
+
 Static site, no build step: `index.html` (landing page) and `privacy.html` (draft, noindex). Clean-room copy, no borrowed branding.
 
 ## Deploy
@@ -8,7 +10,7 @@ GitHub Pages serves `main` at the repo root, behind Cloudflare, on `confirmlayer
 
 ## Page structure
 
-Hero and stats bar, why us, capabilities, product stack and product boundary, document coverage, industries grid, how it works, pricing, FAQ, final CTA, footer.
+Hero, facts marquee, why us, capabilities, product stack, scope panel, use cases, how it works, FAQ, final CTA, footer.
 
 ## Content rules
 

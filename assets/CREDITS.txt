@@ -13,3 +13,5 @@ scan-document.jpg  Pexels #6863088 by cottonbro studio
 cbd-boxes.jpg  Pexels #17605585
 Review screenshots: public 1-star reviews on apps.shopify.com, captured 2026-09-29
 id-photo.jpg, selfie.jpg  Pexels #19161819 (same model, cropped)
+id-worker.webp, selfie-worker.webp  Pexels #12437056 (crops of owner-after.jpg)
+hero-glow.webp  generated in-house (own artwork)
