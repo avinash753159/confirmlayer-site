@@ -1,19 +1,20 @@
-# ConfirmLayer landing page
+# ConfirmLayer site
 
-Single static page (`index.html`, no build step). Clean-room copy, no borrowed branding.
+Static site, no build step: `index.html` (landing page) and `privacy.html` (draft, noindex). Clean-room copy, no borrowed branding.
 
-## Push to GitHub + Cloudflare Pages (for Avinash or Prabhat)
+## Deploy
 
-`gh` is not authenticated on the Muse box, so run these on a logged-in machine:
+GitHub Pages serves `main` at the repo root, behind Cloudflare, on `confirmlayer.com` (see `CNAME`). Pushing to `main` publishes within a few minutes.
 
-```bash
-cd ~/workspace/confirmlayer/site
-git init -b main
-git add index.html README.md
-git commit -m "ConfirmLayer landing page v1"
-gh repo create confirmlayer-site --private --source=. --push
-```
+## Page structure
 
-Then in Cloudflare: Pages > Create > Connect to Git > select `confirmlayer-site` > framework preset "None", build command empty, output directory `/`. Deploy, then add the custom domain `confirmlayer.com` (Prabhat adjusts DNS as offered).
+Hero and stats bar, why us, capabilities, product stack and product boundary, document coverage, industries grid, how it works, pricing, FAQ, final CTA, footer.
 
-Contact CTA on the page points to hello@confirmlayer.com (alias already live on the Workspace account).
+## Content rules
+
+- Every number on the page must be true and defensible. No document counts, country counts, accuracy percentages or certifications we do not have.
+- Coverage is stated as US-first, with a request-a-document mailto for everything else.
+- The product boundary stays on the page: document authenticity and presenter match, no government database lookups.
+- No em dashes.
+- No backend. CTAs are mailto links to hello@confirmlayer.com.
+- Sample requests and responses are labelled illustrative.

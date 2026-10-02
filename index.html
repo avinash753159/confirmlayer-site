@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ConfirmLayer: ID verification API. Pennies per check.</title>
-<meta name="description" content="Verify any US driver's license or passport in seconds. Structured data, authenticity verdict, and face match via one API. 100 free credits. No sales call.">
-<meta property="og:title" content="ConfirmLayer: ID verification API. Pennies per check.">
-<meta property="og:description" content="One API for document verification, face match, and liveness. Transparent credit pricing, free test credits, docs that get you live in an afternoon.">
+<title>ConfirmLayer: identity verification API for documents, face match and liveness</title>
+<meta name="description" content="Verify government IDs, match the selfie to the document, and catch fakes with one API or a drop-in hosted flow. US-first coverage, transparent credit pricing, 100 free test credits.">
+<meta property="og:title" content="ConfirmLayer: identity verification API">
+<meta property="og:description" content="Document verification, face match, liveness and fake-ID detection behind one API. Transparent credit pricing, free test credits, no sales call.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://confirmlayer.com/">
 <meta property="og:image" content="https://confirmlayer.com/assets/og-image.png">
@@ -27,9 +27,9 @@
     --ink-3:   oklch(0.52 0.01 260);
     --line:    oklch(0.88 0.01 90);
     --white:   oklch(0.995 0.003 90);
-    --blue:    oklch(0.6 0.18 258);
+    --blue:    oklch(0.55 0.19 258);
     --blue-bg: oklch(0.95 0.04 258);
-    --green:   oklch(0.58 0.15 152);
+    --green:   oklch(0.52 0.15 152);
     --green-bg:oklch(0.95 0.05 152);
     --amber-bg:oklch(0.96 0.06 80);
     --code-bg: oklch(0.22 0.01 260);
@@ -38,73 +38,141 @@
     --sans:"Funnel Sans",system-ui,sans-serif;
     --mono:"Geist Mono",ui-monospace,monospace;
     --radius:14px;
-    --maxw:1120px;
+    --maxw:1160px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  html{scroll-behavior:smooth;scroll-padding-top:80px}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
-  section{padding:88px 0}
+  section{padding:96px 0}
+  .band{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
   .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:16px}
-  h1{font-family:var(--serif);font-weight:800;font-size:clamp(40px,5.4vw,64px);line-height:1.05;letter-spacing:-0.02em}
-  h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,3.6vw,40px);line-height:1.12;letter-spacing:-0.015em;margin-bottom:16px}
-  h3{font-family:var(--serif);font-weight:700;font-size:20px;margin-bottom:8px}
-  p.lead{font-size:19px;color:var(--ink-2);max-width:640px}
+  h1{font-family:var(--serif);font-weight:800;font-size:clamp(38px,5.2vw,62px);line-height:1.04;letter-spacing:-0.022em;text-wrap:balance}
+  h2{font-family:var(--serif);font-weight:800;font-size:clamp(28px,3.6vw,42px);line-height:1.1;letter-spacing:-0.018em;margin-bottom:16px;text-wrap:balance}
+  h3{font-family:var(--serif);font-weight:700;font-size:19px;line-height:1.25;margin-bottom:8px}
+  p.lead{font-size:19px;color:var(--ink-2);max-width:660px;text-wrap:pretty}
   a{color:var(--blue)}
+  :focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
+
+  /* nav */
   nav{position:sticky;top:0;z-index:50;background:color-mix(in oklch,var(--paper) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
   .brand{font-family:var(--serif);font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:9px}
-  .brand-mark{width:26px;height:26px;border-radius:7px;background:var(--ink);display:inline-flex;align-items:center;justify-content:center}
-  .nav-links{display:flex;gap:28px;align-items:center}
+  .brand-mark{width:26px;height:26px;border-radius:7px;background:var(--ink);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+  .nav-links{display:flex;gap:26px;align-items:center}
   .nav-links a{color:var(--ink-2);text-decoration:none;font-size:15px;font-weight:500}
   .nav-links a:hover{color:var(--ink)}
-  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;padding:12px 22px;border-radius:10px;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:transform .08s ease}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:15px;padding:12px 22px;border-radius:10px;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:transform .08s ease,background .15s ease,border-color .15s ease}
   .btn:active{transform:translateY(1px)}
-  .btn-dark{background:var(--ink);color:var(--paper)}
-  .btn-dark:hover{background:oklch(0.26 0.01 260)}
+  .btn-dark,.nav-links a.btn-dark{background:var(--ink);color:var(--paper)}
+  .btn-dark:hover{background:oklch(0.28 0.01 260)}
   .btn-outline{border-color:var(--line);color:var(--ink);background:var(--white)}
   .btn-outline:hover{border-color:var(--ink-3)}
   .btn-sm{padding:9px 16px;font-size:14px}
-  .hero{padding:96px 0 72px}
+
+  /* hero */
+  .hero{padding:88px 0 0}
   .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
   .hero h1{margin:18px 0 20px}
   .hero-ctas{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
-  .hero-note{font-size:13.5px;color:var(--ink-3);margin-top:14px;font-family:var(--mono)}
+  .trust{font-size:14.5px;color:var(--ink-3);margin-top:22px;max-width:560px}
+  .trust b{color:var(--ink-2);font-weight:600}
   .pill{display:inline-flex;align-items:center;gap:8px;background:var(--green-bg);color:var(--green);font-size:13px;font-weight:600;padding:6px 14px;border-radius:999px}
   .pill .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
-  .chip{font-size:13.5px;font-weight:500;color:var(--ink-2);background:var(--paper-2);border:1px solid var(--line);padding:7px 14px;border-radius:999px}
-  .term{background:var(--code-bg);border-radius:var(--radius);overflow:hidden;box-shadow:0 24px 60px -24px oklch(0.2 0.02 260 / .45);border:1px solid oklch(0.3 0.01 260)}
+  @media (prefers-reduced-motion:reduce){.pill .dot{animation:none}html{scroll-behavior:auto}}
+  .term{background:var(--code-bg);border-radius:var(--radius);overflow:hidden;box-shadow:0 24px 60px -24px oklch(0.2 0.02 260 / .45);border:1px solid oklch(0.3 0.01 260);min-width:0}
   .term-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid oklch(0.32 0.01 260)}
-  .term-bar i{width:11px;height:11px;border-radius:50%;display:block}
-  .term-bar i:nth-child(1){background:#ff5f57}.term-bar i:nth-child(2){background:#febc2e}.term-bar i:nth-child(3){background:#28c840}
-  .term-bar span{margin-left:8px;font-family:var(--mono);font-size:12px;color:oklch(0.65 0.01 260)}
-  .term-tabs{display:flex;gap:4px;padding:12px 16px 0}
-  .term-tab{font-family:var(--mono);font-size:12.5px;color:oklch(0.68 0.01 260);background:none;border:none;padding:8px 12px;border-radius:8px 8px 0 0;cursor:pointer}
+  .term-bar i{width:11px;height:11px;border-radius:50%;display:block;background:oklch(0.42 0.01 260)}
+  .term-bar span{margin-left:8px;font-family:var(--mono);font-size:12px;color:oklch(0.68 0.01 260)}
+  .term-tabs{display:flex;gap:4px;padding:12px 16px 0;flex-wrap:wrap}
+  .term-tab{font-family:var(--mono);font-size:12.5px;color:oklch(0.72 0.01 260);background:none;border:none;padding:8px 12px;border-radius:8px 8px 0 0;cursor:pointer}
   .term-tab.active{color:var(--code-ink);background:oklch(0.28 0.01 260)}
-  .term-body{padding:20px;font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--code-ink);min-height:360px;overflow-x:auto;white-space:pre}
-  .term-body .k{color:#8ab8ff}.term-body .s{color:#a8d8a8}.term-body .n{color:#f0b35e}.term-body .b{color:#d18ce0}.term-body .c{color:oklch(0.55 0.01 260)}
+  .term-body{padding:20px;font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--code-ink);min-height:380px;overflow-x:auto;white-space:pre}
+  .k{color:#8ab8ff}.s{color:#a8d8a8}.n{color:#f0b35e}.b{color:#d18ce0}.c{color:oklch(0.62 0.01 260)}
   .verdict{display:inline-block;font-weight:500;padding:2px 10px;border-radius:6px;font-size:12px;background:oklch(0.3 0.08 152);color:#b8f0c8}
-  .split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
-  .card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
-  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:40px}
-  .step{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:22px 18px;position:relative}
-  .step-num{font-family:var(--mono);font-size:12px;color:var(--blue);font-weight:500;margin-bottom:10px}
-  .step h3{font-size:16px}
-  .step p{font-size:14px;color:var(--ink-2)}
-  .step:not(:last-child)::after{content:"";position:absolute;right:-11px;top:50%;width:8px;height:8px;border-top:2px solid var(--line);border-right:2px solid var(--line);transform:translateY(-50%) rotate(45deg);background:var(--paper)}
-  .boundary{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+
+  /* stats bar */
+  .stats{margin-top:72px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--white)}
+  .stats-in{display:grid;grid-template-columns:repeat(4,1fr)}
+  .stat{padding:28px 24px;border-left:1px solid var(--line)}
+  .stat:first-child{border-left:none;padding-left:0}
+  .stat b{display:block;font-family:var(--serif);font-weight:800;font-size:34px;line-height:1.1;letter-spacing:-0.02em}
+  .stat span{display:block;font-size:14px;color:var(--ink-2);margin-top:6px}
+
+  /* why */
+  .buyers{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+  .buyer{border-radius:var(--radius);padding:32px;border:1px solid var(--line);background:var(--white)}
+  .buyer.eng{background:var(--code-bg);border-color:var(--code-bg);color:var(--code-ink)}
+  .buyer .tag{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px}
+  .buyer.eng .tag{color:oklch(0.72 0.01 260)}
+  .buyer h3{font-size:23px}
+  .buyer p{color:var(--ink-2);font-size:15.5px}
+  .buyer.eng p{color:oklch(0.8 0.01 260)}
+  .buyer ul{list-style:none;margin-top:16px}
+  .buyer li{font-size:15px;padding:6px 0 6px 26px;position:relative}
+  .buyer li::before{content:"";position:absolute;left:2px;top:13px;width:12px;height:6px;border-left:2px solid var(--green);border-bottom:2px solid var(--green);transform:rotate(-45deg)}
+  .buyer.eng li::before{border-color:#a8d8a8}
+  .diffs{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:48px}
+  .diff{border-top:2px solid var(--ink);padding-top:18px}
+  .diff .num{font-family:var(--mono);font-size:12px;color:var(--blue);margin-bottom:8px}
+  .diff p{color:var(--ink-2);font-size:15.5px}
+
+  /* capabilities */
+  .caps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+  .cap{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+  .cap .tag{display:inline-block;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--blue);background:var(--blue-bg);padding:3px 10px;border-radius:6px;margin-bottom:14px}
+  .cap p{color:var(--ink-2);font-size:15px}
+
+  /* stack */
+  .stack{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+  .prod{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:28px;display:flex;flex-direction:column}
+  .prod .path{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);background:var(--paper-2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin-bottom:18px;overflow-x:auto;white-space:nowrap}
+  .prod h3{font-size:21px}
+  .prod p{color:var(--ink-2);font-size:15px;flex:1}
+  .status{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12px;color:var(--green);margin-top:18px}
+  .status::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green)}
+  .engine{margin-top:16px;border:1px dashed var(--ink-3);border-radius:var(--radius);padding:16px 24px;text-align:center;font-family:var(--mono);font-size:13px;color:var(--ink-2)}
+  .boundary{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:56px}
   .bound{border-radius:var(--radius);padding:28px;border:1px solid var(--line)}
   .bound.do{background:var(--green-bg);border-color:oklch(0.85 0.08 152)}
   .bound.dont{background:var(--amber-bg);border-color:oklch(0.85 0.1 80)}
   .bound ul{list-style:none;margin-top:12px}
-  .bound li{font-size:15px;padding:7px 0 7px 28px;position:relative;color:var(--ink)}
-  .bound.do li::before{content:"✓";position:absolute;left:4px;color:var(--green);font-weight:700}
-  .bound.dont li::before{content:"–";position:absolute;left:6px;color:var(--ink-3);font-weight:700}
-  .doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:32px}
-  .doc-cell{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:14px;font-weight:500;display:flex;justify-content:space-between;align-items:center;gap:8px}
-  .doc-cell small{font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
+  .bound li{font-size:15px;padding:7px 0 7px 28px;position:relative}
+  .bound.do li::before{content:"";position:absolute;left:4px;top:15px;width:12px;height:6px;border-left:2px solid var(--green);border-bottom:2px solid var(--green);transform:rotate(-45deg)}
+  .bound.dont li::before{content:"";position:absolute;left:5px;top:19px;width:11px;height:2px;background:var(--ink-3)}
+
+  /* coverage */
+  .cover{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+  .doc-list{display:grid;gap:10px}
+  .doc-cell{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:14px 16px;font-size:15px;font-weight:500;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .doc-cell small{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);white-space:nowrap}
+  .doc-cell.req{border-style:dashed}
+  .doc-cell.req a{text-decoration:none;font-weight:600}
+
+  /* industries */
+  .inds{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:40px}
+  .ind{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px;transition:border-color .15s ease,transform .15s ease}
+  .ind:hover{border-color:var(--ink-3);transform:translateY(-2px)}
+  .ind h3{font-size:16.5px;margin-bottom:6px}
+  .ind p{font-size:14px;color:var(--ink-2);line-height:1.5}
+  .ind.ask{border-style:dashed;background:transparent;display:flex;flex-direction:column;justify-content:center}
+  .ind.ask a{font-weight:600;text-decoration:none;font-size:15px}
+
+  /* how */
+  .how{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start;margin-top:40px}
+  .steps{display:grid;gap:0}
+  .step{display:grid;grid-template-columns:44px 1fr;gap:16px;padding-bottom:30px;position:relative}
+  .step:not(:last-child)::before{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+  .step-num{width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:14px;display:flex;align-items:center;justify-content:center;position:relative}
+  .step p{color:var(--ink-2);font-size:15.5px}
+  .code-tabs{display:flex;gap:6px}
+  .code-tab{font-family:var(--mono);font-size:13px;padding:9px 18px;border:1px solid var(--line);border-bottom:none;background:var(--white);border-radius:10px 10px 0 0;cursor:pointer;color:var(--ink-2)}
+  .code-tab.active{background:var(--code-bg);color:var(--code-ink);border-color:var(--code-bg)}
+  .code-pane{background:var(--code-bg);border-radius:0 var(--radius) var(--radius) var(--radius);padding:24px;font-family:var(--mono);font-size:13px;line-height:1.75;color:var(--code-ink);overflow-x:auto;min-height:300px;white-space:pre}
+  .how-code{min-width:0}
+
+  /* pricing */
   .toggle{display:inline-flex;background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:4px;margin:28px 0 8px}
   .toggle button{border:none;background:none;font-family:var(--sans);font-weight:600;font-size:14px;padding:8px 20px;border-radius:999px;cursor:pointer;color:var(--ink-2)}
   .toggle button.active{background:var(--ink);color:var(--paper)}
@@ -114,64 +182,84 @@
   .plan-flag{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);font-size:12px;font-weight:600;padding:3px 14px;border-radius:999px;white-space:nowrap}
   .plan h3{font-size:17px}
   .plan .price{font-family:var(--serif);font-weight:800;font-size:36px;margin:12px 0 4px}
-  .plan .per{font-size:13.5px;color:var(--ink-3);font-family:var(--mono)}
-  .plan ul{list-style:none;margin:18px 0 24px;flex:1}
+  .plan .per{font-size:13px;color:var(--ink-3);font-family:var(--mono);min-height:42px}
+  .plan ul{list-style:none;margin:14px 0 24px;flex:1}
   .plan li{font-size:14.5px;color:var(--ink-2);padding:6px 0 6px 24px;position:relative}
-  .plan li::before{content:"✓";position:absolute;left:2px;color:var(--green);font-weight:700;font-size:13px}
-  .fine{font-size:13px;color:var(--ink-3);margin-top:20px;font-family:var(--mono);line-height:1.8}
-  .code-tabs{display:flex;gap:6px}
-  .code-tab{font-family:var(--mono);font-size:13px;padding:9px 18px;border:1px solid var(--line);border-bottom:none;background:var(--paper-2);border-radius:10px 10px 0 0;cursor:pointer;color:var(--ink-2)}
-  .code-tab.active{background:var(--code-bg);color:var(--code-ink);border-color:var(--code-bg)}
-  .code-pane{background:var(--code-bg);border-radius:0 var(--radius) var(--radius) var(--radius);padding:24px;font-family:var(--mono);font-size:13.5px;line-height:1.75;color:var(--code-ink);overflow-x:auto;min-height:320px;white-space:pre}
-  .code-pane .k{color:#8ab8ff}.code-pane .s{color:#a8d8a8}.code-pane .n{color:#f0b35e}.code-pane .c{color:oklch(0.55 0.01 260)}
-  .reseller{background:var(--ink);color:var(--paper);border-radius:20px;padding:64px;position:relative;overflow:hidden}
-  .reseller h2{color:var(--paper)}
-  .reseller p.lead{color:oklch(0.78 0.01 260)}
-  .reseller .btn-outline{border-color:oklch(0.4 0.01 260);color:var(--paper);background:transparent}
-  .reseller-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:36px;align-items:start}
-  .reseller ul{list-style:none}
-  .reseller li{padding:10px 0 10px 30px;position:relative;color:oklch(0.82 0.01 260);font-size:15.5px}
-  .reseller li::before{content:"→";position:absolute;left:4px;color:oklch(0.7 0.12 258)}
-  .markup{background:oklch(0.26 0.01 260);border-radius:var(--radius);padding:28px;font-family:var(--mono);font-size:14px;line-height:2}
-  .markup .row{display:flex;justify-content:space-between;border-bottom:1px dashed oklch(0.35 0.01 260);padding:6px 0}
-  .markup .you{color:#a8d8a8}.markup .them{color:#8ab8ff}
-  .faq{max-width:780px}
+  .plan li::before{content:"";position:absolute;left:2px;top:13px;width:11px;height:5px;border-left:2px solid var(--green);border-bottom:2px solid var(--green);transform:rotate(-45deg)}
+  .credits{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:24px;border:1px solid var(--line);border-radius:var(--radius);background:var(--white);overflow:hidden}
+  .credit{padding:18px 22px;border-left:1px solid var(--line);font-size:14.5px;color:var(--ink-2);display:flex;justify-content:space-between;gap:12px;align-items:center}
+  .credit:first-child{border-left:none}
+  .credit b{font-family:var(--mono);font-weight:500;color:var(--ink);white-space:nowrap}
+  .fine{font-size:13px;color:var(--ink-3);margin-top:20px;font-family:var(--mono);line-height:1.8;max-width:820px}
+
+  /* faq */
+  .faq-grid{display:grid;grid-template-columns:.7fr 1.3fr;gap:56px;align-items:start}
   details{background:var(--white);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
   summary{padding:20px 24px;cursor:pointer;font-weight:600;font-size:16px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px}
   summary::-webkit-details-marker{display:none}
-  summary::after{content:"+";font-size:22px;color:var(--ink-3);flex-shrink:0}
-  details[open] summary::after{content:"–"}
+  summary::after{content:"+";font-family:var(--mono);font-size:20px;color:var(--ink-3);flex-shrink:0;transition:transform .15s ease}
+  details[open] summary::after{transform:rotate(45deg)}
   details .a{padding:0 24px 22px;color:var(--ink-2);font-size:15.5px}
   details .a p + p{margin-top:10px}
-  .final{background:var(--blue-bg);border-radius:20px;padding:72px 48px;text-align:center;border:1px solid oklch(0.88 0.06 258)}
+
+  /* final + footer */
+  .final{background:var(--ink);color:var(--paper);border-radius:20px;padding:80px 48px;text-align:center}
+  .final h2{color:var(--paper);max-width:760px;margin:0 auto 16px}
+  .final p.lead{color:oklch(0.8 0.01 260);margin:0 auto;text-align:center}
+  .final .eyebrow{color:oklch(0.75 0.12 258)}
   .final .hero-ctas{justify-content:center}
-  footer{border-top:1px solid var(--line);padding:48px 0;color:var(--ink-3);font-size:14px}
-  .foot-grid{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;align-items:flex-start}
-  .foot-grid a{color:var(--ink-2);text-decoration:none;margin-right:20px}
-  .foot-grid a:hover{color:var(--ink)}
-  @media(max-width:960px){
-    .hero-grid,.split,.boundary,.reseller-grid{grid-template-columns:1fr}
-    .steps{grid-template-columns:1fr 1fr}
-    .step:not(:last-child)::after{display:none}
+  .final .btn-dark{background:var(--paper);color:var(--ink)}
+  .final .btn-dark:hover{background:var(--white)}
+  footer{border-top:1px solid var(--line);padding:56px 0 40px;color:var(--ink-3);font-size:14px;margin-top:96px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+  .foot-grid h4{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:500;margin-bottom:12px}
+  .foot-grid a:not(.brand){display:block;color:var(--ink-2);text-decoration:none;padding:4px 0}
+  .foot-grid a:not(.brand):hover{color:var(--ink)}
+  .legal{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;line-height:1.7}
+
+  @media(max-width:1000px){
+    .hero-grid,.cover,.how,.faq-grid,.buyers,.boundary{grid-template-columns:1fr}
+    .hero-grid{gap:40px}
+    .caps,.stack,.diffs{grid-template-columns:1fr 1fr}
+    .inds{grid-template-columns:repeat(3,1fr)}
     .plans{grid-template-columns:1fr 1fr}
-    .nav-links a{display:none}
-    .reseller{padding:40px 28px}
-    .final{padding:48px 24px}
+    .stats-in{grid-template-columns:1fr 1fr}
+    .stat{padding:22px 20px}
+    .stat:nth-child(odd){border-left:none;padding-left:0}
+    .stat:nth-child(n+3){border-top:1px solid var(--line)}
+    .nav-links a:not(.btn){display:none}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    .final{padding:56px 24px}
+    .faq-grid{gap:24px}
   }
-  @media(max-width:600px){.plans{grid-template-columns:1fr}section{padding:64px 0}}
+  @media(max-width:640px){
+    .wrap{padding:0 16px}
+    section{padding:64px 0}
+    .hero{padding:56px 0 0}
+    .caps,.stack,.diffs,.plans,.credits{grid-template-columns:1fr}
+    .credit{border-left:none;border-top:1px solid var(--line)}
+    .credit:first-child{border-top:none}
+    .inds{grid-template-columns:1fr 1fr}
+    .stat b{font-size:28px}
+    .term-body{min-height:0;font-size:12px}
+    .plan .per{min-height:0}
+    .buyer{padding:24px}
+    footer{margin-top:64px}
+  }
+  @media(max-width:400px){.inds{grid-template-columns:1fr}}
 </style>
 </head>
 <body id="top">
 <nav>
   <div class="wrap nav-in">
-    <a class="brand" href="#top"><span class="brand-mark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7.5l3 3 7-7" stroke="#fbfaf6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>ConfirmLayer</a>
+    <a class="brand" href="#top"><span class="brand-mark"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7.5l3 3 7-7" stroke="#fbfaf6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>ConfirmLayer</a>
     <div class="nav-links">
+      <a href="#product">Product</a>
+      <a href="#industries">Industries</a>
       <a href="#how">How it works</a>
-      <a href="#documents">Documents</a>
       <a href="#pricing">Pricing</a>
-      <a href="#docs">Docs</a>
       <a href="#faq">FAQ</a>
-      <a class="btn btn-dark btn-sm" href="mailto:hello@confirmlayer.com?subject=Free%20API%20key%20request">Get a free API key</a>
+      <a class="btn btn-dark btn-sm" href="mailto:hello@confirmlayer.com?subject=Free%20API%20key%20request">Start free</a>
     </div>
   </div>
 </nav>
@@ -179,88 +267,209 @@
 <header class="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="pill"><span class="dot"></span>Now in early access</span>
-      <h1>ID verification your developers will actually finish integrating.</h1>
-      <p class="lead">Send us a photo of a driver's license or passport. Get back structured data, an authenticity verdict, and a face-match score in about three seconds.</p>
-      <p class="lead">Start with 100 free credits. Any email works. No sales call, ever.</p>
+      <span class="pill"><span class="dot"></span>Early access, US-first</span>
+      <h1>Verify the ID. Match the face. Catch the fake. One API.</h1>
+      <p class="lead">ConfirmLayer reads a government ID, checks it for tampering, and confirms the person holding it is the person on it. Call the REST API from your own screens, or send users to a drop-in hosted flow and skip the frontend work.</p>
       <div class="hero-ctas">
-        <a class="btn btn-dark" href="mailto:hello@confirmlayer.com?subject=Free%20API%20key%20request">Get a free API key</a>
-        <a class="btn btn-outline" href="#docs">Read the docs</a>
+        <a class="btn btn-dark" href="mailto:hello@confirmlayer.com?subject=Free%20API%20key%20request">Start with 100 free credits</a>
+        <a class="btn btn-outline" href="#how">See the API</a>
       </div>
-      <p class="hero-note">POST /v1/verify &nbsp;→&nbsp; 200 OK in ~3s</p>
-      <div class="chips">
-        <span class="chip">Vape &amp; CBD</span>
-        <span class="chip">Alcohol delivery</span>
-        <span class="chip">Marketplaces</span>
-        <span class="chip">Fintech onboarding</span>
-        <span class="chip">Travel</span>
-      </div>
+      <p class="trust"><b>Built for two people:</b> the engineer who has to ship verification this sprint, and the compliance lead who has to defend it later.</p>
     </div>
     <div class="term">
-      <div class="term-bar"><i></i><i></i><i></i><span>response.json - live sample</span></div>
-      <div class="term-tabs">
+      <div class="term-bar"><i></i><i></i><i></i><span>response.json (illustrative sample)</span></div>
+      <div class="term-tabs" role="tablist" aria-label="Sample responses">
         <button class="term-tab active" data-demo="dl">Driver's license</button>
-        <button class="term-tab" data-demo="pp">Passport + face match</button>
+        <button class="term-tab" data-demo="pp">Passport + selfie</button>
+        <button class="term-tab" data-demo="fake">Altered ID</button>
       </div>
       <div class="term-body" id="demo-body"></div>
     </div>
   </div>
+  <div class="stats">
+    <div class="wrap stats-in">
+      <div class="stat"><b>1 API</b><span>Document, face match and liveness on one endpoint</span></div>
+      <div class="stat"><b>100</b><span>Free test credits with every new key</span></div>
+      <div class="stat"><b>$0.044</b><span>Lowest listed price per credit (Scale, annual)</span></div>
+      <div class="stat"><b>0</b><span>Sales calls required to start or to see a price</span></div>
+    </div>
+  </div>
 </header>
 
-<section id="how">
+<section id="why">
   <div class="wrap">
-    <p class="eyebrow">How it works</p>
-    <h2>From a photo to a verdict in five steps.</h2>
-    <p class="lead">Every scan follows the same pipeline. No black boxes: you see the extracted fields, the confidence behind each one, and exactly why a check passed or failed.</p>
-    <div class="steps">
-      <div class="step"><div class="step-num">01</div><h3>Capture</h3><p>Your user snaps a photo of their ID, plus an optional selfie. Works on any phone camera.</p></div>
-      <div class="step"><div class="step-num">02</div><h3>Identify</h3><p>We match the document's layout against our template library to identify the exact ID type and version.</p></div>
-      <div class="step"><div class="step-num">03</div><h3>Authenticate</h3><p>Layout, fonts, security features, and data consistency are checked against the expected format for tampering.</p></div>
-      <div class="step"><div class="step-num">04</div><h3>Extract</h3><p>Text is read from the visual zone, MRZ, or barcode and returned as clean, structured JSON.</p></div>
-      <div class="step"><div class="step-num">05</div><h3>Decide</h3><p>You set the rules. We return accept, review, or reject, with per-field confidence scores.</p></div>
+    <p class="eyebrow">Why ConfirmLayer</p>
+    <h2>Two teams sign off on verification. We built for both.</h2>
+    <p class="lead">Identity checks get bought twice: once by the people who integrate them and once by the people who answer for them. Most tools please one and frustrate the other.</p>
+    <div class="buyers">
+      <div class="buyer">
+        <div class="tag">For compliance teams</div>
+        <h3>You are buying the audit trail.</h3>
+        <p>Every check produces a record you can pull up when someone asks how a decision was made.</p>
+        <ul>
+          <li>Timestamped verdict for each verification</li>
+          <li>Per-field confidence, not a single opaque score</li>
+          <li>The reason a check passed, failed or went to review</li>
+          <li>Retention you control, including storing nothing</li>
+        </ul>
+      </div>
+      <div class="buyer eng">
+        <div class="tag">For engineering teams</div>
+        <h3>You are buying the integration.</h3>
+        <p>One request in, structured JSON out. No capture UI to maintain unless you want one.</p>
+        <ul>
+          <li>A single REST endpoint with predictable fields</li>
+          <li>Hosted flow for teams with no frontend time</li>
+          <li>Test credits before any payment details</li>
+          <li>Public pricing, so the estimate fits in a ticket</li>
+        </ul>
+      </div>
     </div>
+    <div class="diffs">
+      <div class="diff">
+        <div class="num">01</div>
+        <h3>One API for the whole check</h3>
+        <p>Document reading, face match and liveness come back in a single response. No second vendor to stitch in for biometrics.</p>
+      </div>
+      <div class="diff">
+        <div class="num">02</div>
+        <h3>No version pinning for documents</h3>
+        <p>New document layouts are added on our side. Your integration picks them up without a library upgrade or a redeploy.</p>
+      </div>
+      <div class="diff">
+        <div class="num">03</div>
+        <h3>A privacy posture stated plainly</h3>
+        <p>You choose whether results are kept in a vault with us or not stored at all. We do not sell verification data or use ID images for advertising.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="capabilities" class="band">
+  <div class="wrap">
+    <p class="eyebrow">What it does</p>
+    <h2>Things you stop building in-house.</h2>
+    <p class="lead">Each of these is a project on its own. Behind one API they are a parameter.</p>
+    <div class="caps">
+      <div class="cap"><span class="tag">OCR</span><h3>Document reading</h3><p>Pulls names, dates and numbers from the printed zone, MRZ or barcode into clean fields.</p></div>
+      <div class="cap"><span class="tag">FACE</span><h3>Biometric face match</h3><p>Compares a selfie to the portrait on the ID and returns a match with a confidence value.</p></div>
+      <div class="cap"><span class="tag">LIVE</span><h3>Liveness</h3><p>Checks that a real person is in front of the camera, not a photo of a photo.</p></div>
+      <div class="cap"><span class="tag">FRAUD</span><h3>Fake and altered ID detection</h3><p>Tests layout, fonts and data consistency against the expected format for that document.</p></div>
+      <div class="cap"><span class="tag">RULES</span><h3>Decisions you define</h3><p>Set your own thresholds and get back accept, review or reject for every check.</p></div>
+      <div class="cap"><span class="tag">FLOW</span><h3>Capture without a frontend</h3><p>A hosted page handles camera, selfie and retries, so your team ships a link instead of a UI.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="product">
+  <div class="wrap">
+    <p class="eyebrow">Product stack</p>
+    <h2>Three ways in. One engine underneath.</h2>
+    <p class="lead">Pick the surface that fits your team. Every one of them runs the same checks and returns the same result format.</p>
+    <div class="stack">
+      <div class="prod">
+        <div class="path">POST /v1/verify</div>
+        <h3>Verification API</h3>
+        <p>Send a document image, with an optional selfie, from your own app or backend. Get fields, authenticity and a verdict as JSON.</p>
+        <span class="status">Early access</span>
+      </div>
+      <div class="prod">
+        <div class="path">a link you send your user</div>
+        <h3>Hosted verification flow</h3>
+        <p>A prebuilt page that walks the user through capture and selfie, then reports the result back to you. No frontend build.</p>
+        <span class="status">Early access</span>
+      </div>
+      <div class="prod">
+        <div class="path">face_match + liveness</div>
+        <h3>Biometric check</h3>
+        <p>Face match and liveness on their own, for teams that already read documents and only need the presenter confirmed.</p>
+        <span class="status">Early access</span>
+      </div>
+    </div>
+    <div class="engine">one verification engine &nbsp;/&nbsp; one result schema &nbsp;/&nbsp; one credit balance</div>
+
     <div class="boundary">
       <div class="bound do">
-        <h3>What we verify</h3>
+        <h3>What a check confirms</h3>
         <ul>
-          <li>The document is authentic and unaltered</li>
-          <li>The face in the selfie matches the ID photo</li>
-          <li>The person is live, not a photo of a photo</li>
-          <li>Every field extracted with a confidence score</li>
+          <li>The document is authentic and has not been altered</li>
+          <li>The selfie matches the portrait on the ID</li>
+          <li>The presenter is a live person</li>
+          <li>Each extracted field, with its confidence</li>
         </ul>
       </div>
       <div class="bound dont">
-        <h3>What we don't do</h3>
+        <h3>Where the product stops</h3>
         <ul>
-          <li>We don't query government or DMV databases</li>
-          <li>We can't confirm an address exists in official records</li>
-          <li>If you need record-backed identity proofing, that's a different product, and we'll tell you so</li>
+          <li>We do not query government, DMV or passport databases</li>
+          <li>We cannot confirm that a name or address exists in official records</li>
+          <li>If your rules require record-backed identity proofing, that is a different product, and we will say so before you pay</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<section id="documents" style="background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+<section id="coverage" class="band">
+  <div class="wrap cover">
+    <div>
+      <p class="eyebrow">Document coverage</p>
+      <h2>US-first, and honest about it.</h2>
+      <p class="lead">We are starting with United States documents rather than claiming a country count we cannot stand behind. Coverage grows by request: tell us the document you need and we will tell you where it sits in the queue.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-dark" href="mailto:hello@confirmlayer.com?subject=Document%20request&body=Document%20type%3A%0AIssuing%20state%20or%20country%3A%0AExpected%20monthly%20volume%3A">Request a document</a>
+        <a class="btn btn-outline" href="mailto:hello@confirmlayer.com?subject=Current%20coverage%20list">Ask for the current list</a>
+      </div>
+    </div>
+    <div class="doc-list">
+      <div class="doc-cell">US driver's licenses <small>US-first</small></div>
+      <div class="doc-cell">US state ID cards <small>US-first</small></div>
+      <div class="doc-cell">US passport <small>MRZ</small></div>
+      <div class="doc-cell req"><a href="mailto:hello@confirmlayer.com?subject=Document%20request">Something else? Request it &rarr;</a><small>by email</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="industries">
   <div class="wrap">
-    <p class="eyebrow">Supported documents</p>
-    <h2>Starting with the United States.</h2>
-    <p class="lead">Every US state driver's license plus the US passport, at launch. New documents ship every release. Need something we don't cover yet? Tell us and we'll prioritize it.</p>
-    <div class="doc-grid">
-      <div class="doc-cell">US Passport <small>1 doc</small></div>
-      <div class="doc-cell">Texas <small>DL + ID</small></div>
-      <div class="doc-cell">California <small>DL + ID</small></div>
-      <div class="doc-cell">Florida <small>DL + ID</small></div>
-      <div class="doc-cell">New York <small>DL + ID</small></div>
-      <div class="doc-cell">Illinois <small>DL + ID</small></div>
-      <div class="doc-cell">Pennsylvania <small>DL + ID</small></div>
-      <div class="doc-cell">Ohio <small>DL + ID</small></div>
-      <div class="doc-cell">Georgia <small>DL + ID</small></div>
-      <div class="doc-cell">North Carolina <small>DL + ID</small></div>
-      <div class="doc-cell">Michigan <small>DL + ID</small></div>
-      <div class="doc-cell">Arizona <small>DL + ID</small></div>
-      <div class="doc-cell">+ 38 more states <small>at launch</small></div>
-      <div class="doc-cell" style="border-style:dashed"><a href="mailto:hello@confirmlayer.com?subject=Document%20request" style="text-decoration:none;color:var(--blue);font-weight:600">Request a document →</a></div>
+    <p class="eyebrow">Industries</p>
+    <h2>Same check. Different reasons to run it.</h2>
+    <p class="lead">Verification is horizontal infrastructure. Wherever a business needs to know that a real person holds a real document, the request looks the same.</p>
+    <div class="inds">
+      <div class="ind"><h3>Fintech and banking</h3><p>Confirm the document and its holder at account opening.</p></div>
+      <div class="ind"><h3>Marketplaces</h3><p>Know that sellers, hosts and drivers are who they say.</p></div>
+      <div class="ind"><h3>Gaming</h3><p>Check age and identity before play or a payout.</p></div>
+      <div class="ind"><h3>Retail and ecommerce</h3><p>Gate high-value or restricted orders at checkout.</p></div>
+      <div class="ind"><h3>Age-restricted goods</h3><p>Vape, CBD and alcohol sellers: verified date of birth for PACT Act age checks.</p></div>
+      <div class="ind"><h3>Telecom</h3><p>Tie a SIM or new line to a verified document.</p></div>
+      <div class="ind"><h3>Travel and hospitality</h3><p>Read passports and licenses before arrival, not at the desk.</p></div>
+      <div class="ind"><h3>Healthcare</h3><p>Confirm the patient before a remote visit or pickup.</p></div>
+      <div class="ind"><h3>Workforce onboarding</h3><p>Verify a new hire or contractor's ID on day one, remotely.</p></div>
+      <div class="ind"><h3>Fraud and risk teams</h3><p>Step up to a document check when a session looks wrong.</p></div>
+      <div class="ind"><h3>Platforms and resellers</h3><p>Build verification into your own product on top of our API.</p></div>
+      <div class="ind ask"><a href="mailto:hello@confirmlayer.com?subject=Use%20case%20question">Not listed? Tell us your use case &rarr;</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="how" class="band">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2>Capture. Verify. Decide.</h2>
+    <p class="lead">Three steps, end to end in seconds, with structured JSON back and no human in the loop unless your rules ask for one.</p>
+    <div class="how">
+      <div class="steps">
+        <div class="step"><div class="step-num">01</div><div><h3>Capture</h3><p>Your user photographs their ID and, if you ask for it, takes a selfie. Use your own screens or our hosted flow.</p></div></div>
+        <div class="step"><div class="step-num">02</div><div><h3>Verify</h3><p>We identify the document, test it for tampering, read its fields, and compare the selfie to the portrait.</p></div></div>
+        <div class="step"><div class="step-num">03</div><div><h3>Decide</h3><p>Your thresholds turn the result into accept, review or reject. The response carries the fields and the reasons.</p></div></div>
+      </div>
+      <div class="how-code">
+        <div class="code-tabs" role="tablist" aria-label="Request and response">
+          <button class="code-tab active" data-code="req">Request</button>
+          <button class="code-tab" data-code="res">Response</button>
+        </div>
+        <div class="code-pane" id="code-body"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -268,221 +477,229 @@
 <section id="pricing">
   <div class="wrap">
     <p class="eyebrow">Pricing</p>
-    <h2>One page. Every price on it.</h2>
-    <p class="lead">Credits, not seat licenses or sales quotes. One ID scan costs one credit. Face match and liveness each add one credit. Unused credits never expire on annual plans.</p>
-    <div class="toggle" role="tablist" aria-label="Billing period">
+    <h2>Every price is on this page.</h2>
+    <p class="lead">Credits, not seat licenses or quotes. Start on free test credits with any email address, no card and no sales call. Pay annually and the monthly price drops by a quarter.</p>
+    <div class="toggle" role="group" aria-label="Billing period">
       <button class="active" data-bill="monthly">Monthly</button>
-      <button data-bill="annual">Annual · save 25%</button>
+      <button data-bill="annual">Annual, save 25%</button>
     </div>
     <div class="plans">
       <div class="plan">
         <h3>Sandbox</h3>
         <div class="price">$0</div>
-        <div class="per">100 test credits · free</div>
+        <div class="per">100 test credits, free</div>
         <ul>
           <li>Full API access</li>
-          <li>All document types</li>
-          <li>No credit card required</li>
-          <li>Community docs</li>
+          <li>Every supported document</li>
+          <li>No credit card</li>
+          <li>Any email address</li>
         </ul>
-        <a class="btn btn-outline" href="mailto:hello@confirmlayer.com?subject=Free%20API%20key%20request" style="justify-content:center">Start free</a>
+        <a class="btn btn-outline" href="mailto:hello@confirmlayer.com?subject=Free%20API%20key%20request">Start free</a>
       </div>
       <div class="plan hot">
-        <span class="plan-flag">Most popular</span>
+        <span class="plan-flag">Best place to start</span>
         <h3>Starter</h3>
         <div class="price" data-monthly="$89" data-annual="$67">$89</div>
-        <div class="per" data-monthly="/mo · 1,000 credits" data-annual="/mo · 1,000 credits, billed annually">/mo · 1,000 credits</div>
+        <div class="per" data-monthly="per month, 1,000 credits" data-annual="per month, 1,000 credits, billed annually">per month, 1,000 credits</div>
         <ul>
-          <li>$0.089 per credit</li>
-          <li>Face match + liveness</li>
+          <li data-monthly="$0.089 per credit" data-annual="$0.067 per credit">$0.089 per credit</li>
+          <li>Face match and liveness</li>
           <li>Hosted verification flow</li>
           <li>Email support</li>
         </ul>
-        <a class="btn btn-dark" href="mailto:hello@confirmlayer.com?subject=Starter%20plan%20signup" style="justify-content:center">Get started</a>
+        <a class="btn btn-dark" href="mailto:hello@confirmlayer.com?subject=Starter%20plan%20signup">Get started</a>
       </div>
       <div class="plan">
         <h3>Growth</h3>
         <div class="price" data-monthly="$349" data-annual="$262">$349</div>
-        <div class="per" data-monthly="/mo · 5,000 credits" data-annual="/mo · 5,000 credits, billed annually">/mo · 5,000 credits</div>
+        <div class="per" data-monthly="per month, 5,000 credits" data-annual="per month, 5,000 credits, billed annually">per month, 5,000 credits</div>
         <ul>
-          <li>$0.070 per credit</li>
+          <li data-monthly="$0.070 per credit" data-annual="$0.052 per credit">$0.070 per credit</li>
           <li>Everything in Starter</li>
           <li>Custom decision rules</li>
           <li>Priority support</li>
         </ul>
-        <a class="btn btn-outline" href="mailto:hello@confirmlayer.com?subject=Growth%20plan%20signup" style="justify-content:center">Get started</a>
+        <a class="btn btn-outline" href="mailto:hello@confirmlayer.com?subject=Growth%20plan%20signup">Get started</a>
       </div>
       <div class="plan">
         <h3>Scale</h3>
         <div class="price" data-monthly="$879" data-annual="$659">$879</div>
-        <div class="per" data-monthly="/mo · 15,000 credits" data-annual="/mo · 15,000 credits, billed annually">/mo · 15,000 credits</div>
+        <div class="per" data-monthly="per month, 15,000 credits" data-annual="per month, 15,000 credits, billed annually">per month, 15,000 credits</div>
         <ul>
-          <li>$0.059 per credit</li>
+          <li data-monthly="$0.059 per credit" data-annual="$0.044 per credit">$0.059 per credit</li>
           <li>Everything in Growth</li>
-          <li>Volume pricing available</li>
-          <li>Dedicated support</li>
+          <li>Volume pricing above 15,000</li>
+          <li>Dedicated support contact</li>
         </ul>
-        <a class="btn btn-outline" href="mailto:hello@confirmlayer.com?subject=Scale%20plan%20signup" style="justify-content:center">Talk to us</a>
+        <a class="btn btn-outline" href="mailto:hello@confirmlayer.com?subject=Scale%20plan%20signup">Get started</a>
       </div>
     </div>
-    <p class="fine">Overage is billed at your plan's per-credit rate. Enterprise volume pricing is negotiated, not hidden: email hello@confirmlayer.com and we'll reply with a number, not a discovery call.</p>
+    <div class="credits">
+      <div class="credit"><span>ID document scan</span><b>1 credit</b></div>
+      <div class="credit"><span>Add face match</span><b>+1 credit</b></div>
+      <div class="credit"><span>Add liveness</span><b>+1 credit</b></div>
+    </div>
+    <p class="fine">Overage is billed at your plan's per-credit rate. Need more than 15,000 credits a month? Email hello@confirmlayer.com with your volume and we reply with a number, not a discovery call.</p>
   </div>
 </section>
 
-<section id="docs" style="background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
-  <div class="wrap">
-    <p class="eyebrow">Developer docs</p>
-    <h2>Our docs are our sales team.</h2>
-    <p class="lead">No demo required. Copy the snippet, drop in your API key, and verify your first ID in the next ten minutes.</p>
-    <div style="margin-top:32px">
-      <div class="code-tabs">
-        <button class="code-tab active" data-code="curl">cURL</button>
-        <button class="code-tab" data-code="python">Python</button>
-        <button class="code-tab" data-code="node">Node.js</button>
-      </div>
-      <div class="code-pane" id="code-body"></div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="reseller">
-      <p class="eyebrow" style="color:oklch(0.75 0.12 258)">White-label friendly</p>
-      <h2>Sell verification to your own customers.</h2>
-      <p class="lead">Our API carries no ConfirmLayer branding. Build your own onboarding, compliance, or marketplace flow on top of us and charge whatever your market pays. Some of the biggest ID-verification businesses in the world started exactly this way.</p>
-      <div class="reseller-grid">
-        <ul>
-          <li>Zero branding in API responses or hosted flows</li>
-          <li>Your customers never need to know we exist</li>
-          <li>Volume pricing that leaves room for your margin</li>
-          <li>One contract, unlimited end customers</li>
-        </ul>
-        <div class="markup">
-          <div class="row"><span class="you">You pay ConfirmLayer</span><span class="you">$0.06 / check</span></div>
-          <div class="row"><span class="them">You charge your customer</span><span class="them">$0.50 / check</span></div>
-          <div class="row" style="border:none"><span class="you">Your margin</span><span class="you">$0.44 / check</span></div>
-        </div>
-      </div>
-      <div style="margin-top:36px;display:flex;gap:12px;flex-wrap:wrap">
-        <a class="btn btn-dark" href="mailto:hello@confirmlayer.com?subject=Reseller%20pricing" style="background:var(--paper);color:var(--ink)">Get reseller pricing</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="wedge" style="padding-top:0">
-  <div class="wrap split">
+<section id="faq" class="band">
+  <div class="wrap faq-grid">
     <div>
-      <p class="eyebrow">Built for the PACT Act era</p>
-      <h2>Age-restricted commerce, handled.</h2>
-      <p class="lead">If you sell vape, CBD, delta-8, kratom, or alcohol online, a checkbox that says "I am 21+" is not verification. Regulators know it, and the penalties are real.</p>
-      <p class="lead">ConfirmLayer verifies the buyer's government ID and live selfie at checkout or on delivery, and hands you a timestamped audit record for every order. When the rules get stricter, you're already compliant.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-dark" href="mailto:hello@confirmlayer.com?subject=Age-verification%20for%20my%20store">Verify my store</a>
-      </div>
+      <p class="eyebrow">FAQ</p>
+      <h2>Asked and answered.</h2>
+      <p class="lead" style="font-size:16.5px">Something missing? <a href="mailto:hello@confirmlayer.com?subject=Question">Email us</a> and a founder replies.</p>
     </div>
     <div>
-      <div class="card">
-        <h3>At checkout</h3>
-        <p style="color:var(--ink-2);font-size:15px">Buyer scans their ID once. You get a pass/fail plus the verified date of birth, before the order ships.</p>
-      </div>
-      <div class="card">
-        <h3>On delivery</h3>
-        <p style="color:var(--ink-2);font-size:15px">Driver or customer completes a 30-second check at the door. Every delivery logged with a timestamp.</p>
-      </div>
-      <div class="card">
-        <h3>Audit trail</h3>
-        <p style="color:var(--ink-2);font-size:15px">Every check stored with its verdict, confidence scores, and evidence. Export anytime.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="faq" style="background:var(--paper-2);border-top:1px solid var(--line)">
-  <div class="wrap">
-    <p class="eyebrow">FAQ</p>
-    <h2>Asked and answered.</h2>
-    <div class="faq" style="margin-top:32px">
       <details open>
+        <summary>What is an ID verification API?</summary>
+        <div class="a"><p>It is a service your software calls to check an identity document. You send an image of the ID, and optionally a selfie, and get back the data on the document, a judgment on whether it is genuine, and whether the person presenting it matches the photo.</p><p>It replaces the work of building document reading, tamper checks and face comparison yourself.</p></div>
+      </details>
+      <details>
+        <summary>Which documents do you cover?</summary>
+        <div class="a"><p>We are US-first: United States driver's licenses, state ID cards and the US passport. We do not publish a country or document count we cannot back.</p><p>If you need a document outside that set, use the request-a-document link and we will tell you whether and when we can add it. Email us for the current coverage list before you build.</p></div>
+      </details>
+      <details>
         <summary>Do you check government databases?</summary>
-        <div class="a"><p>No. We verify that the document is authentic and unaltered, and that the person presenting it matches the photo and is live. We don't query DMV, passport, or other government records, and we won't pretend otherwise.</p><p>If your compliance regime requires record-backed identity proofing, that's a different product category. We'll tell you that upfront instead of selling you something that doesn't qualify.</p></div>
+        <div class="a"><p>No. We verify that the document is authentic and unaltered, and that the presenter matches it and is live. We do not query DMV, passport or other government records.</p><p>If your compliance regime requires record-backed identity proofing, that is a different product category and we will tell you so upfront.</p></div>
       </details>
       <details>
-        <summary>How is this different from Stripe Identity or Persona?</summary>
-        <div class="a"><p>Two things: price and friction. Enterprise IDV tools charge $0.80 to $1.89 per check and route you through a sales process. Our checks work out to $0.059 to $0.089 per credit, you sign up with any email, and you get 100 free credits to test everything before paying anything.</p></div>
+        <summary>How does the free tier work?</summary>
+        <div class="a"><p>Email hello@confirmlayer.com from any address and ask for a key. You get 100 test credits with full API access, no credit card and no call. During early access, keys are issued by email rather than a self-serve dashboard.</p></div>
       </details>
       <details>
-        <summary>What exactly costs a credit?</summary>
-        <div class="a"><p>One ID scan costs one credit. Adding face match costs one more credit. Adding liveness costs one more. A full check with everything enabled is three credits, and you choose which features each verification uses.</p></div>
+        <summary>What costs a credit?</summary>
+        <div class="a"><p>One ID document scan is one credit. Adding face match is one more. Adding liveness is one more. A check with everything switched on is three credits, and you choose per verification which parts to run.</p></div>
       </details>
       <details>
-        <summary>How long does integration take?</summary>
-        <div class="a"><p>Most developers verify their first ID within ten minutes of getting an API key. The hosted verification flow, a prebuilt page that handles capture, liveness, and the selfie, needs no frontend work at all: just send your user a link.</p></div>
+        <summary>Should I use the API or the hosted flow?</summary>
+        <div class="a"><p>Use the API if you already have capture screens or want full control of the experience. Use the hosted flow if you would rather send the user a link and let us handle the camera, the selfie and the retries.</p><p>Both run the same checks and return the same result format, so you can start with one and move to the other.</p></div>
       </details>
       <details>
-        <summary>Which IDs do you support?</summary>
-        <div class="a"><p>At launch: every US state driver's license and the US passport. New documents ship every release cycle. If you need a specific document, email us and we'll prioritize it.</p></div>
+        <summary>How do you handle ID images and personal data?</summary>
+        <div class="a"><p>Images are processed by our verification pipeline, which includes cloud-based OCR sub-processors. You choose whether results are kept in a transaction vault with us for audit, or not stored and sent straight to your systems.</p><p>We do not sell verification data and do not use ID images for advertising. The <a href="privacy.html">privacy summary</a> has the detail and is still marked as a draft.</p></div>
       </details>
       <details>
-        <summary>Do you store ID images?</summary>
-        <div class="a"><p>Your choice. Keep a transaction vault with us for audit and review, or disable storage and have results sent straight to your own systems. Either way, you control retention.</p></div>
-      </details>
-      <details>
-        <summary>Can I resell this to my customers?</summary>
-        <div class="a"><p>Yes. The API is white-label friendly with no ConfirmLayer branding, and volume pricing is built to leave margin for resellers. If you're building onboarding, compliance, or marketplace software, we'd like to be your invisible backend.</p></div>
-      </details>
-      <details>
-        <summary>What happens when a document isn't recognized?</summary>
-        <div class="a"><p>You get a clear warning, not a silent failure: the document is flagged as unrecognized and your rules decide whether that's a review or a reject. Send us the document and we'll typically add support within a day.</p></div>
-      </details>
-      <details>
-        <summary>Do I need a sales call to start?</summary>
-        <div class="a"><p>No. Sign up with any email, take your 100 free credits, read the docs, and integrate. We have a support team, not a sales team.</p></div>
+        <summary>What happens when a document is not recognized?</summary>
+        <div class="a"><p>You get an explicit flag, not a silent pass. The response marks the document as unrecognized and your rules decide whether that becomes a review or a reject. Send us the document type and we will look at adding it.</p></div>
       </details>
     </div>
   </div>
 </section>
 
-<section>
+<section style="padding-bottom:0">
   <div class="wrap">
     <div class="final">
       <p class="eyebrow">Get started</p>
-      <h2>Verify your first ID in the next ten minutes.</h2>
-      <p class="lead" style="margin:0 auto 8px;text-align:center">100 free credits. Any email. No credit card. No sales call.</p>
+      <h2>Run your first verification on us.</h2>
+      <p class="lead">100 free test credits. Any email. No card, no call.</p>
       <div class="hero-ctas">
-        <a class="btn btn-dark" href="mailto:hello@confirmlayer.com?subject=Free%20API%20key%20request">Get a free API key</a>
-        <a class="btn btn-outline" href="#docs">Read the docs</a>
+        <a class="btn btn-dark" href="mailto:hello@confirmlayer.com?subject=Free%20API%20key%20request">Start with free credits</a>
       </div>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="wrap foot-grid">
-    <div>
-      <a class="brand" href="#top" style="font-size:17px"><span class="brand-mark"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7.5l3 3 7-7" stroke="#fbfaf6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>ConfirmLayer</a>
-      <p style="margin-top:12px;max-width:320px">ID verification API for developers. Pennies per check.</p>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top" style="font-size:17px"><span class="brand-mark"><svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7.5l3 3 7-7" stroke="#fbfaf6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>ConfirmLayer</a>
+        <p style="margin-top:12px;max-width:300px">Identity verification infrastructure: document authenticity and presenter match, through one API.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="#product">Verification API</a>
+        <a href="#product">Hosted flow</a>
+        <a href="#product">Biometric check</a>
+        <a href="#coverage">Document coverage</a>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="#why">Why ConfirmLayer</a>
+        <a href="#industries">Industries</a>
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="privacy.html">Privacy</a>
+        <a href="mailto:hello@confirmlayer.com">hello@confirmlayer.com</a>
+      </div>
     </div>
-    <div>
-      <a href="#how">How it works</a>
-      <a href="#documents">Documents</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#docs">Docs</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="mailto:hello@confirmlayer.com">hello@confirmlayer.com</a>
+    <div class="legal">
+      &copy; 2026 ConfirmLayer. Sample requests and responses on this page are illustrative. ConfirmLayer is in early access: features and document coverage are expanding. We verify document authenticity and presenter match and do not query government identity databases.
     </div>
-  </div>
-  <div class="wrap" style="margin-top:32px;font-size:13px">
-    © 2026 ConfirmLayer. Sample API responses on this page are illustrative. Early access: features and coverage are expanding.
   </div>
 </footer>
 
 <script>
 (function(){
+  function k(s){return '<span class="k">"'+s+'"</span>';}
+  function s(v){return '<span class="s">"'+v+'"</span>';}
+  function n(v){return '<span class="n">'+v+'</span>';}
+  function b(v){return '<span class="b">'+v+'</span>';}
+  function c(v){return '<span class="c">'+v+'</span>';}
+  function verdict(v,bad){return '<span class="verdict"'+(bad?' style="background:oklch(0.32 0.1 25);color:#ffc9c2"':'')+'>'+v+'</span>';}
+
   var demos = {
-    dl: '<span class="c">// POST /v1/verify - Texas driver\'s license</span>\n{\n  <span class="k">"document"</span>: {\n    <span class="k">"type"</span>: <span class="s">"driver_license"</span>,\n    <span class="k">"country"</span>: <span class="s">"US"</span>,\n    <span class="k">"region"</span>: <span class="s">"TX"</span>,\n    <span class="k">"authenticity"</span>: <span class="s">"authentic"</span>,\n    <span class="k">"authenticity_score"</span>: <span class="n">0.98</span>\n  },\n  <span class="k">"fields"</span>: {\n    <span class="k">"first_name"</span>: <span class="s">"JANE"</span>,\n    <span class="k">"last_name"</span>: <span class="s">"DOE"</span>,\n    <span class="k">"dob"</span>: <span class="s">"1998-04-12"</span>,\n    <span class="k">"age"</span>: <span class="n">28</span>,\n    <span class="k">"expiry"</span>: <span class="s">"2030-04-12"</span>\n  },\n  <span class="k">"verdict"</span>: <span class="verdict">ACCEPT</span>,\n  <span class="k">"credits_used"</span>: <span class="n">1</span>\n}',
-    pp: '<span class="c">// POST /v1/verify - US passport + face match</span>\n{\n  <span class="k">"document"</span>: {\n    <span class="k">"type"</span>: <span class="s">"passport"</span>,\n    <span class="k">"country"</span>: <span class="s">"US"</span>,\n    <span class="k">"mrz_valid"</span>: <span class="b">true</span>,\n    <span class="k">"authenticity_score"</span>: <span class="n">0.97</span>\n  },\n  <span class="k">"face_match"</span>: {\n    <span class="k">"match"</span>: <span class="b">true</span>,\n    <span class="k">"confidence"</span>: <span class="n">0.94</span>,\n    <span class="k">"liveness"</span>: <span class="s">"passed"</span>\n  },\n  <span class="k">"verdict"</span>: <span class="verdict">ACCEPT</span>,\n  <span class="k">"credits_used"</span>: <span class="n">3</span>\n}'
+    dl: [
+      c('// POST /v1/verify, driver\'s license'),
+      '{',
+      '  '+k('document')+': {',
+      '    '+k('type')+': '+s('driver_license')+',',
+      '    '+k('country')+': '+s('US')+',',
+      '    '+k('region')+': '+s('TX')+',',
+      '    '+k('authenticity')+': '+s('authentic')+',',
+      '    '+k('authenticity_score')+': '+n('0.98'),
+      '  },',
+      '  '+k('fields')+': {',
+      '    '+k('first_name')+': '+s('JANE')+',',
+      '    '+k('last_name')+': '+s('DOE')+',',
+      '    '+k('dob')+': '+s('1998-04-12')+',',
+      '    '+k('age')+': '+n('28')+',',
+      '    '+k('expiry')+': '+s('2030-04-12'),
+      '  },',
+      '  '+k('verdict')+': '+verdict('ACCEPT')+',',
+      '  '+k('credits_used')+': '+n('1'),
+      '}'
+    ].join('\n'),
+    pp: [
+      c('// POST /v1/verify, passport + selfie'),
+      '{',
+      '  '+k('document')+': {',
+      '    '+k('type')+': '+s('passport')+',',
+      '    '+k('country')+': '+s('US')+',',
+      '    '+k('mrz_valid')+': '+b('true')+',',
+      '    '+k('authenticity_score')+': '+n('0.97'),
+      '  },',
+      '  '+k('face_match')+': {',
+      '    '+k('match')+': '+b('true')+',',
+      '    '+k('confidence')+': '+n('0.94'),
+      '  },',
+      '  '+k('liveness')+': '+s('passed')+',',
+      '  '+k('verdict')+': '+verdict('ACCEPT')+',',
+      '  '+k('credits_used')+': '+n('3'),
+      '}'
+    ].join('\n'),
+    fake: [
+      c('// POST /v1/verify, altered document'),
+      '{',
+      '  '+k('document')+': {',
+      '    '+k('type')+': '+s('driver_license')+',',
+      '    '+k('country')+': '+s('US')+',',
+      '    '+k('authenticity')+': '+s('suspect')+',',
+      '    '+k('authenticity_score')+': '+n('0.21'),
+      '  },',
+      '  '+k('reasons')+': [',
+      '    '+s('font_mismatch_dob')+',',
+      '    '+s('barcode_dob_differs_from_print'),
+      '  ],',
+      '  '+k('verdict')+': '+verdict('REJECT',true)+',',
+      '  '+k('credits_used')+': '+n('1'),
+      '}'
+    ].join('\n')
   };
   var demoBody = document.getElementById('demo-body');
   function showDemo(key){
@@ -497,9 +714,26 @@
   showDemo('dl');
 
   var codes = {
-    curl: '<span class="c"># Verify an ID with one call</span>\ncurl -X POST https://api.confirmlayer.com/v1/verify \\\n  -H <span class="s">"Authorization: Bearer YOUR_API_KEY"</span> \\\n  -F <span class="s">"document=@drivers-license.jpg"</span> \\\n  -F <span class="s">"face_match=true"</span>',
-    python: '<span class="k">import</span> confirmlayer\n\nclient = confirmlayer.Client(<span class="s">"YOUR_API_KEY"</span>)\nresult = client.verify(\n    document=<span class="s">"drivers-license.jpg"</span>,\n    face_match=<span class="b">True</span>,\n)\n<span class="k">print</span>(result.verdict)  <span class="c"># ACCEPT</span>\n<span class="k">print</span>(result.fields.dob)  <span class="c"># 1998-04-12</span>',
-    node: '<span class="k">const</span> { Client } = <span class="k">require</span>(<span class="s">"confirmlayer"</span>);\n\n<span class="k">const</span> client = <span class="k">new</span> Client(<span class="s">"YOUR_API_KEY"</span>);\n<span class="k">const</span> result = <span class="k">await</span> client.verify({\n  document: <span class="s">"./drivers-license.jpg"</span>,\n  faceMatch: <span class="b">true</span>,\n});\nconsole.log(result.verdict); <span class="c">// ACCEPT</span>'
+    req: [
+      c('# One call: document, face match and liveness'),
+      'curl -X POST https://api.confirmlayer.com/v1/verify \\',
+      '  -H '+s('Authorization: Bearer YOUR_API_KEY')+' \\',
+      '  -F '+s('document=@drivers-license.jpg')+' \\',
+      '  -F '+s('selfie=@selfie.jpg')+' \\',
+      '  -F '+s('face_match=true')+' \\',
+      '  -F '+s('liveness=true')
+    ].join('\n'),
+    res: [
+      c('// 200 OK'),
+      '{',
+      '  '+k('verdict')+': '+verdict('ACCEPT')+',',
+      '  '+k('document')+': { '+k('type')+': '+s('driver_license')+', '+k('authenticity')+': '+s('authentic')+' },',
+      '  '+k('fields')+': { '+k('dob')+': '+s('1998-04-12')+', '+k('age')+': '+n('28')+' },',
+      '  '+k('face_match')+': { '+k('match')+': '+b('true')+', '+k('confidence')+': '+n('0.94')+' },',
+      '  '+k('liveness')+': '+s('passed')+',',
+      '  '+k('credits_used')+': '+n('3'),
+      '}'
+    ].join('\n')
   };
   var codeBody = document.getElementById('code-body');
   function showCode(key){
@@ -511,18 +745,15 @@
   document.querySelectorAll('.code-tab').forEach(function(t){
     t.addEventListener('click', function(){ showCode(t.getAttribute('data-code')); });
   });
-  showCode('curl');
+  showCode('req');
 
   var bills = document.querySelectorAll('.toggle button');
-  bills.forEach(function(b){
-    b.addEventListener('click', function(){
+  bills.forEach(function(btn){
+    btn.addEventListener('click', function(){
       bills.forEach(function(x){ x.classList.remove('active'); });
-      b.classList.add('active');
-      var mode = b.getAttribute('data-bill');
-      document.querySelectorAll('.plan .price[data-monthly]').forEach(function(p){
-        p.textContent = p.getAttribute('data-' + mode);
-      });
-      document.querySelectorAll('.plan .per[data-monthly]').forEach(function(p){
+      btn.classList.add('active');
+      var mode = btn.getAttribute('data-bill');
+      document.querySelectorAll('.plan [data-monthly]').forEach(function(p){
         p.textContent = p.getAttribute('data-' + mode);
       });
     });
